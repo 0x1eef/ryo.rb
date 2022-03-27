@@ -9,47 +9,41 @@ module Proto
   end
 
   ##
-  # Returns the prototype of self.
+  # Returns the prototype of self, or "nil" if self
+  # has no prototype.
   #
-  # @return [Proto]
+  # @return [Proto, nil]
   def prototype
     @proto
   end
 
   ##
-  # @param [String] key
-  #   The key.
+  # @param [String] property
+  #   The property.
   #
   # @return [Object, BasicObject]
-  #   The value at *key*, or nil.
-  def [](key)
-    key = key.to_s
-    key?(key) ? @table[key] : (@proto and @proto[key])
+  #   The value at *property*, or nil.
+  #
+  # @note
+  #   This method will first try to read the property from self, and if
+  #   the property is not found on self the chain of prototypes will be
+  #   traversed through instead.
+  def [](property)
+    property = property.to_s
+    property?(property) ? @table[property] : (@proto and @proto[property])
   end
 
   ##
-  # Adds a key to self.
+  # Adds a property to self.
   #
-  # @param [String] key
-  #   The key.
+  # @param [String] property
+  #   The property.
   #
   # @param [Object,BasicObject] value
   #   The value.
-  def []=(key, value)
-    key = key.to_s
-    __add(key, value)
-  end
-
-  ##
-  # Removes a key from self.
-  #
-  # @param [String] key
-  #  The key to delete.
-  #
-  # @return [void]
-  def delete(key)
-    key = key.to_s
-    __delete(key)
+  def []=(property, value)
+    property = property.to_s
+    __add(property, value)
   end
 
   ##
@@ -61,19 +55,18 @@ module Proto
   alias_method :eql?, :==
 
   ##
-  # @param [String] key
-  #   The key.
+  # @param [String] property
+  #   The property.
   #
   # @return [Boolean]
-  #   rReturns true when *key* is a member of self.
+  #   Returns true when *property* is a member of self.
   #
-  def key?(key)
-    key = key.to_s
-    @table.key?(key)
+  def property?(property)
+    @table.key?(property.to_s)
   end
 
   ##
-  # Clear all properties in self.
+  # Delete all properties from self.
   #
   # @return [void]
   #
@@ -83,8 +76,19 @@ module Proto
   end
 
   ##
+  # Deletes a property from self.
+  #
+  # @param [String] property
+  #  The property to delete.
+  #
+  # @return [void]
+  def delete(property)
+    __delete(property.to_s)
+  end
+
+  ##
   # @return [Hash]
-  #   A shallow copy of the lookup table.
+  #   A shallow copy of the lookup table used by self.
   #
   def to_hash
     @table.dup
@@ -92,19 +96,19 @@ module Proto
   alias_method :to_h, :to_hash
 
   def method_missing(name, *args, &block)
-    key = name.to_s
-    if key[-1] == "="
-      short_key = key[0..-2]
-      self[short_key] = args[0]
-    elsif key?(key)
-      self[key]
+    property = name.to_s
+    if property[-1] == "="
+      short_property = property[0..-2]
+      self[short_property] = args[0]
+    elsif property?(property)
+      self[property]
     elsif @proto.respond_to?(name)
       @proto.public_send(name, *args, &block)
     end
   end
 
-  def respond_to_missing?(key, include_all = false)
-    key?(key) or @proto.respond_to?(key) or super(key, include_all)
+  def respond_to_missing?(property, include_all = false)
+    property?(property) or @proto.respond_to?(property) or super(property, include_all)
   end
 
   private
@@ -119,35 +123,23 @@ module Proto
     end
   end
 
-  def __add(key, value)
-    unless singleton_class.method_defined? key
-      define_singleton_method(key) { self[key] }
-      define_singleton_method("#{key}=") { |val| @table[key] = val }
+  def __add(property, value)
+    unless singleton_class.method_defined? property
+      define_singleton_method(property) { self[property] }
+      define_singleton_method("#{property}=") { |val| @table[property] = val }
     end
-    @table[key] = value
+    @table[property] = value
   end
 
-  def __delete(key)
-    @table.delete(key)
-    @proto&.delete(key)
-    return unless instance_of?(method(key).owner)
-    define_singleton_method(key) { nil }
+  def __delete(property)
+    @table.delete(property)
+    @proto&.delete(property)
+    return unless instance_of?(method(property).owner)
+    define_singleton_method(property) { nil }
   rescue NameError
   end
 end
 
 class Object
   extend Proto::ObjectMixin
-end
-
-obj1 = Object.create(nil) do
-  def bar
-    42
-  end
-end
-
-obj2 = Object.create(obj1) do
-  def foo
-    bar + 42
-  end
 end
