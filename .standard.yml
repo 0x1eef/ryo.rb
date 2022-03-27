@@ -1,0 +1,7 @@
+ignore:
+  - '**/*.rb':
+    - Layout/ParameterAlignment
+    - Layout/ArgumentAlignment
+    - Lint/AssignmentInCondition
+    - Lint/ConstantDefinitionInBlock
+    - Layout/MultilineOperationIndentation
