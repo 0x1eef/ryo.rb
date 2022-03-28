@@ -30,7 +30,12 @@ module Proto
   #   traversed through instead.
   def [](property)
     property = property.to_s
-    property?(property) ? @table[property] : (@proto and @proto[property])
+    if property?(property)
+      @table[property]
+    else
+      return nil unless @proto
+      @proto.public_send(property)
+    end
   end
 
   ##
@@ -133,9 +138,8 @@ module Proto
 
   def __delete(property)
     @table.delete(property)
-    @proto&.delete(property)
     return unless instance_of?(method(property).owner)
-    define_singleton_method(property) { nil }
+    define_singleton_method(property) { self[property] }
   rescue NameError
   end
 end
