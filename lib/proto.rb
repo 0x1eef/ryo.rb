@@ -142,12 +142,6 @@ module Proto
     end
   end
 
-  ##
-  # @api private
-  def const_missing(const)
-    Object.const_get(const)
-  end
-
   private
 
   def __try_convert_to_hash(obj)
