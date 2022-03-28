@@ -108,7 +108,7 @@ module Proto
   end
 
   def respond_to_missing?(property, include_all = false)
-    property?(property) or @proto.respond_to?(property) or super(property, include_all)
+    true
   end
 
   private
