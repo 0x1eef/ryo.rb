@@ -46,7 +46,7 @@ module Proto
   # @param [Object,BasicObject] value
   #   The value.
   def []=(property, value)
-    __add__(property.to_s, value)
+    __add(property.to_s, value)
   end
 
   ##
@@ -84,7 +84,7 @@ module Proto
   #
   # @return [void]
   def delete(property)
-    __delete__(property.to_s)
+    __delete(property.to_s)
   end
 
   ##
@@ -135,25 +135,33 @@ module Proto
     end
   end
 
-  def __add__(property, value)
+  def __add(property, value)
     @table[property] = value
-    __define_singleton_method__(property) { self[property] }
-    __define_singleton_method__("#{property}=") { @table[property] = _1 }
+    return if __method_defined?(property)
+    __define_singleton_method(property) { self[property] }
+    __define_singleton_method("#{property}=") { @table[property] = _1 }
   end
 
-  def __delete__(property)
+  def __delete(property)
     if property?(property)
       @table.delete(property)
     else
-      __define_singleton_method__(property) { self[property] }
+      __define_singleton_method(property) { self[property] }
     end
   end
 
-  def __define_singleton_method__(method, &b)
+  def __define_singleton_method(method, &b)
     Kernel
       .instance_method(:define_singleton_method)
       .bind(self)
       .call(method, &b)
+  end
+
+  def __method_defined?(method)
+    Module
+      .instance_method(:method_defined?)
+      .bind(self.class)
+      .call(method, false)
   end
 end
 
