@@ -3,7 +3,12 @@
 module Proto
   require_relative "proto/object_mixin"
 
-  def initialize(prototype = nil)
+  ##
+  # @param [Proto, nil] prototype
+  #   The prototype.
+  #
+  # @return [Object, BasicObject]
+  def initialize(prototype)
     @proto = prototype
     @table = {}
   end
