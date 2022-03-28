@@ -46,7 +46,7 @@ module Proto
   # @param [Object,BasicObject] value
   #   The value.
   def []=(property, value)
-    __add(property.to_s, value)
+    __add_property(property.to_s, value)
   end
 
   ##
@@ -84,7 +84,7 @@ module Proto
   #
   # @return [void]
   def delete(property)
-    __delete(property.to_s)
+    __delete_property(property.to_s)
   end
 
   ##
@@ -135,14 +135,14 @@ module Proto
     end
   end
 
-  def __add(property, value)
+  def __add_property(property, value)
     @table[property] = value
     return if __method_defined?(property)
     __define_singleton_method(property) { self[property] }
     __define_singleton_method("#{property}=") { @table[property] = _1 }
   end
 
-  def __delete(property)
+  def __delete_property(property)
     if property?(property)
       @table.delete(property)
     else
