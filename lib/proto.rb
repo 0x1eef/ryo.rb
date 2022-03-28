@@ -109,12 +109,32 @@ module Proto
   end
 
   ##
+  # @return [Class]
+  #  Returns the class of self.
+  def class
+    Module
+    .instance_method(:class)
+    .bind(self)
+    .call
+  end
+
+  ##
+  # @return [Class]
+  # Returns the singleton class of self.
+  def singleton_class
+    Module
+      .instance_method(:singleton_class)
+      .bind(self)
+      .call
+  end
+
+  ##
   # @api private
   def method_missing(name, *args, &block)
     property = name.to_s
     if property[-1] == "="
-      short_property = property[0..-2]
-      self[short_property] = args[0]
+      property = property[0..-2]
+      __add_property(property, args.first)
     elsif property?(property)
       self[property]
     elsif @proto.respond_to?(name)
@@ -144,29 +164,35 @@ module Proto
     @table[property] = value
     return if __method_defined?(property)
     __define_singleton_method(property) { self[property] }
-    __define_singleton_method("#{property}=") { @table[property] = _1 }
+    __define_singleton_method("#{property}=") { __add_property(property, _1) }
   end
 
   def __delete_property(property)
     if property?(property)
       @table.delete(property)
     else
+      return if __method_defined?(property) &&
+                __method(property).source_location.dig(0) == __FILE__
       __define_singleton_method(property) { self[property] }
     end
   end
 
   def __define_singleton_method(method, &b)
-    Kernel
+    Module
       .instance_method(:define_singleton_method)
       .bind(self)
       .call(method, &b)
   end
 
   def __method_defined?(method)
+    singleton_class.method_defined?(method, false)
+  end
+
+  def __method(method)
     Module
-      .instance_method(:method_defined?)
-      .bind(self.class)
-      .call(method, false)
+      .instance_method(:method)
+      .bind(self)
+      .call(method)
   end
 end
 

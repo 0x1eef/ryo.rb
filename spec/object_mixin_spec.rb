@@ -17,6 +17,28 @@ RSpec.describe Proto::ObjectMixin do
       it { is_expected.to eq(nil) }
     end
 
+    context "when assigning the same property twice on self" do
+      let(:one) { object.create(nil) }
+      before { one.foo = 1 }
+      subject(:assign_second_assignment) { one.foo = 2 }
+
+      it "avoids defining the getter and setter a second time" do
+        expect(one).to_not receive(:__define_singleton_method).with("foo")
+        expect(one).to_not receive(:__define_singleton_method).with("foo=")
+        assign_second_assignment
+      end
+    end
+
+    context "when deleting the same property twice from self" do
+      before { one.delete('foo') }
+      subject(:perform_second_delete) { one.delete('foo') }
+
+      it "avoids defining the getter a second time" do
+        expect(one).to_not receive(:__define_singleton_method).with("foo")
+        perform_second_delete
+      end
+    end
+
     describe "#respond_to?" do
       context "when querying for a property defined by a block" do
         subject { one.respond_to?(:foo) }
