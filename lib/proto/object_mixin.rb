@@ -1,6 +1,6 @@
 module Proto::ObjectMixin
   def create(prototype, &b)
-    Class.new do
+    Class.new(BasicObject) do
       include Proto
       class_eval(&b) if b
     end.new(prototype)

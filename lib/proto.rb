@@ -33,7 +33,7 @@ module Proto
     if property?(property)
       @table[property]
     else
-      @proto&.public_send(property)
+      @proto&.__send__(property)
     end
   end
 
@@ -95,6 +95,16 @@ module Proto
   end
   alias_method :to_h, :to_hash
 
+  def respond_to?(property, include_all = false)
+    respond_to_missing?(property, include_all)
+  end
+
+  def respond_to_missing?(property, include_all = false)
+    true
+  end
+
+  ##
+  # @api private
   def method_missing(name, *args, &block)
     property = name.to_s
     if property[-1] == "="
@@ -103,12 +113,14 @@ module Proto
     elsif property?(property)
       self[property]
     elsif @proto.respond_to?(name)
-      @proto.public_send(name, *args, &block)
+      @proto.__send__(name, *args, &block)
     end
   end
 
-  def respond_to_missing?(property, include_all = false)
-    true
+  ##
+  # @api private
+  def const_missing(const)
+    Object.const_get(const)
   end
 
   private
@@ -125,16 +137,23 @@ module Proto
 
   def __add(property, value)
     @table[property] = value
-    return if singleton_class.method_defined?(property)
     define_singleton_method(property) { self[property] }
     define_singleton_method("#{property}=") { @table[property] = _1 }
   end
 
   def __delete(property)
-    @table.delete(property)
-    return unless instance_of?(method(property).owner)
-    define_singleton_method(property) { self[property] }
-  rescue NameError
+    if property?(property)
+      @table.delete(property)
+    else
+      define_singleton_method(property) { self[property] }
+    end
+  end
+
+  def define_singleton_method(method, &b)
+    Kernel
+      .instance_method(:define_singleton_method)
+      .bind(self)
+      .call(method, &b)
   end
 end
 
