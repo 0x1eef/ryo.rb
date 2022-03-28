@@ -33,8 +33,7 @@ module Proto
     if property?(property)
       @table[property]
     else
-      return nil unless @proto
-      @proto.public_send(property)
+      @proto&.public_send(property)
     end
   end
 
@@ -65,7 +64,6 @@ module Proto
   #
   # @return [Boolean]
   #   Returns true when *property* is a member of self.
-  #
   def property?(property)
     @table.key?(property.to_s)
   end
@@ -74,7 +72,6 @@ module Proto
   # Delete all properties from self.
   #
   # @return [void]
-  #
   def clear
     @table.clear
     true
@@ -94,7 +91,6 @@ module Proto
   ##
   # @return [Hash]
   #   A shallow copy of the lookup table used by self.
-  #
   def to_hash
     @table.dup
   end
