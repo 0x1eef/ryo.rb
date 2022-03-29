@@ -5,7 +5,7 @@ module Proto
 
   ##
   # @param [Proto, nil] prototype
-  #   The prototype.
+  #  The prototype.
   #
   # @return [Object, BasicObject]
   def initialize(prototype)
@@ -24,15 +24,15 @@ module Proto
 
   ##
   # @param [String] property
-  #   The property.
+  #  The property.
   #
   # @return [Object, BasicObject]
-  #   The value at *property*, or nil.
+  #  The value at *property*, or nil.
   #
   # @note
-  #   This method will first try to read the property from self, and if
-  #   the property is not found on self the chain of prototypes will be
-  #   traversed through instead.
+  #  This method will first try to read the property from self, and if
+  #  the property is not found on self the chain of prototypes will be
+  #  traversed through instead.
   def [](property)
     property = property.to_s
     if property?(property)
@@ -46,10 +46,10 @@ module Proto
   # Adds a property to self.
   #
   # @param [String] property
-  #   The property.
+  #  The property.
   #
   # @param [Object,BasicObject] value
-  #   The value.
+  #  The value.
   def []=(property, value)
     add_property!(property.to_s, value)
   end
@@ -64,10 +64,10 @@ module Proto
 
   ##
   # @param [String] property
-  #   The property.
+  #  The property.
   #
   # @return [Boolean]
-  #   Returns true when *property* is a member of self.
+  #  Returns true when *property* is a member of self.
   def property?(property)
     @table.key?(property.to_s)
   end
@@ -101,7 +101,7 @@ module Proto
 
   ##
   # @return [Hash]
-  #   A shallow copy of the lookup table used by self.
+  #  A shallow copy of the lookup table used by self.
   def to_h
     @table.dup
   end
