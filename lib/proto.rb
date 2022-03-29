@@ -51,14 +51,14 @@ module Proto
   # @param [Object,BasicObject] value
   #   The value.
   def []=(property, value)
-    __add_property(property.to_s, value)
+    add_property!(property.to_s, value)
   end
 
   ##
-  # @param [Hash, #to_h, #to_hash] other
+  # @param [Hash, #to_h] other
   #
   def ==(other)
-    @table == __try_convert_to_hash(other)
+    @table == other&.to_h
   end
   alias_method :eql?, :==
 
@@ -89,23 +89,44 @@ module Proto
   #
   # @return [void]
   def delete(property)
-    __delete_property(property.to_s)
+    property = property.to_s
+    if property?(property)
+      @table.delete(property)
+    else
+      return if method_defined?(property) &&
+                method(property).source_location.dig(0) == __FILE__
+      define_singleton_method!(property) { self[property] }
+    end
   end
 
   ##
   # @return [Hash]
   #   A shallow copy of the lookup table used by self.
-  def to_hash
+  def to_h
     @table.dup
   end
-  alias_method :to_h, :to_hash
 
-  def respond_to?(property, include_all = false)
-    respond_to_missing?(property, include_all)
+  ##
+  # @param [Symbol, String] method
+  #  The name of the method
+  #
+  # @return [Boolean]
+  #  Returns true when *method* is defined on self.
+  def method_defined?(method)
+    singleton_class.method_defined?(method, false)
   end
 
-  def respond_to_missing?(property, include_all = false)
-    true
+  ##
+  # @param [Symbol, String] method
+  #  The name of the method
+  #
+  # @return [Method]
+  #  Returns a Method object for *method*
+  def method(method)
+    Module
+      .instance_method(:method)
+      .bind(self)
+      .call(method)
   end
 
   ##
@@ -128,13 +149,21 @@ module Proto
       .call
   end
 
+  def respond_to?(property, include_all = false)
+    respond_to_missing?(property, include_all)
+  end
+
+  def respond_to_missing?(property, include_all = false)
+    true
+  end
+
   ##
   # @api private
   def method_missing(name, *args, &block)
     property = name.to_s
     if property[-1] == "="
       property = property[0..-2]
-      __add_property(property, args.first)
+      add_property!(property, args.first)
     elsif property?(property)
       self[property]
     elsif @proto.respond_to?(name)
@@ -144,49 +173,18 @@ module Proto
 
   private
 
-  def __try_convert_to_hash(obj)
-    if Hash === obj
-      obj
-    elsif obj.respond_to?(:to_h)
-      obj.to_h
-    elsif obj.respond_to?(:to_hash)
-      obj.to_hash
-    end
-  end
-
-  def __add_property(property, value)
+  def add_property!(property, value)
     @table[property] = value
-    return if __method_defined?(property)
-    __define_singleton_method(property) { self[property] }
-    __define_singleton_method("#{property}=") { __add_property(property, _1) }
+    return if method_defined?(property)
+    define_singleton_method!(property) { self[property] }
+    define_singleton_method!("#{property}=") { add_property!(property, _1) }
   end
 
-  def __delete_property(property)
-    if property?(property)
-      @table.delete(property)
-    else
-      return if __method_defined?(property) &&
-                __method(property).source_location.dig(0) == __FILE__
-      __define_singleton_method(property) { self[property] }
-    end
-  end
-
-  def __define_singleton_method(method, &b)
+  def define_singleton_method!(method, &b)
     Module
       .instance_method(:define_singleton_method)
       .bind(self)
       .call(method, &b)
-  end
-
-  def __method_defined?(method)
-    singleton_class.method_defined?(method, false)
-  end
-
-  def __method(method)
-    Module
-      .instance_method(:method)
-      .bind(self)
-      .call(method)
   end
 end
 
