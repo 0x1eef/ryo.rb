@@ -134,19 +134,28 @@ module Proto
   #  Returns the class of self.
   def class
     Module
-    .instance_method(:class)
-    .bind(self)
-    .call
+      .instance_method(:class)
+      .bind(self)
+      .call
   end
 
   ##
   # @return [Class]
-  # Returns the singleton class of self.
+  #  Returns the singleton class of self.
   def singleton_class
     Module
       .instance_method(:singleton_class)
       .bind(self)
       .call
+  end
+
+  def inspect
+    superclass = self.class < BasicObject ? 'BasicObject' : 'Object'
+    "#<Proto (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
+  end
+
+  def pretty_print(q)
+    q.print(inspect)
   end
 
   def respond_to?(property, include_all = false)
