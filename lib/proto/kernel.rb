@@ -27,7 +27,8 @@ module Proto::Kernel
 
   ##
   # @param [Proto] proto
-  #  An object who has included the Proto module.
+  #  An object who has included the Proto
+  #  module.
   #
   # @param [String, Symbol]
   #  The name of the method.
@@ -40,5 +41,48 @@ module Proto::Kernel
     Module
       .instance_method(:define_singleton_method)
       .bind_call(proto, method, &b)
+  end
+
+  ##
+  # @param [Proto] proto
+  #  An object who has included the Proto
+  #  module.
+  #
+  # @param [Symbol, String] method
+  #  The name of the method.
+  #
+  # @return [Method]
+  #  Returns a Method object for *method*.
+  def self.method(proto, method)
+    Module
+      .instance_method(:method)
+      .bind_call(proto, method)
+  end
+
+  # @param [Proto] proto
+  #  An object who has included the Proto
+  #  module.
+  #
+  # @param [Symbol, String] method
+  #  The name of the method.
+  #
+  # @return [String, nil]
+  #  Returns the path to the file that defined *method*.
+  def self.method_file(proto, method)
+    method(proto, method).source_location.dig(0)
+  end
+
+  ##
+  # @param [Proto] proto
+  #  An object who has included the Proto
+  #  module.
+  #
+  # @param [Symbol, String] method
+  #  The name of the method
+  #
+  # @return [Boolean]
+  #  Returns true when *method* is defined on self.
+  def self.method_defined?(proto, method)
+    (class << proto; self; end).method_defined?(method, false)
   end
 end

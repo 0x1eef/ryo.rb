@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Proto
-  require_relative "proto/utils"
+  require_relative "proto/kernel"
   require_relative "proto/object_mixin"
   require_relative "proto/object"
 
@@ -95,8 +95,8 @@ module Proto
     if property?(property)
       @table.delete(property)
     else
-      return if method_defined?(property) &&
-                method(property).source_location.dig(0) == __FILE__
+      return if Proto::Kernel.method_defined?(self, property) &&
+                Proto::Kernel.method_file(self, property) == __FILE__
       Proto::Kernel.define_singleton_method!(self, property) { self[property] }
     end
   end
@@ -109,42 +109,11 @@ module Proto
   end
 
   ##
-  # @param [Symbol, String] method
-  #  The name of the method
-  #
-  # @return [Boolean]
-  #  Returns true when *method* is defined on self.
-  def method_defined?(method)
-    singleton_class.method_defined?(method, false)
-  end
-
-  ##
-  # @param [Symbol, String] method
-  #  The name of the method
-  #
-  # @return [Method]
-  #  Returns a Method object for *method*
-  def method(method)
-    Module
-      .instance_method(:method)
-      .bind_call(self, method)
-  end
-
-  ##
   # @return [Class]
   #  Returns the class of self.
   def class
     Module
       .instance_method(:class)
-      .bind_call(self)
-  end
-
-  ##
-  # @return [Class]
-  #  Returns the singleton class of self.
-  def singleton_class
-    Module
-      .instance_method(:singleton_class)
       .bind_call(self)
   end
 
