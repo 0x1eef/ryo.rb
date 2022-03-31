@@ -126,8 +126,7 @@ module Proto
   def method(method)
     Module
       .instance_method(:method)
-      .bind(self)
-      .call(method)
+      .bind_call(self, method)
   end
 
   ##
@@ -136,8 +135,7 @@ module Proto
   def class
     Module
       .instance_method(:class)
-      .bind(self)
-      .call
+      .bind_call(self)
   end
 
   ##
@@ -146,12 +144,11 @@ module Proto
   def singleton_class
     Module
       .instance_method(:singleton_class)
-      .bind(self)
-      .call
+      .bind_call(self)
   end
 
   def inspect
-    superclass = self.class < BasicObject ? 'BasicObject' : 'Object'
+    superclass = self.class < BasicObject ? "BasicObject" : "Object"
     "#<Proto (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
   end
 

@@ -13,7 +13,7 @@ RSpec.describe Proto::ObjectMixin do
   let(:two) { create_object.call(one) }
   let(:three) { create_object.call(two) }
 
-  shared_examples 'tests' do |superclass|
+  shared_examples "tests" do |superclass|
     context "when there is no prototype in the chain" do
       context "when querying for a property that does not exist" do
         subject { one.baz }
@@ -33,8 +33,8 @@ RSpec.describe Proto::ObjectMixin do
       end
 
       context "when deleting the same property twice from self" do
-        before { one.delete('foo') }
-        subject(:perform_second_delete) { one.delete('foo') }
+        before { one.delete("foo") }
+        subject(:perform_second_delete) { one.delete("foo") }
 
         it "avoids defining the getter a second time" do
           expect(one).to_not receive(:__define_singleton_method).with("foo")
@@ -109,13 +109,13 @@ RSpec.describe Proto::ObjectMixin do
     end
   end
 
-  context 'when the superclass is Object' do
+  context "when the superclass is Object" do
     let(:superclass) { Object }
-    include_examples 'tests', Object
+    include_examples "tests", Object
   end
 
-  context 'when the superclass is BasicObject' do
+  context "when the superclass is BasicObject" do
     let(:superclass) { BasicObject }
-    include_examples 'tests', BasicObject
+    include_examples "tests", BasicObject
   end
 end

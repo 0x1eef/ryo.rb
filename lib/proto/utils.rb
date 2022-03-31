@@ -1,6 +1,6 @@
 ##
 # The purpose of the Proto::Utils module is to provide a
-# separate namespace for methods that would othermise be
+# separate namespace for methods that would otherwise be
 # defined as instance private methods on the Proto module.
 #
 # @api private
@@ -39,7 +39,6 @@ module Proto::Utils
   def self.define_singleton_method!(proto, method, &b)
     Module
       .instance_method(:define_singleton_method)
-      .bind(proto)
-      .call(method, &b)
+      .bind_call(proto, method, &b)
   end
 end
