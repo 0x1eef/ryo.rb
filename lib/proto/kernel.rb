@@ -1,10 +1,10 @@
 ##
-# The purpose of the Proto::Utils module is to provide a
+# The purpose of the Proto::Kernel module is to provide a
 # separate namespace for methods that would otherwise be
 # defined as instance private methods on the Proto module.
 #
 # @api private
-module Proto::Utils
+module Proto::Kernel
   ##
   # @param [Proto] proto
   #  An object who has included the Proto module.

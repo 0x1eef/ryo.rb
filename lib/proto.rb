@@ -53,7 +53,7 @@ module Proto
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    Proto::Utils.define_property!(self, property.to_s, value)
+    Proto::Kernel.define_property!(self, property.to_s, value)
   end
 
   ##
@@ -97,7 +97,7 @@ module Proto
     else
       return if method_defined?(property) &&
                 method(property).source_location.dig(0) == __FILE__
-      Proto::Utils.define_singleton_method!(self, property) { self[property] }
+      Proto::Kernel.define_singleton_method!(self, property) { self[property] }
     end
   end
 
