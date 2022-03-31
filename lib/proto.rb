@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Proto
+  require_relative "proto/utils"
   require_relative "proto/object_mixin"
 
   ##
@@ -51,7 +52,7 @@ module Proto
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    add_property!(property.to_s, value)
+    Proto::Utils.define_property!(self, property.to_s, value)
   end
 
   ##
@@ -95,7 +96,7 @@ module Proto
     else
       return if method_defined?(property) &&
                 method(property).source_location.dig(0) == __FILE__
-      define_singleton_method!(property) { self[property] }
+      Proto::Utils.define_singleton_method!(self, property) { self[property] }
     end
   end
 
@@ -168,32 +169,22 @@ module Proto
 
   ##
   # @api private
+  def __table__
+    @table
+  end
+
+  ##
+  # @api private
   def method_missing(name, *args, &block)
     property = name.to_s
     if property[-1] == "="
       property = property[0..-2]
-      add_property!(property, args.first)
+      self[property] = args.first
     elsif property?(property)
       self[property]
     elsif @proto.respond_to?(name)
       @proto.__send__(name, *args, &block)
     end
-  end
-
-  private
-
-  def add_property!(property, value)
-    @table[property] = value
-    return if method_defined?(property)
-    define_singleton_method!(property) { self[property] }
-    define_singleton_method!("#{property}=") { add_property!(property, _1) }
-  end
-
-  def define_singleton_method!(method, &b)
-    Module
-      .instance_method(:define_singleton_method)
-      .bind(self)
-      .call(method, &b)
   end
 end
 
