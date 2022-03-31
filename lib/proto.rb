@@ -148,12 +148,12 @@ module Proto
   end
 
   def inspect
-    superclass = self.class < BasicObject ? "BasicObject" : "Object"
+    superclass = self.class < Object ? "Object" : "BasicObject"
     "#<Proto (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
   end
 
   def pretty_print(q)
-    q.print(inspect)
+    q.pp(inspect)
   end
 
   def respond_to?(property, include_all = false)
