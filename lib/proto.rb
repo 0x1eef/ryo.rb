@@ -3,6 +3,7 @@
 module Proto
   require_relative "proto/utils"
   require_relative "proto/object_mixin"
+  require_relative "proto/object"
 
   ##
   # @param [Proto, nil] prototype
@@ -183,8 +184,4 @@ module Proto
       @proto.__send__(name, *args, &block)
     end
   end
-end
-
-class Object
-  extend Proto::ObjectMixin
 end
