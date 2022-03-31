@@ -1,7 +1,7 @@
 ##
 # The purpose of the Proto::Utils module is to provide a
 # separate namespace for methods that would othermise be
-# defined as private methods on the Proto module.
+# defined as instance private methods on the Proto module.
 #
 # @api private
 module Proto::Utils
