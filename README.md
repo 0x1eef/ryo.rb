@@ -1,11 +1,13 @@
 # proto.rb
 
 proto.rb is an implementation of prototype-based inheritance in pure
-Ruby. The library is heavily inspired and derived from JavaScript's 
-implementation. proto.rb could be described as a port of "Object.create"
-from JavaScript, as that's where the main inspiration comes from, and
-it translates reasonably well to Ruby.
+Ruby. The library is heavily inspired by JavaScript's implementation, 
+in particular Proto ports JavaScript's [`Object.create`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
 
+The objects returned by Proto's `Object.create` are similar to instances 
+of Object from  JavaScript, or OpenStruct from Ruby. When comparing Proto
+to OpenStruct, prototype-based inheirtance is one major difference but there
+are others. 
 
 ## Demo
 
