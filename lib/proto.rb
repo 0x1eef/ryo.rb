@@ -40,7 +40,8 @@ module Proto
     if property?(property)
       @table[property]
     else
-      @proto&.__send__(property)
+      return unless @proto
+      Proto.kernel.call_method(@proto, property)
     end
   end
 

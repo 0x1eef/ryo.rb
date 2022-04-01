@@ -40,6 +40,28 @@ module Proto
     #  An object who has included the Proto
     #  module.
     #
+    # @param [String, Symbol] method
+    #  The name of a method.
+    #
+    # @param [Object, BasicObject] *args
+    #  A variable number of arguments for *method*.
+    #
+    # @param [Proc] &b
+    #  An optional block for *method*.
+    #
+    # @return [Object, BasicObject]
+    #  Returns the return value of the method call.
+    def self.call_method(proto, method, *args, &b)
+      Module
+        .instance_method(:__send__)
+        .bind_call(proto, method, *args, &b)
+    end
+
+    ##
+    # @param [Proto] proto
+    #  An object who has included the Proto
+    #  module.
+    #
     # @param [String, Symbol]
     #  The name of the method.
     #
