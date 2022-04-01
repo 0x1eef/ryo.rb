@@ -6,8 +6,8 @@ in particular Proto ports JavaScript's [`Object.create`](https://developer.mozil
 The objects returned by Proto's `Object.create` are similar to instances 
 of Object from JavaScript, or OpenStruct from Ruby. 
 
-When comparing Proto to OpenStruct there are notable differences - even
-when prototypes are not being used. For example to delete a "field" in OpenStruct 
+When comparing Proto to OpenStruct there are notable differences - 
+beyond OpenStruct's not having prototypes. For example to delete a "field" in OpenStruct 
 one would write `obj.delete_field!(:foo)` where as with Proto it would be 
 `Proto.brain.delete(obj, "foo")`, and while Proto can provide the same 
 functionality as OpenStruct it has solved the problems it faced differently.
