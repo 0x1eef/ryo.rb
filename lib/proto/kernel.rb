@@ -2,7 +2,8 @@ module Proto
   @kernel ||= Module.new {
     ##
     # @param [Proto] proto
-    #  An object who has included the Proto module.
+    #  An object who has included the Proto
+    #  module.
     #
     # @param [String, to_s] property
     #  The name of the property.
@@ -13,11 +14,25 @@ module Proto
     # @return [void]
     # @api private
     def self.define_property!(proto, property, value)
-      table = proto.__table__
+      table = unbox_table(proto)
       table[property] = value
       return if method_defined?(proto, "#{property}=")
       define_singleton_method!(proto, property) { proto[property] }
       define_singleton_method!(proto, "#{property}=") { proto[property] = _1 }
+    end
+
+    ##
+    # @param [Proto] proto
+    #  An object who has included the Proto
+    #  module.
+    #
+    # @return [Hash]
+    #  Returns the internal lookup table used by
+    #  *proto*.
+    def self.unbox_table(proto)
+      Module
+        .instance_method(:instance_variable_get)
+        .bind_call(proto, :@table)
     end
 
     ##

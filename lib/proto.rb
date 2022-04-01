@@ -136,12 +136,6 @@ module Proto
 
   ##
   # @api private
-  def __table__
-    @table
-  end
-
-  ##
-  # @api private
   def method_missing(name, *args, &block)
     property = name.to_s
     if property[-1] == "="
