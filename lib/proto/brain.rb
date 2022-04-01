@@ -117,6 +117,20 @@ module Proto
     def self.method_defined?(proto, method)
       (class << proto; self; end).method_defined?(method, false)
     end
+
+    ##
+    # @param [Proto] proto
+    #  An object who has included the Proto
+    #  module.
+    #
+    # @param [String] property
+    #  The property.
+    #
+    # @return [Boolean]
+    #  Returns true when *property* is a member of self.
+    def self.property?(proto, property)
+      unbox_table(proto).key?(property.to_s)
+    end
   }
 
   ##

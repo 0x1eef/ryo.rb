@@ -72,16 +72,6 @@ module Proto
   alias_method :eql?, :==
 
   ##
-  # @param [String] property
-  #  The property.
-  #
-  # @return [Boolean]
-  #  Returns true when *property* is a member of self.
-  def property?(property)
-    @table.key?(property.to_s)
-  end
-
-  ##
   # Delete all properties from self.
   #
   # @return [void]
@@ -99,7 +89,7 @@ module Proto
   # @return [void]
   def delete(property)
     property = property.to_s
-    if property?(property)
+    if Proto.brain.property?(self, property)
       @table.delete(property)
     else
       return if Proto.brain.method_defined?(self, property) &&
@@ -141,7 +131,7 @@ module Proto
     if property[-1] == "="
       property = property[0..-2]
       self[property] = args.first
-    elsif property?(property)
+    elsif Proto.brain.property?(self, property)
       self[property]
     elsif @proto.respond_to?(name)
       Proto.brain.call_method(@proto, name, *args, &b)
