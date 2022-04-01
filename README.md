@@ -29,6 +29,7 @@ two.foo # => 42
 
 ```ruby 
 require "proto"
+require "proto/core_ext/object"
 
 ##
 # Create a new object, with no prototype.
@@ -54,6 +55,7 @@ Kernel.p obj.foo
 
 ```ruby
 require "proto"
+require "proto/core_ext/object"
 
 ##
 # Create a new object, with no prototype.
