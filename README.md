@@ -25,6 +25,51 @@ two = Object.create(one)
 two.foo # => 42
 ```
 
+**Equivalent to JavaScript's `delete(obj.foo)`**
+
+```ruby 
+require "proto"
+
+##
+# Create a new object, with no prototype.
+obj = Object.create(nil)
+
+##
+# Assign the property "foo" the value of
+# "42".
+obj.foo = 42
+
+##
+# Using "Proto.brain", delete the "foo"
+# property from "obj".
+Proto.brain.delete(obj, "foo")
+
+##
+# Prints nil
+Kernel.p obj.foo
+
+```
+
+**Equivalent to JavaScript's `obj.hasOwnProperty('foo')`**
+
+```ruby
+require "proto"
+
+##
+# Create a new object, with no prototype.
+obj = Object.create(nil)
+
+##
+# Assign the property "foo" the value of
+# "42".
+obj.foo = 42
+
+##
+# Use "Proto.brain" to ask the object if it
+# has the property "foo".
+Kernel.p Proto.brain.property?(obj, "foo")
+```
+
 ## LICENSE
 
 This project uses the MIT license, see [/LICENSE.txt](/LICENSE.txt) for details.
