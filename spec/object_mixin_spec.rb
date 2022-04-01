@@ -33,8 +33,8 @@ RSpec.describe Proto::ObjectMixin do
       end
 
       context "when deleting the same property twice from self" do
-        before { one.delete("foo") }
-        subject(:perform_second_delete) { one.delete("foo") }
+        before { Proto.brain.delete one, "foo" }
+        subject(:perform_second_delete) { Proto.brain.delete one, "foo" }
 
         it "avoids defining the getter a second time" do
           expect(one).to_not receive(:__define_singleton_method).with("foo")
@@ -75,7 +75,7 @@ RSpec.describe Proto::ObjectMixin do
       end
 
       context "when the property is deleted from the root prototype" do
-        before { one.delete("foo") }
+        before { Proto.brain.delete one, "foo" }
         subject { two.foo }
         it { is_expected.to eq(nil) }
       end
@@ -102,7 +102,7 @@ RSpec.describe Proto::ObjectMixin do
 
       context "when the property is deleted from the middle prototype" do
         let(:two) { create_object.call(one) { def foo = 84 } }
-        before { two.delete("foo") }
+        before { Proto.brain.delete two, "foo" }
         subject { three.foo }
         it { is_expected.to eq(42) }
       end

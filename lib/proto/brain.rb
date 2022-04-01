@@ -127,9 +127,27 @@ module Proto
     #  The property.
     #
     # @return [Boolean]
-    #  Returns true when *property* is a member of self.
+    #  Returns true when *property* is a member of *proto*.
     def self.property?(proto, property)
       unbox_table(proto).key?(property.to_s)
+    end
+
+    ##
+    # Deletes a property from *proto*
+    #
+    # @param [String] property
+    #  The property to delete.
+    #
+    # @return [void]
+    def self.delete(proto, property)
+      property = property.to_s
+      if property?(proto, property)
+        unbox_table(proto).delete(property)
+      else
+        return if method_defined?(proto, property) &&
+                  method_file(proto, property) == __FILE__
+        define_singleton_method!(proto, property) { proto[property] }
+      end
     end
   }
 

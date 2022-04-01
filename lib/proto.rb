@@ -81,24 +81,6 @@ module Proto
   end
 
   ##
-  # Deletes a property from self.
-  #
-  # @param [String] property
-  #  The property to delete.
-  #
-  # @return [void]
-  def delete(property)
-    property = property.to_s
-    if Proto.brain.property?(self, property)
-      @table.delete(property)
-    else
-      return if Proto.brain.method_defined?(self, property) &&
-                Proto.brain.method_file(self, property) == __FILE__
-      Proto.brain.define_singleton_method!(self, property) { self[property] }
-    end
-  end
-
-  ##
   # @return [Class]
   #  Returns the class of self.
   def class
