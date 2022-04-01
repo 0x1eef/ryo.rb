@@ -58,10 +58,16 @@ module Proto
   end
 
   ##
-  # @param [Hash, #to_h] other
+  # @param [Proto] other
+  #  An object to compare against.
   #
+  # @return [Boolean]
+  #  Returns true when *other* is a Proto
+  #  object with the same internal lookup
+  #  table.
   def ==(other)
-    @table == other&.to_h
+    return unless Proto === other
+    @table == Proto.kernel.unbox_table(other)
   end
   alias_method :eql?, :==
 
@@ -100,13 +106,6 @@ module Proto
                 Proto.kernel.method_file(self, property) == __FILE__
       Proto.kernel.define_singleton_method!(self, property) { self[property] }
     end
-  end
-
-  ##
-  # @return [Hash]
-  #  A shallow copy of the lookup table used by self.
-  def to_h
-    @table.dup
   end
 
   ##
