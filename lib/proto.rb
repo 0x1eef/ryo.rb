@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Proto
-  require_relative "proto/kernel"
+  require_relative "proto/brain"
   require_relative "proto/object_mixin"
   require_relative "proto/object"
 
@@ -41,7 +41,7 @@ module Proto
       @table[property]
     else
       return unless @proto
-      Proto.kernel.call_method(@proto, property)
+      Proto.brain.call_method(@proto, property)
     end
   end
 
@@ -54,7 +54,7 @@ module Proto
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    Proto.kernel.define_property!(self, property.to_s, value)
+    Proto.brain.define_property!(self, property.to_s, value)
   end
 
   ##
@@ -67,7 +67,7 @@ module Proto
   #  table.
   def ==(other)
     return unless Proto === other
-    @table == Proto.kernel.unbox_table(other)
+    @table == Proto.brain.unbox_table(other)
   end
   alias_method :eql?, :==
 
@@ -102,9 +102,9 @@ module Proto
     if property?(property)
       @table.delete(property)
     else
-      return if Proto.kernel.method_defined?(self, property) &&
-                Proto.kernel.method_file(self, property) == __FILE__
-      Proto.kernel.define_singleton_method!(self, property) { self[property] }
+      return if Proto.brain.method_defined?(self, property) &&
+                Proto.brain.method_file(self, property) == __FILE__
+      Proto.brain.define_singleton_method!(self, property) { self[property] }
     end
   end
 
@@ -136,7 +136,7 @@ module Proto
 
   ##
   # @api private
-  def method_missing(name, *args, &block)
+  def method_missing(name, *args, &b)
     property = name.to_s
     if property[-1] == "="
       property = property[0..-2]
@@ -144,7 +144,7 @@ module Proto
     elsif property?(property)
       self[property]
     elsif @proto.respond_to?(name)
-      @proto.__send__(name, *args, &block)
+      Proto.brain.call_method(@proto, name, *args, &b)
     end
   end
 end

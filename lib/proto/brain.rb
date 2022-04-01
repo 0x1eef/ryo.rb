@@ -1,5 +1,5 @@
 module Proto
-  @kernel ||= Module.new {
+  @brain ||= Module.new {
     ##
     # @param [Proto] proto
     #  An object who has included the Proto
@@ -128,7 +128,7 @@ module Proto
   #  Returns an anonymous module
   #
   # @api private
-  def self.kernel
-    @kernel
+  def self.brain
+    @brain
   end
 end
