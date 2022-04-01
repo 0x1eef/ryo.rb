@@ -17,8 +17,8 @@ module Proto
       table = unbox_table(proto)
       table[property] = value
       return if method_defined?(proto, "#{property}=")
-      define_singleton_method!(proto, property) { proto[property] }
-      define_singleton_method!(proto, "#{property}=") { proto[property] = _1 }
+      define_method!(proto, property) { proto[property] }
+      define_method!(proto, "#{property}=") { proto[property] = _1 }
     end
 
     ##
@@ -69,7 +69,7 @@ module Proto
     #  The method's body.
     #
     # @return [void]
-    def self.define_singleton_method!(proto, method, &b)
+    def self.define_method!(proto, method, &b)
       Module
         .instance_method(:define_singleton_method)
         .bind_call(proto, method, &b)
@@ -146,7 +146,7 @@ module Proto
       else
         return if method_defined?(proto, property) &&
                   method_file(proto, property) == __FILE__
-        define_singleton_method!(proto, property) { proto[property] }
+        define_method!(proto, property) { proto[property] }
       end
     end
   }
