@@ -72,15 +72,6 @@ module Proto
   alias_method :eql?, :==
 
   ##
-  # Delete all properties from self.
-  #
-  # @return [void]
-  def clear
-    @table.clear
-    true
-  end
-
-  ##
   # @return [Class]
   #  Returns the class of self.
   def class

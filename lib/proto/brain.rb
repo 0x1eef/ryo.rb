@@ -135,6 +135,10 @@ module Proto
     ##
     # Deletes a property from *proto*
     #
+    # @param [Proto] proto
+    #  An object who has included the Proto
+    #  module.
+    #
     # @param [String] property
     #  The property to delete.
     #
@@ -148,6 +152,19 @@ module Proto
                   method_file(proto, property) == __FILE__
         define_method!(proto, property) { proto[property] }
       end
+    end
+
+    ##
+    # Delete all properties from *proto*.
+    #
+    # @param [Proto] proto
+    #  An object who has included the Proto
+    #  module.
+    #
+    # @return [void]
+    def clear!(proto)
+      unbox_table(proto).clear
+      true
     end
   }
 
