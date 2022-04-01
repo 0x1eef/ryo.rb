@@ -26,8 +26,8 @@ RSpec.describe Proto::ObjectMixin do
         subject(:assign_second_assignment) { one.foo = 2 }
 
         it "avoids defining the getter and setter a second time" do
-          expect(one).to_not receive(:__define_singleton_method).with("foo")
-          expect(one).to_not receive(:__define_singleton_method).with("foo=")
+          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo")
+          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo=")
           assign_second_assignment
         end
       end
@@ -37,7 +37,7 @@ RSpec.describe Proto::ObjectMixin do
         subject(:perform_second_delete) { Proto.brain.delete one, "foo" }
 
         it "avoids defining the getter a second time" do
-          expect(one).to_not receive(:__define_singleton_method).with("foo")
+          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo")
           perform_second_delete
         end
       end
