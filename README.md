@@ -9,20 +9,35 @@ it translates reasonably well to Ruby.
 
 ## Demo
 
+**Prototype-based inheritance** 
+
 ```ruby
+require "proto"
+require "proto/core_ext/object"
+
 ##
 # Create a new object, with no prototype.
-# On this object, define the property 'foo'.
-one = Object.create(nil) { def foo() 42 end }  
+# On this object, define the property "eat".
+fruit = Object.create(nil, {
+  eat: lambda { "nomnom" }
+})
 
 ##
-# Create a second object, with "one" as its prototype.
-two = Object.create(one)
+# Create a second object, with "fruit" as
+# its prototype. On this object, define
+# the property "name".
+apple = Object.create(fruit, {name: "Apple"})
 
 ##
-# Query the property "foo", and traverse the 
-# prototype chain until it is found (or return nil)
-two.foo # => 42
+# Query the property "name", and find a match
+# directly on the apple object.
+Kernel.p apple.name # => "Apple"
+
+##
+# Query the property "eat", and traverse the
+# prototype chain until it is found on "fruit".
+Kernel.p apple.eat.()
+
 ```
 
 **Equivalent to JavaScript's `delete(obj.foo)`**
