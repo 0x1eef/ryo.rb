@@ -37,7 +37,7 @@ module Proto
   #  traversed through instead.
   def [](property)
     property = property.to_s
-    if property?(property)
+    if Proto.brain.property?(self, property)
       @table[property]
     else
       return unless @proto

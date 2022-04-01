@@ -2,14 +2,16 @@ require_relative "setup"
 
 RSpec.describe Proto::ObjectMixin do
   let(:create_object) do
-    lambda do |proto, &b|
-      Class.new do
-        extend Proto::ObjectMixin
-      end.create(proto, superclass: superclass, &b)
+    lambda do |proto, props = {}|
+      Proto::Object.create(
+        proto,
+        props,
+        superclass: superclass
+      )
     end
   end
 
-  let(:one) { create_object.call(nil) { def foo = 42 } }
+  let(:one) { create_object.call(nil, foo: 42) }
   let(:two) { create_object.call(one) }
   let(:three) { create_object.call(two) }
 
@@ -95,13 +97,13 @@ RSpec.describe Proto::ObjectMixin do
       end
 
       context "when traversing to the property on the middle prototype" do
-        let(:two) { create_object.call(one) { def foo = 84 } }
+        let(:two) { create_object.call(one, foo: 84) }
         subject { three.foo }
         it { is_expected.to eq(84) }
       end
 
       context "when the property is deleted from the middle prototype" do
-        let(:two) { create_object.call(one) { def foo = 84 } }
+        let(:two) { create_object.call(one, foo: 84) }
         before { Proto.brain.delete two, "foo" }
         subject { three.foo }
         it { is_expected.to eq(42) }
