@@ -135,6 +135,24 @@ module Proto::Brain
   end
 
   ##
+  # Equivalent to JavaScript's "in" operator.
+  #
+  # @param [Proto] proto
+  #  An object who has included the Proto
+  #  module.
+  #
+  # @param [String] property
+  #  The property.
+  #
+  # @return [Boolean]
+  #  Returns true when *property* is a member of *proto*,
+  #  or its prototype chain.
+  def self.in?(proto, property)
+    property?(proto, property) ||
+    property?(proto.prototype, property)
+  end
+
+  ##
   # Deletes a property from *proto*
   #
   # @param [Proto] proto

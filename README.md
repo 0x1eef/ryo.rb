@@ -34,15 +34,44 @@ fruit = Object.create(nil, {
 apple = Object.create(fruit, {name: "Apple"})
 
 ##
-# Query the property "name", and find a match
+# Read the property "name", and find a match
 # directly on the apple object.
 Kernel.p apple.name # => "Apple"
 
 ##
-# Query the property "eat", and traverse the
+# Read the property "eat", and traverse the
 # prototype chain until it is found on "fruit".
 Kernel.p apple.eat.()
+``` 
 
+**Equivalent to JavaScript's `in` operator**
+
+```ruby
+##
+# Create a new object, with no prototype.
+# On this object, define the property "eat".
+fruit = Object.create(nil, {
+  eat: lambda { "nomnom" }
+})
+
+##
+# Create a second object, with "fruit" as
+# its prototype. On this object, define
+# the property "name".
+apple = Object.create(fruit, {name: "Apple"})
+
+##
+# Query the "apple" object using Proto.in? - 
+# This returns true
+Proto.in?(apple, "eat")
+
+##
+# This also returns true 
+Proto.in?(apple, "name")
+
+##
+# This returns false
+Proto.in?(apple, "foobar")
 ```
 
 **Equivalent to JavaScript's `delete(obj.foo)`**
