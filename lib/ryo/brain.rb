@@ -29,8 +29,7 @@ module Ryo::Brain
   #  Returns the internal lookup table used by
   #  *ryo*.
   def unbox_table(ryo)
-    Module
-      .instance_method(:instance_variable_get)
+    module_method(:instance_variable_get)
       .bind_call(ryo, :@table)
   end
 
@@ -48,8 +47,7 @@ module Ryo::Brain
   #  of an object, even if "__proto__" has
   #  been redefined on the mentioned object.
   def unbox_proto(ryo)
-    Module
-      .instance_method(:instance_variable_get)
+    module_method(:instance_variable_get)
       .bind_call(ryo, :@proto)
   end
 
@@ -70,8 +68,7 @@ module Ryo::Brain
   # @return [Object, BasicObject]
   #  Returns the return value of the method call.
   def call_method(ryo, method, *args, &b)
-    Module
-      .instance_method(:__send__)
+    module_method(:__send__)
       .bind_call(ryo, method, *args, &b)
   end
 
@@ -88,8 +85,7 @@ module Ryo::Brain
   #
   # @return [void]
   def define_method!(ryo, method, &b)
-    Module
-      .instance_method(:define_singleton_method)
+    module_method(:define_singleton_method)
       .bind_call(ryo, method, &b)
   end
 
@@ -104,8 +100,7 @@ module Ryo::Brain
   # @return [Method]
   #  Returns a Method object for *method*.
   def method(ryo, method)
-    Module
-      .instance_method(:method)
+    module_method(:method)
       .bind_call(ryo, method)
   end
 
@@ -204,5 +199,9 @@ module Ryo::Brain
   def clear!(ryo)
     unbox_table(ryo).clear
     true
+  end
+
+  def module_method(name)
+    Module.instance_method(name)
   end
 end
