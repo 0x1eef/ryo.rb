@@ -1,5 +1,5 @@
-require "proto"
-require "proto/core_ext/object"
+require "ryo"
+require "ryo/core_ext/object"
 
 ##
 # Create a new object, with no prototype.
@@ -11,9 +11,9 @@ obj = Object.create(nil)
 obj.foo = 42
 
 ##
-# Using "Proto", delete the "foo"
+# Using "Ryo", delete the "foo"
 # property from "obj".
-Proto.delete(obj, "foo")
+Ryo.delete(obj, "foo")
 
 ##
 # Prints nil

@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-module Proto
-  require_relative "proto/brain"
-  require_relative "proto/object_mixin"
-  require_relative "proto/object"
+module Ryo
+  require_relative "ryo/brain"
+  require_relative "ryo/object_mixin"
+  require_relative "ryo/object"
 
-  extend Proto::Brain
+  extend Ryo::Brain
 
   ##
-  # @param [Proto, nil] prototype
+  # @param [Ryo, nil] prototype
   #  The prototype.
   #
   # @return [Object, BasicObject]
   def initialize(prototype)
-    @proto = prototype
+    @ryo = prototype
     @table = {}
   end
 
@@ -21,9 +21,9 @@ module Proto
   # Returns the prototype of self, or "nil" if self
   # has no prototype.
   #
-  # @return [Proto, nil]
+  # @return [Ryo, nil]
   def prototype
-    @proto
+    @ryo
   end
 
   ##
@@ -39,11 +39,11 @@ module Proto
   #  traversed through instead.
   def [](property)
     property = property.to_s
-    if Proto.property?(self, property)
+    if Ryo.property?(self, property)
       @table[property]
     else
-      return unless @proto
-      Proto.call_method(@proto, property)
+      return unless @ryo
+      Ryo.call_method(@ryo, property)
     end
   end
 
@@ -56,20 +56,20 @@ module Proto
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    Proto.define_property!(self, property.to_s, value)
+    Ryo.define_property!(self, property.to_s, value)
   end
 
   ##
-  # @param [Proto] other
+  # @param [Ryo] other
   #  An object to compare against.
   #
   # @return [Boolean]
-  #  Returns true when *other* is a Proto
+  #  Returns true when *other* is a Ryo
   #  object with the same internal lookup
   #  table.
   def ==(other)
-    return unless Proto === other
-    @table == Proto.unbox_table(other)
+    return unless Ryo === other
+    @table == Ryo.unbox_table(other)
   end
   alias_method :eql?, :==
 
@@ -84,7 +84,7 @@ module Proto
 
   def inspect
     superclass = self.class < Object ? "Object" : "BasicObject"
-    "#<Proto (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
+    "#<Ryo (#{superclass}) @ryo=#{@ryo.inspect} table=#{@table.inspect}>"
   end
 
   def pretty_print(q)
@@ -106,10 +106,10 @@ module Proto
     if property[-1] == "="
       property = property[0..-2]
       self[property] = args.first
-    elsif Proto.property?(self, property)
+    elsif Ryo.property?(self, property)
       self[property]
-    elsif @proto.respond_to?(name)
-      Proto.call_method(@proto, name, *args, &b)
+    elsif @ryo.respond_to?(name)
+      Ryo.call_method(@ryo, name, *args, &b)
     end
   end
 end

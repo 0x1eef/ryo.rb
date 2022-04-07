@@ -1,5 +1,5 @@
-require "proto"
-require "proto/core_ext/object"
+require "ryo"
+require "ryo/core_ext/object"
 
 ##
 # Create a new object, with no prototype.

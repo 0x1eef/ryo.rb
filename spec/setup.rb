@@ -1,2 +1,2 @@
 require "rspec"
-require "proto"
+require "ryo"
