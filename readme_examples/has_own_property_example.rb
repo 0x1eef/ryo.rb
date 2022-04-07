@@ -11,6 +11,6 @@ obj = Object.create(nil)
 obj.foo = 42
 
 ##
-# Use "Proto.brain" to ask the object if it
+# Use "Proto" to ask the object if it
 # has the property "foo".
-Kernel.p Proto.brain.property?(obj, "foo")
+Kernel.p Proto.property?(obj, "foo")

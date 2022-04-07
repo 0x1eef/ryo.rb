@@ -9,7 +9,7 @@ of Object from JavaScript, or OpenStruct from Ruby.
 When comparing Proto to OpenStruct there are notable differences - 
 beyond OpenStruct's not having prototypes. For example to delete a "field" in OpenStruct 
 one would write `obj.delete_field!(:foo)` where as with Proto it would be 
-`Proto.brain.delete(obj, "foo")`, and while Proto can provide the same 
+`Proto.delete(obj, "foo")`, and while Proto can provide the same 
 functionality as OpenStruct it has solved the problems it faced differently.
 
 ## Demo
@@ -90,9 +90,9 @@ obj = Object.create(nil)
 obj.foo = 42
 
 ##
-# Using "Proto.brain", delete the "foo"
+# Using "Proto", delete the "foo"
 # property from "obj".
-Proto.brain.delete(obj, "foo")
+Proto.delete(obj, "foo")
 
 ##
 # Prints nil
@@ -116,9 +116,9 @@ obj = Object.create(nil)
 obj.foo = 42
 
 ##
-# Use "Proto.brain" to ask the object if it
+# Use "Proto" to ask the object if it
 # has the property "foo".
-Kernel.p Proto.brain.property?(obj, "foo")
+Kernel.p Proto.property?(obj, "foo")
 ```
 
 ## LICENSE

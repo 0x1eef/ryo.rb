@@ -11,9 +11,9 @@ obj = Object.create(nil)
 obj.foo = 42
 
 ##
-# Using "Proto.brain", delete the "foo"
+# Using "Proto", delete the "foo"
 # property from "obj".
-Proto.brain.delete(obj, "foo")
+Proto.delete(obj, "foo")
 
 ##
 # Prints nil

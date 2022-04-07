@@ -28,18 +28,18 @@ RSpec.describe Proto::ObjectMixin do
         subject(:assign_second_assignment) { one.foo = 2 }
 
         it "avoids defining the getter and setter a second time" do
-          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo")
-          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo=")
+          expect(Proto).to_not receive(:define_method!).with(one, "foo")
+          expect(Proto).to_not receive(:define_method!).with(one, "foo=")
           assign_second_assignment
         end
       end
 
       context "when deleting the same property twice from self" do
-        before { Proto.brain.delete one, "foo" }
-        subject(:perform_second_delete) { Proto.brain.delete one, "foo" }
+        before { Proto.delete one, "foo" }
+        subject(:perform_second_delete) { Proto.delete one, "foo" }
 
         it "avoids defining the getter a second time" do
-          expect(Proto.brain).to_not receive(:define_method!).with(one, "foo")
+          expect(Proto).to_not receive(:define_method!).with(one, "foo")
           perform_second_delete
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe Proto::ObjectMixin do
       end
 
       context "when the property is deleted from the root prototype" do
-        before { Proto.brain.delete one, "foo" }
+        before { Proto.delete one, "foo" }
         subject { two.foo }
         it { is_expected.to eq(nil) }
       end
@@ -104,7 +104,7 @@ RSpec.describe Proto::ObjectMixin do
 
       context "when the property is deleted from the middle prototype" do
         let(:two) { create_object.call(one, foo: 84) }
-        before { Proto.brain.delete two, "foo" }
+        before { Proto.delete two, "foo" }
         subject { three.foo }
         it { is_expected.to eq(42) }
       end

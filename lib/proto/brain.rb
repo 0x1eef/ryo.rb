@@ -12,7 +12,7 @@ module Proto::Brain
   #
   # @return [void]
   # @api private
-  def self.define_property!(proto, property, value)
+  def define_property!(proto, property, value)
     table = unbox_table(proto)
     table[property] = value
     return if method_defined?(proto, "#{property}=")
@@ -28,7 +28,7 @@ module Proto::Brain
   # @return [Hash]
   #  Returns the internal lookup table used by
   #  *proto*.
-  def self.unbox_table(proto)
+  def unbox_table(proto)
     Module
       .instance_method(:instance_variable_get)
       .bind_call(proto, :@table)
@@ -50,7 +50,7 @@ module Proto::Brain
   #
   # @return [Object, BasicObject]
   #  Returns the return value of the method call.
-  def self.call_method(proto, method, *args, &b)
+  def call_method(proto, method, *args, &b)
     Module
       .instance_method(:__send__)
       .bind_call(proto, method, *args, &b)
@@ -68,7 +68,7 @@ module Proto::Brain
   #  The method's body.
   #
   # @return [void]
-  def self.define_method!(proto, method, &b)
+  def define_method!(proto, method, &b)
     Module
       .instance_method(:define_singleton_method)
       .bind_call(proto, method, &b)
@@ -84,7 +84,7 @@ module Proto::Brain
   #
   # @return [Method]
   #  Returns a Method object for *method*.
-  def self.method(proto, method)
+  def method(proto, method)
     Module
       .instance_method(:method)
       .bind_call(proto, method)
@@ -99,7 +99,7 @@ module Proto::Brain
   #
   # @return [String, nil]
   #  Returns the path to the file that defined *method*.
-  def self.method_file(proto, method)
+  def method_file(proto, method)
     method(proto, method).source_location.dig(0)
   end
 
@@ -112,8 +112,8 @@ module Proto::Brain
   #  The name of the method
   #
   # @return [Boolean]
-  #  Returns true when *method* is defined on self.
-  def self.method_defined?(proto, method)
+  #  Returns true when *method* is defined on
+  def method_defined?(proto, method)
     (class << proto; self; end).method_defined?(method, false)
   end
 
@@ -130,7 +130,7 @@ module Proto::Brain
   # @return [Boolean]
   #  Returns true when *property* is a member of
   #  *proto*.
-  def self.property?(proto, property)
+  def property?(proto, property)
     unbox_table(proto).key?(property.to_s)
   end
 
@@ -147,7 +147,7 @@ module Proto::Brain
   # @return [Boolean]
   #  Returns true when *property* is a member of *proto*,
   #  or its prototype chain.
-  def self.in?(proto, property)
+  def in?(proto, property)
     property?(proto, property) ||
     property?(proto.prototype, property)
   end
@@ -163,7 +163,7 @@ module Proto::Brain
   #  The property to delete.
   #
   # @return [void]
-  def self.delete(proto, property)
+  def delete(proto, property)
     property = property.to_s
     if property?(proto, property)
       unbox_table(proto).delete(property)

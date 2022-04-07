@@ -5,6 +5,8 @@ module Proto
   require_relative "proto/object_mixin"
   require_relative "proto/object"
 
+  extend Proto::Brain
+
   ##
   # @param [Proto, nil] prototype
   #  The prototype.
@@ -37,11 +39,11 @@ module Proto
   #  traversed through instead.
   def [](property)
     property = property.to_s
-    if Proto.brain.property?(self, property)
+    if Proto.property?(self, property)
       @table[property]
     else
       return unless @proto
-      Proto.brain.call_method(@proto, property)
+      Proto.call_method(@proto, property)
     end
   end
 
@@ -54,7 +56,7 @@ module Proto
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    Proto.brain.define_property!(self, property.to_s, value)
+    Proto.define_property!(self, property.to_s, value)
   end
 
   ##
@@ -67,7 +69,7 @@ module Proto
   #  table.
   def ==(other)
     return unless Proto === other
-    @table == Proto.brain.unbox_table(other)
+    @table == Proto.unbox_table(other)
   end
   alias_method :eql?, :==
 
@@ -104,10 +106,10 @@ module Proto
     if property[-1] == "="
       property = property[0..-2]
       self[property] = args.first
-    elsif Proto.brain.property?(self, property)
+    elsif Proto.property?(self, property)
       self[property]
     elsif @proto.respond_to?(name)
-      Proto.brain.call_method(@proto, name, *args, &b)
+      Proto.call_method(@proto, name, *args, &b)
     end
   end
 end
