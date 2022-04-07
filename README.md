@@ -6,11 +6,41 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 The objects returned by Ryo's `Object.create` are similar to instances 
 of Object from JavaScript, or OpenStruct from Ruby. 
 
-When comparing Ryo to OpenStruct there are notable differences - 
-beyond OpenStruct's not having prototypes. For example to delete a "field" in OpenStruct 
-one would write `obj.delete_field!(:foo)` where as with Ryo it would be 
-`Ryo.delete(obj, "foo")`, and while Ryo can provide the same 
-functionality as OpenStruct it has solved the problems it faced differently.
+## Comparisons
+
+**1. Compared to JavaScript's "Object"**
+
+Ryo is heavily inspired by JavaScript when it comes to its implementation - 
+it copies its behavior as much as it can. There are Ryo equivalent's to 
+JavaScript - for example, in JavaScript `Object.create(null)` is equivalent
+to `Object.create(nil)` in Ryo. The demos below cover this in more 
+detail. Despite the heavy influence from JavaScript, I would like to think 
+Ryo retains Ruby's character. 
+
+**2. Compared to OpenStruct**
+
+When comparing Ryo to OpenStruct there are stark differences - 
+beyond instances of OpenStruct not having prototypes or implementing
+anything like them. 
+
+For example to delete a "field" using OpenStruct one would write 
+`open_struct.delete_field!(:foo)` where as with Ryo the equivalent
+would be `Ryo.delete(obj, "foo")`. Ryo does this to avoid defining
+methods directly on "obj", in fact Ryo defines as few methods as it 
+can on the objects it creates.
+
+Ryo also provides the option to create objects who inherited from 
+Object (the default), or BasicObject - but like JavaScript it allows
+the assignment of any property to an object, even if it already exists as a 
+method. There are few exceptions to this - redefining methods that would 
+break Ryo's interface cannot be assigned as a property, but they are very 
+few in number. 
+
+When it comes to being an OpenStruct alternative, Ryo is capable of that 
+because just like JavaScript, it is possible to create an object with no 
+prototype, which would give you something equivalant to an instance of
+OpenStruct. Ultimately though, Ryo takes a different approach and it might
+be one you like (or don't like).
 
 ## Demo
 
