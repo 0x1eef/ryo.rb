@@ -42,7 +42,14 @@ prototype, which would give you something equivalant to an instance of
 OpenStruct. Ultimately though, Ryo takes a different approach and it might
 be one you like (or don't like).
 
-## Demo
+## Examples
+
+**Introduction**
+
+The examples use `Object.create` - a monkeypatch that is opt-in
+by requiring `ryo/core_ext/object`. The examples make use of the 
+monkeypatch, but if they did not they could use 
+`Ryo::Object.create` instead.
 
 **Prototype-based inheritance** 
 
