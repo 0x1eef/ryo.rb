@@ -13,7 +13,7 @@ module Ryo
   #
   # @return [Object, BasicObject]
   def initialize(prototype)
-    @ryo = prototype
+    @proto = prototype
     @table = {}
   end
 
@@ -22,8 +22,8 @@ module Ryo
   # has no prototype.
   #
   # @return [Ryo, nil]
-  def prototype
-    @ryo
+  def __proto__
+    @proto
   end
 
   ##
@@ -42,8 +42,8 @@ module Ryo
     if Ryo.property?(self, property)
       @table[property]
     else
-      return unless @ryo
-      Ryo.call_method(@ryo, property)
+      return unless @proto
+      Ryo.call_method(@proto, property)
     end
   end
 
@@ -84,7 +84,7 @@ module Ryo
 
   def inspect
     superclass = self.class < Object ? "Object" : "BasicObject"
-    "#<Ryo (#{superclass}) @ryo=#{@ryo.inspect} table=#{@table.inspect}>"
+    "#<Ryo (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
   end
 
   def pretty_print(q)
@@ -108,8 +108,8 @@ module Ryo
       self[property] = args.first
     elsif Ryo.property?(self, property)
       self[property]
-    elsif @ryo.respond_to?(name)
-      Ryo.call_method(@ryo, name, *args, &b)
+    elsif @proto.respond_to?(name)
+      Ryo.call_method(@proto, name, *args, &b)
     end
   end
 end

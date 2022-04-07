@@ -39,6 +39,25 @@ module Ryo::Brain
   #  An object who has included the Ryo
   #  module.
   #
+  # @return [Ryo, nil]
+  #  Returns the prototype of the *ryo*
+  #  object.
+  #
+  # @note
+  #  This method will return the prototype
+  #  of an object, even if "__proto__" has
+  #  been redefined on the mentioned object.
+  def unbox_proto(ryo)
+    Module
+      .instance_method(:instance_variable_get)
+      .bind_call(ryo, :@proto)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
   # @param [String, Symbol] method
   #  The name of a method.
   #
@@ -149,7 +168,7 @@ module Ryo::Brain
   #  or its prototype chain.
   def in?(ryo, property)
     property?(ryo, property) ||
-    property?(ryo.prototype, property)
+    property?(unbox_proto(ryo), property)
   end
 
   ##
