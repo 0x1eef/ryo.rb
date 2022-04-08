@@ -57,7 +57,7 @@ apple = Object.create(fruit, {name: "Apple", color: "green"})
 ##
 # Find matches directly on the apple object.
 Kernel.p apple.name # => "Apple"
-Kernel.p apple.color # => "Apple"
+Kernel.p apple.color # => "green"
 
 ##
 # Find matches in the prototype chain.
@@ -79,7 +79,6 @@ Kernel.p sour_apple.sour # => true
 # Find matches in the prototype chain.
 Kernel.p sour_apple.color # => "green"
 Kernel.p sour_apple.eat.(sour_apple) # => "Eating a Sour Apple"
-
 ``` 
 
 **Equivalent to JavaScript's `in` operator**
