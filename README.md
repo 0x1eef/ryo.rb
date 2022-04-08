@@ -44,7 +44,7 @@ require "ryo/core_ext/object"
 # On this object, define the property "eat".
 fruit = Object.create(nil, {
   sour: false,
-  eat: lambda { "nomnom" },
+  eat: lambda { |fruit| "Eating a #{fruit.name}" },
 })
 
 ##
@@ -61,7 +61,7 @@ Kernel.p apple.color # => "Apple"
 ##
 # Find matches in the prototype chain.
 Kernel.p apple.sour # => false
-Kernel.p apple.eat.()
+Kernel.p apple.eat.(apple)
 
 ##
 # Create a third object, with "apple" as its
@@ -77,6 +77,7 @@ Kernel.p sour_apple.sour # => true
 ##
 # Find matches in the prototype chain.
 Kernel.p sour_apple.color # => "green"
+Kernel.p sour_apple.eat.(sour_apple)
 ``` 
 
 **Equivalent to JavaScript's `in` operator**
