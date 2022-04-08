@@ -140,7 +140,7 @@ obj.foo = 42
 Kernel.p Ryo.property?(obj, "foo")
 ```
 
-**Creating instances of BasicObject (instead of Object)**
+**Create instances of BasicObject (instead of Object)**
 
 There are two options available to create objects that are
 instances of BasicObject. The first is "Ryo::BasicObject.create"
