@@ -29,7 +29,7 @@ would be `Ryo.delete(obj, "foo")`. Ryo does this to avoid defining
 methods directly on "obj", in fact Ryo defines as few methods as it 
 can on the objects it creates.
 
-Ryo also provides the option to create objects who inherited from 
+Ryo also provides the option to create objects who instances of
 Object (the default), or BasicObject - but like JavaScript it allows
 the assignment of any property to an object, even if it already exists as a 
 method. There are few exceptions to this - redefining methods that would 
