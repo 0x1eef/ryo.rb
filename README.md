@@ -11,7 +11,8 @@ of Object from JavaScript, or OpenStruct from Ruby.
 **1. Compared to JavaScript's "Object"**
 
 Ryo is heavily inspired by JavaScript when it comes to its implementation - 
-it copies its behavior as much as it can. There are Ryo equivalent's to 
+it copies its behavior as much as it can, including in regards 
+to prototype-based inheritance. There are Ryo equivalent's to 
 JavaScript - for example, in JavaScript `Object.create(null)` is equivalent
 to `Object.create(nil)` in Ryo. The demos below cover this in more 
 detail. Despite the heavy influence from JavaScript, I would like to think 
