@@ -21,7 +21,8 @@ Ryo retains Ruby's character.
 **2. Compared to OpenStruct**
 
 The comparison with OpenStruct was too long to include with the README - 
-about three paragraphs. It is available to read separately at [docs/comparison_with_openstruct.md](docs/comparison_to_openstruct.md).
+about four paragraphs. It is available to read separately at [docs/comparison_with_openstruct.md](docs/comparison_to_openstruct.md), and 
+it explains some of the ideas behind Ryo.
 
 ## Examples
 
