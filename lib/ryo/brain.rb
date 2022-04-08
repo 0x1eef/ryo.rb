@@ -15,9 +15,15 @@ module Ryo::Brain
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
     table[property] = value
-    return if method_defined?(ryo, "#{property}=")
-    define_method!(ryo, property) { ryo[property] }
-    define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    if property == "method_missing"
+      return if method_defined?(ryo, "#{property}=")
+      define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    else
+      return if method_defined?(ryo, "#{property}=")
+      define_method!(ryo, property) { ryo[property] }
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    end
   end
 
   ##
