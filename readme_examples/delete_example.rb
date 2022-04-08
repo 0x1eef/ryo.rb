@@ -2,7 +2,7 @@ require "ryo"
 require "ryo/core_ext/object"
 
 ##
-# Create a new object, with no prototype.
+# Create an instance of Object, with no prototype.
 obj = Object.create(nil)
 
 ##

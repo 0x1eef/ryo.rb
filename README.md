@@ -40,7 +40,7 @@ require "ryo"
 require "ryo/core_ext/object"
 
 ##
-# Create a new object, with no prototype.
+# Create an instance of Object, with no prototype.
 # On this object, define the property "eat".
 fruit = Object.create(nil, {
   eat: lambda { "nomnom" }
@@ -67,7 +67,7 @@ Kernel.p apple.eat.()
 
 ```ruby
 ##
-# Create a new object, with no prototype.
+# Create an instance of Object, with no prototype.
 # On this object, define the property "eat".
 fruit = Object.create(nil, {
   eat: lambda { "nomnom" }
@@ -100,7 +100,7 @@ require "ryo"
 require "ryo/core_ext/object"
 
 ##
-# Create a new object, with no prototype.
+# Create an instance of Object, with no prototype.
 obj = Object.create(nil)
 
 ##
@@ -126,7 +126,7 @@ require "ryo"
 require "ryo/core_ext/object"
 
 ##
-# Create a new object, with no prototype.
+# Create an instance of Object, with no prototype.
 obj = Object.create(nil)
 
 ##
