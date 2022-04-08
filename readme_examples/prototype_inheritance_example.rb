@@ -13,7 +13,7 @@ fruit = Object.create(nil, {
 ##
 # Create a second object, with "fruit" as
 # its prototype. On this object, define
-# the property "name".
+# the properties "name" and "color"
 apple = Object.create(fruit, {name: "Apple", color: "green"})
 
 ##
