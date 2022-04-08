@@ -3,11 +3,7 @@ require_relative "setup"
 RSpec.describe Ryo::ObjectMixin do
   let(:create_object) do
     lambda do |ryo, props = {}|
-      Ryo::Object.create(
-        ryo,
-        props,
-        superclass: superclass
-      )
+      Ryo.const_get(superclass).create(ryo,props)
     end
   end
 
@@ -112,12 +108,12 @@ RSpec.describe Ryo::ObjectMixin do
   end
 
   context "when the superclass is Object" do
-    let(:superclass) { Object }
+    let(:superclass) { :Object }
     include_examples "tests", Object
   end
 
   context "when the superclass is BasicObject" do
-    let(:superclass) { BasicObject }
+    let(:superclass) { :BasicObject }
     include_examples "tests", BasicObject
   end
 end

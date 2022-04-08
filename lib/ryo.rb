@@ -3,6 +3,7 @@
 module Ryo
   require_relative "ryo/brain"
   require_relative "ryo/object_mixin"
+  require_relative "ryo/basic_object"
   require_relative "ryo/object"
 
   extend Ryo::Brain

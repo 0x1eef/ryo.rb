@@ -53,7 +53,7 @@ be one you like (or don't like).
 The examples use `Object.create` - a monkeypatch that is opt-in
 by requiring `ryo/core_ext/object`. The examples make use of the 
 monkeypatch, but if they did not they could use 
-`Ryo::Object.create` instead.
+`Ryo::Object.create` instead. 
 
 **Prototype-based inheritance** 
 
@@ -160,6 +160,42 @@ obj.foo = 42
 # Use "Ryo" to ask the object if it
 # has the property "foo".
 Kernel.p Ryo.property?(obj, "foo")
+```
+
+**Creating instances of BasicObject (instead of Object)**
+
+There are two options available to create objects that are
+instances of BasicObject. The first is "Ryo::BasicObject.create"
+and the second option is to use the "BasicObject.create" monkeypatch
+by requiring "ryo/core_ext/basic_object".
+
+The first option:
+
+```ruby
+require "ryo"
+
+##
+# Create an instance of BasicObject,
+# and assign the property "foo" the
+# value of 1.
+obj = Ryo::BasicObject.create(nil, {foo: 1})
+
+Kernel.p obj.foo
+```
+
+The second option:
+
+```ruby
+require "ryo"
+require "ryo/core_ext/basic_object"
+
+##
+# Create an instance of BasicObject,
+# and assign the property "foo" the
+# value of 1.
+obj = BasicObject.create(nil, {foo: 1})
+
+Kernel.p obj.foo
 ```
 
 ## LICENSE
