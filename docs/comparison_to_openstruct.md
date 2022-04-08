@@ -26,7 +26,7 @@ method_missing is defined as a field:
 require "ostruct"
 
 obj = OpenStruct.new
-obj.method_missing = nil
+obj.method_missing = 1
 
 ##
 # Raises an exception:
