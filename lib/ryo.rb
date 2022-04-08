@@ -74,12 +74,12 @@ module Ryo
   alias_method :eql?, :==
 
   def inspect
-    superclass = Ryo.class_of(self) < Object ? "Object" : "BasicObject"
-    "#<Ryo (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
+    klass = Ryo.class_of(self) == ::Object ? "Object" : "BasicObject"
+    "#<Ryo (#{klass}) @proto=#{@proto.inspect} @table=#{@table.inspect}>"
   end
 
   def pretty_print(q)
-    q.pp(inspect)
+    q.text(inspect)
   end
 
   def respond_to?(property, include_all = false)
