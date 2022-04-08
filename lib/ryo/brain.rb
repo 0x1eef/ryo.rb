@@ -1,5 +1,17 @@
 module Ryo::Brain
   ##
+  # @return [Array<String>]
+  #  Returns an array of method names that one can
+  #  reassign as properties, while their original
+  #  functionality is still kept for when needed.
+  PROTECTED_METHODS = %w[
+    method_missing
+    pretty_print
+    respond_to?
+    respond_to_missing?
+  ]
+
+  ##
   # @param [Ryo] ryo
   #  An object who has included the Ryo
   #  module.
@@ -15,14 +27,14 @@ module Ryo::Brain
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
     table[property] = value
-    if property == "method_missing"
-      return if method_defined?(ryo, "#{property}=")
+    return if property_defined?(ryo, property)
+
+    if PROTECTED_METHODS.include?(property)
       define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 } unless property.end_with?('?')
     else
-      return if method_defined?(ryo, "#{property}=")
       define_method!(ryo, property) { ryo[property] }
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 } unless property.end_with?('?')
     end
   end
 
@@ -100,41 +112,17 @@ module Ryo::Brain
   #  An object who has included the Ryo
   #  module.
   #
-  # @param [Symbol, String] method
-  #  The name of the method.
-  #
-  # @return [Method]
-  #  Returns a Method object for *method*.
-  def method(ryo, method)
-    module_method(:method)
-      .bind_call(ryo, method)
-  end
-
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [Symbol, String] method
-  #  The name of the method.
-  #
-  # @return [String, nil]
-  #  Returns the path to the file that defined *method*.
-  def method_file(ryo, method)
-    method(ryo, method).source_location.dig(0)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [Symbol, String] method
-  #  The name of the method
+  # @param [String] property
+  #  The name of the property.
   #
   # @return [Boolean]
-  #  Returns true when *method* is defined on
-  def method_defined?(ryo, method)
-    (class << ryo; self; end).method_defined?(method, false)
+  #  Returns true when the property has been
+  #  defined as methods by Ryo.
+  def property_defined?(ryo, property)
+    module_method(:method)
+      .bind_call(ryo, property)
+      .source_location
+      &.dig(0) == __FILE__
   end
 
   ##
@@ -188,8 +176,7 @@ module Ryo::Brain
     if property?(ryo, property)
       unbox_table(ryo).delete(property)
     else
-      return if method_defined?(ryo, property) &&
-                method_file(ryo, property) == __FILE__
+      return if property_defined?(ryo, property)
       define_method!(ryo, property) { ryo[property] }
     end
   end
