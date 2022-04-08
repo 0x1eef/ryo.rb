@@ -35,6 +35,7 @@ monkeypatch, but if they did not they could use
 
 **Prototype-based inheritance** 
 
+```ruby
 require "ryo"
 require "ryo/core_ext/object"
 
