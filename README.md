@@ -14,7 +14,7 @@ Ryo is heavily inspired by JavaScript when it comes to its implementation -
 it copies its behavior as much as it can, including in regards 
 to prototype-based inheritance. There are Ryo equivalent's to 
 JavaScript - for example, in JavaScript `Object.create(null)` is equivalent
-to `Object.create(nil)` in Ryo. The demos below cover this in more 
+to `Object.create(nil)` in Ryo. The examples below cover this in more 
 detail. Despite the heavy influence from JavaScript, I would like to think 
 Ryo retains Ruby's character. 
 
@@ -40,8 +40,8 @@ method. There are few exceptions to this - redefining methods that would
 break Ryo's interface cannot be assigned as a property, but they are very 
 few in number. 
 
-When it comes to being an OpenStruct alternative, Ryo is capable of that 
-because just like JavaScript, it is possible to create an object with no 
+When it comes to being an OpenStruct alternative, Ryo is capable because 
+just like JavaScript, it is possible to create an object with no 
 prototype, which would give you something equivalant to an instance of
 OpenStruct. Ultimately though, Ryo takes a different approach and it might
 be one you like (or don't like).
