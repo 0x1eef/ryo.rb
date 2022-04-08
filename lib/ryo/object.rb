@@ -8,7 +8,7 @@ class Ryo::Object
   # @return [Object<Ryo>]
   #  Returns an instance of Object, with
   #  the Ryo module extended into it.
-  def self.create(prototype, props={})
+  def self.create(prototype, props = {})
     super(prototype, props, klass: Object)
   end
 end

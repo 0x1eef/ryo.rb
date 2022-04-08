@@ -1,4 +1,7 @@
 ignore:
+  - 'readme_examples/*.rb':
+    - Style/LambdaCall 
+    - Style/TrailingCommaInHashLiteral
   - '**/*.rb':
     - Layout/ParameterAlignment
     - Layout/ArgumentAlignment

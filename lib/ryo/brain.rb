@@ -23,18 +23,22 @@ module Ryo::Brain
   #  The value of the property.
   #
   # @return [void]
+  #
   # @api private
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
     table[property] = value
     return if property_defined?(ryo, property)
 
+    # Define setter
+    if property[-1] != "?"
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    end
+    # Define getter
     if PROTECTED_METHODS.include?(property)
       define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 } unless property.end_with?('?')
     else
       define_method!(ryo, property) { ryo[property] }
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 } unless property.end_with?('?')
     end
   end
 
