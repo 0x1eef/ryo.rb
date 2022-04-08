@@ -201,6 +201,17 @@ module Ryo::Brain
     true
   end
 
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @return [Class]
+  #  Returns the class of *ryo*
+  def class_of(ryo)
+    module_method(:class).bind_call(ryo)
+  end
+
   def module_method(name)
     Module.instance_method(name)
   end

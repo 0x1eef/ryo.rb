@@ -73,17 +73,8 @@ module Ryo
   end
   alias_method :eql?, :==
 
-  ##
-  # @return [Class]
-  #  Returns the class of self.
-  def class
-    Module
-      .instance_method(:class)
-      .bind_call(self)
-  end
-
   def inspect
-    superclass = self.class < Object ? "Object" : "BasicObject"
+    superclass = Ryo.class_of(self) < Object ? "Object" : "BasicObject"
     "#<Ryo (#{superclass}) @proto=#{@proto.inspect} table=#{@table.inspect}>"
   end
 
