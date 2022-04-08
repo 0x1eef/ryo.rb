@@ -1,14 +1,14 @@
-class Object
-  extend Ryo::ObjectMixin
+class Ryo::BasicObject < BasicObject
+  extend ::Ryo::ObjectMixin
 
   ##
   # @param prototype (see Ryo::ObjectMixin#create)
   # @param props (see Ryo::ObjectMixin#create)
   #
-  # @return [Object<Ryo>]
-  #  Returns an instance of Object, with
+  # @return [BasicObject<Ryo>]
+  #  Returns an instance of BasicObject, with
   #  the Ryo module extended into it.
   def self.create(prototype, props={})
-    super(prototype, props, klass: self)
+    super(prototype, props, klass: BasicObject)
   end
 end

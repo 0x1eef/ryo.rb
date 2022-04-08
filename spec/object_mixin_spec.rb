@@ -3,7 +3,8 @@ require_relative "setup"
 RSpec.describe Ryo::ObjectMixin do
   let(:create_object) do
     lambda do |ryo, props = {}|
-      Ryo.const_get(superclass).create(ryo,props)
+      obj = Ryo.const_get(superclass)
+      obj.create(ryo, props)
     end
   end
 

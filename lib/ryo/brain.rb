@@ -7,7 +7,7 @@ module Ryo::Brain
   # @param [String, to_s] property
   #  The name of the property.
   #
-  # @param [Object, BasicObject]
+  # @param [Object, BasicObject] value
   #  The value of the property.
   #
   # @return [void]
@@ -59,10 +59,10 @@ module Ryo::Brain
   # @param [String, Symbol] method
   #  The name of a method.
   #
-  # @param [Object, BasicObject] *args
+  # @param [Object, BasicObject] args
   #  A variable number of arguments for *method*.
   #
-  # @param [Proc] &b
+  # @param [Proc] b
   #  An optional block for *method*.
   #
   # @return [Object, BasicObject]
@@ -77,10 +77,10 @@ module Ryo::Brain
   #  An object who has included the Ryo
   #  module.
   #
-  # @param [String, Symbol]
+  # @param [String, Symbol] method
   #  The name of the method.
   #
-  # @param [Proc] &b
+  # @param [Proc] b
   #  The method's body.
   #
   # @return [void]
@@ -248,7 +248,7 @@ module Ryo::Brain
   #  An object who has included the Ryo
   #  module.
   #
-  # @param [Ryo] prototype
+  # @param [Ryo] table
   #  The internal look table to assign to
   #  *ryo*.
   #
