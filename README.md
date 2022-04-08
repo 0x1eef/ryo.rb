@@ -43,7 +43,8 @@ require "ryo/core_ext/object"
 # Create an instance of Object, with no prototype.
 # On this object, define the property "eat".
 fruit = Object.create(nil, {
-  eat: lambda { "nomnom" }
+  eat: lambda { "nomnom" },
+  sour: false
 })
 
 ##
@@ -53,14 +54,25 @@ fruit = Object.create(nil, {
 apple = Object.create(fruit, {name: "Apple"})
 
 ##
-# Read the property "name", and find a match
-# directly on the apple object.
+# Find matches directly on the apple object.
 Kernel.p apple.name # => "Apple"
 
 ##
-# Read the property "eat", and traverse the
-# prototype chain until it is found on "fruit".
+# Find matches in the prototype chain.
+Kernel.p apple.sour # => false
 Kernel.p apple.eat.()
+
+##
+# Create a third object, with "apple" as its
+# prototype. On this object, define the property
+# "Sour Apple".
+sour_apple = Object.create(apple, {name: "Sour Apple", sour: true})
+
+##
+# Find matches directly on the sour_apple object.
+Kernel.p sour_apple.name # => "Sour Apple"
+Kernel.p sour_apple.sour # => true
+
 ``` 
 
 **Equivalent to JavaScript's `in` operator**
