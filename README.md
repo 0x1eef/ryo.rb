@@ -35,7 +35,6 @@ monkeypatch, but if they did not they could use
 
 **Prototype-based inheritance** 
 
-```ruby
 require "ryo"
 require "ryo/core_ext/object"
 
@@ -51,7 +50,7 @@ fruit = Object.create(nil, {
 ##
 # Create a second object, with "fruit" as
 # its prototype. On this object, define
-# the property "name".
+# the properties "name" and "color"
 apple = Object.create(fruit, {name: "Apple", color: "green"})
 
 ##
