@@ -1,7 +1,7 @@
 require_relative "setup"
 
 RSpec.describe Ryo do
-  let(:obj) { Ryo::Object.create(nil, superclass: BasicObject) }
+  let(:obj) { Ryo::BasicObject.create(nil) }
 
   describe "#delete" do
     before { obj.foo = 1 }
