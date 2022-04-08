@@ -27,7 +27,8 @@ For example to delete a "field" using OpenStruct one would write
 `open_struct.delete_field!(:foo)` where as with Ryo the equivalent
 would be `Ryo.delete(obj, "foo")`. Ryo does this to avoid defining
 methods directly on "obj", in fact Ryo defines as few methods as it 
-can on the objects it creates.
+can on the objects it creates. The reason is to avoid conflict with 
+properties the user of Ryo may want to define. 
 
 Ryo also provides the option to create objects who are instances of
 Object (the default), or BasicObject - but like JavaScript it allows
