@@ -212,6 +212,54 @@ module Ryo::Brain
     module_method(:class).bind_call(ryo)
   end
 
+  ##
+  # @param [Object, BasicObject] ryo
+  #  An object to extend with the "Ryo"
+  #  module.
+  #
+  # @return [Ryo]
+  #  Returns the same object, with Ryo
+  #  extended into it.
+  #
+  # @api private
+  def extend_object!(ryo)
+    module_method(:extend)
+      .bind_call(ryo, Ryo)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [Ryo] prototype
+  #  The prototype to assign to *ryo*.
+  #
+  # @return [void]
+  #
+  # @api private
+  def assign_prototype!(ryo, prototype)
+    module_method(:instance_variable_set)
+      .bind_call(ryo, :@proto, prototype)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [Ryo] prototype
+  #  The internal look table to assign to
+  #  *ryo*.
+  #
+  # @return [void]
+  #
+  # @api private
+  def assign_table!(ryo, table)
+    module_method(:instance_variable_set)
+      .bind_call(ryo, :@table, table)
+  end
+
   def module_method(name)
     Module.instance_method(name)
   end

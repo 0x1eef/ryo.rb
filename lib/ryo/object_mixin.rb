@@ -7,7 +7,10 @@ module Ryo::ObjectMixin
   #  The superclass of the object.
   #  Options are either Object (default) or BasicObject.
   def create(prototype, props = {}, superclass: Object)
-    ryo = Class.new(superclass) { include Ryo }.new(prototype)
+    ryo = superclass.new
+    Ryo.assign_prototype!(ryo, prototype)
+    Ryo.assign_table!(ryo, {})
+    Ryo.extend_object!(ryo)
     props.each { ryo[_1] = _2 }
     ryo
   end
