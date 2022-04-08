@@ -33,7 +33,11 @@ by requiring `ryo/core_ext/object`. The examples make use of the
 monkeypatch, but if they did not they could use 
 `Ryo::Object.create` instead. 
 
-**Prototype-based inheritance** 
+**A deep dive into prototypes** 
+
+This example illustrates how prototype-based inheritance works when 
+using Ryo. It is a long example but with each step documented.
+
 
 ```ruby
 require "ryo"
@@ -161,9 +165,9 @@ Kernel.p Ryo.property?(obj, "foo")
 **Create instances of BasicObject (instead of Object)**
 
 There are two options available to create objects that are
-instances of BasicObject. The first is "Ryo::BasicObject.create"
-and the second option is to use the "BasicObject.create" monkeypatch
-by requiring "ryo/core_ext/basic_object".
+instances of BasicObject. The first is `Ryo::BasicObject.create`
+and the second is to use the `BasicObject.create` monkeypatch
+by requiring `ryo/core_ext/basic_object`.
 
 The first option:
 
