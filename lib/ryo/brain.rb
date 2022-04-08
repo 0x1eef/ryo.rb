@@ -28,13 +28,14 @@ module Ryo::Brain
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
     table[property] = value
-    return if property_defined?(ryo, property)
 
     # Define setter
-    if property[-1] != "?"
+    if !setter_defined?(ryo, property) && property[-1] != "?"
       define_method!(ryo, "#{property}=") { ryo[property] = _1 }
     end
+
     # Define getter
+    return if getter_defined?(ryo, property)
     if PROTECTED_METHODS.include?(property)
       define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
     else
@@ -120,13 +121,28 @@ module Ryo::Brain
   #  The name of the property.
   #
   # @return [Boolean]
-  #  Returns true when the property has been
-  #  defined as methods by Ryo.
-  def property_defined?(ryo, property)
+  #  Returns true when the property has a
+  #  getter method defined.
+  def getter_defined?(ryo, property)
     module_method(:method)
       .bind_call(ryo, property)
       .source_location
       &.dig(0) == __FILE__
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String] property
+  #  The name of the property.
+  #
+  # @return [Boolean]
+  #  Returns true when the property has a
+  #  setter method defined.
+  def setter_defined?(ryo, property)
+    getter_defined?(ryo, "#{property}=")
   end
 
   ##
@@ -180,7 +196,7 @@ module Ryo::Brain
     if property?(ryo, property)
       unbox_table(ryo).delete(property)
     else
-      return if property_defined?(ryo, property)
+      return if getter_defined?(ryo, property)
       define_method!(ryo, property) { ryo[property] }
     end
   end
