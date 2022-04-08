@@ -52,9 +52,3 @@ Kernel.p obj.method_missing
 Kernel.p obj.foo
 
 ```
-
-When it comes to being an OpenStruct alternative, Ryo is capable because 
-just like JavaScript, it is possible to create an object with no 
-prototype, which would give you something equivalant to an instance of
-OpenStruct. Ultimately though, Ryo takes a different approach and it might
-be one you like (or don't like).
