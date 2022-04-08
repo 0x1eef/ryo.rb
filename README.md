@@ -64,8 +64,8 @@ Kernel.p apple.eat.()
 
 ##
 # Create a third object, with "apple" as its
-# prototype. On this object, define the property
-# "Sour Apple".
+# prototype. On this object, define the properties
+# "name" and "sour".
 sour_apple = Object.create(apple, {name: "Sour Apple", sour: true})
 
 ##
