@@ -140,7 +140,7 @@ Kernel.p obj.foo
 
 ```
 
-**Equivalent to JavaScript's `Object.hasOwnProperty('foo')`**
+**Equivalent to JavaScript's `Object.hasOwnProperty(obj, 'foo')`**
 
 ```ruby
 require "ryo"
