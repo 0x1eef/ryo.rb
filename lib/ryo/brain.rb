@@ -67,7 +67,7 @@ module Ryo::Brain
   end
 
   ##
-  # Equivalent to JavaScript's "Object.hasOwnProperty".
+  # Equivalent to JavaScript's "Object.prototype.hasOwnProperty".
   #
   # @param [Ryo] ryo
   #  An object who has included the Ryo
