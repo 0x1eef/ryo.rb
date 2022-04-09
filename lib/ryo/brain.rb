@@ -1,16 +1,11 @@
 module Ryo::Brain
-  ##
-  # @return [Array<String>]
-  #  Returns an array of method names that one can
-  #  reassign as properties, while their original
-  #  functionality is still kept for when needed.
-  PROTECTED_METHODS = %w[
+  VITAL_METHODS = %w[
     method_missing
     pretty_print
     respond_to?
     respond_to_missing?
-  ]
-  private_constant :PROTECTED_METHODS
+  ].freeze
+  private_constant :VITAL_METHODS
 
   ##
   # @group Public interface
@@ -38,7 +33,7 @@ module Ryo::Brain
   #
   # @note
   #  This method will return the prototype
-  #  of an object, even if "__proto__" has
+  #  of an object, even when "__proto__" has
   #  been redefined on the mentioned object.
   def unbox_proto(ryo)
     module_method(:instance_variable_get)
@@ -168,15 +163,13 @@ module Ryo::Brain
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
     table[property] = value
-
     # Define setter
     if !setter_defined?(ryo, property) && property[-1] != "?"
       define_method!(ryo, "#{property}=") { ryo[property] = _1 }
     end
-
     # Define getter
     return if getter_defined?(ryo, property)
-    if PROTECTED_METHODS.include?(property)
+    if VITAL_METHODS.include?(property)
       define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
     else
       define_method!(ryo, property) { ryo[property] }
@@ -257,8 +250,8 @@ module Ryo::Brain
   #  The name of the property.
   #
   # @return [Boolean]
-  #  Returns true when the property has a
-  #  getter method defined.
+  #  Returns true when the property has been
+  #  defined with a getter method.
   def getter_defined?(ryo, property)
     module_method(:method)
       .bind_call(ryo, property)
@@ -276,8 +269,8 @@ module Ryo::Brain
   #  The name of the property.
   #
   # @return [Boolean]
-  #  Returns true when the property has a
-  #  setter method defined.
+  #  Returns true when the property has been
+  #  defined with a setter method.
   def setter_defined?(ryo, property)
     getter_defined?(ryo, "#{property}=")
   end
