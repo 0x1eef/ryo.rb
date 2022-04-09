@@ -38,7 +38,7 @@ monkeypatch, but if they did not they could use
 This example illustrates how prototype-based inheritance works when 
 using Ryo. It is a long example but with each step documented. The 
 JavaScript equivalent to this example can be found at 
-[readme_examples/prototypes.js](readme_examples/js/prototypes.js).
+[readme_examples/js/prototypes.js](readme_examples/js/prototypes.js).
 
 ```ruby
 require "ryo"
