@@ -61,16 +61,21 @@ module Ryo
   end
 
   ##
-  # @param [Ryo] other
+  # @param [Ryo, Hash, #to_h] other
   #  An object to compare against.
   #
   # @return [Boolean]
-  #  Returns true when *other* is a Ryo
-  #  object with the same internal lookup
-  #  table.
+  #  Returns true when *other* is equal to the
+  #  lookup table used by a Ryo object, or when
+  #  two Ryo objects have the same lookup table.
   def ==(other)
-    return unless Ryo === other
-    @table == Ryo.unbox_table(other)
+    if Ryo === other
+      @table == Ryo.unbox_table(other)
+    else
+      other = Hash.try_convert(other)
+      return false unless other
+      @table == other
+    end
   end
   alias_method :eql?, :==
 
