@@ -84,6 +84,25 @@ Kernel.p sour_apple.color # => "green"
 Kernel.p sour_apple.eat.(sour_apple) # => "Eating a Sour Apple"
 ``` 
 
+**Equivalent to JavaScript's `Object.assign`**
+
+Object.assign can merge two or more objects, starting
+from right to left. The objects can be a mix of Ryo, 
+and Hash objects. The JavaScript equivalent to this example
+can be found at [readme_examples/js/object_assign.js](/readme_examples/js/object_assign.js)
+
+```ruby
+require "ryo"
+require "ryo/core_ext/object"
+
+fruit = Object.create(nil)
+apple = Object.create(fruit)
+Ryo.assign(fruit, apple, {sour: true})
+
+Kernel.p apple.sour # => true
+Kernel.p fruit.sour # => true
+```
+
 **Equivalent to JavaScript's `in` operator**
 
 ```ruby

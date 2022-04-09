@@ -80,6 +80,23 @@ module Ryo::Brain
   end
 
   ##
+  # Equivalent to JavaScript's "Object.assign"
+  #
+  # @param [Ryo, Hash] objs
+  #  A variable number of arguments to merge
+  #  starting from right to left.
+  #
+  # @return [Ryo]
+  #  Returns the first element of *objs*.
+  def assign(*objs)
+    robjs = objs.reverse
+    robjs.each.with_index do |obj, i|
+      n = robjs[i + 1]
+      n ? merge!(n, obj) : merge!(objs[0], objs[1])
+    end
+    objs[0]
+  end
+
   # Equivalent to JavaScript's "in" operator.
   #
   # @param [Ryo] ryo
@@ -275,6 +292,17 @@ module Ryo::Brain
     getter_defined?(ryo, "#{property}=")
   end
 
+  ##
+  # @api private
+  def merge!(obj1, obj2)
+    obj1 = unbox_table(obj1) if Ryo === obj1
+    obj2 = unbox_table(obj2) if Ryo === obj2
+    obj2.each { obj1[_1.to_s] = _2 }
+    obj1
+  end
+
+  ##
+  # @api private
   def module_method(name)
     Module.instance_method(name)
   end

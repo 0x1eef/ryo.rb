@@ -38,7 +38,7 @@ RSpec.describe Ryo::ObjectMixin do
       end
 
       context "when comparing against nil" do
-        subject { apple == nil }
+        subject { apple.nil? }
         it { is_expected.to be(false) }
       end
     end

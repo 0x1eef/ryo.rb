@@ -19,13 +19,13 @@ RSpec.describe Ryo do
     it "combines fruit and apple" do
       expect(
         Ryo.assign(fruit, apple)
-      ).to eq(name: "Apple")
+      ).to eq("name" => "Apple")
     end
 
     it "combines a combination of Ryo and Hash objects" do
       expect(
         Ryo.assign(fruit, {foo: 1}, {bar: 2}, apple)
-      ).to eq({foo: 1, bar: 2, name: "Apple"})
+      ).to eq({"foo" => 1, "bar" => 2, "name" => "Apple"})
     end
   end
 end
