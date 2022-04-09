@@ -1,18 +1,11 @@
 require_relative "setup"
 
 RSpec.describe Ryo::ObjectMixin do
-  let(:create_object) do
-    lambda do |ryo, props = {}|
-      obj = Ryo.const_get(superclass)
-      obj.create(ryo, props)
-    end
-  end
+  let(:fruit) { superclass.create(nil, foo: 42) }
+  let(:apple) { superclass.create(fruit) }
+  let(:sour_apple) { superclass.create(apple) }
 
-  let(:fruit) { create_object.call(nil, foo: 42) }
-  let(:apple) { create_object.call(fruit) }
-  let(:sour_apple) { create_object.call(apple) }
-
-  shared_examples "tests" do |superclass|
+  shared_examples "tests" do
     context "when there is no prototype in the chain" do
       context "when querying for a property that does not exist" do
         subject { fruit.baz }
@@ -20,9 +13,8 @@ RSpec.describe Ryo::ObjectMixin do
       end
 
       context "when assigning the same property twice on self" do
-        let(:fruit) { create_object.call(nil) }
-        before { fruit.foo = 1 }
-        subject(:assign_second_assignment) { fruit.foo = 2 }
+        before { apple.foo = 1 }
+        subject(:assign_second_assignment) { apple.foo = 2 }
 
         it "avoids defining the getter and setter a second time" do
           expect(Ryo).to_not receive(:define_method!).with(fruit, "foo")
@@ -65,6 +57,18 @@ RSpec.describe Ryo::ObjectMixin do
           it { is_expected.to eq(nil) }
         end
       end
+
+      describe "#eql?" do
+        context "when two ryo objects are equal" do
+          subject { apple == sour_apple }
+          it { is_expected.to be(true) }
+        end
+
+        context "when a ryo object and a Hash are equal" do
+          subject { apple == {} }
+          it { is_expected.to be(true) }
+        end
+      end
     end
 
     context "when there is fruit prototype in the chain" do
@@ -94,13 +98,13 @@ RSpec.describe Ryo::ObjectMixin do
       end
 
       context "when traversing to the property on the middle prototype" do
-        let(:apple) { create_object.call(fruit, foo: 84) }
+        let(:apple) { superclass.create(fruit, foo: 84) }
         subject { sour_apple.foo }
         it { is_expected.to eq(84) }
       end
 
       context "when the property is deleted from the middle prototype" do
-        let(:apple) { create_object.call(fruit, foo: 84) }
+        let(:apple) { superclass.create(fruit, foo: 84) }
         before { Ryo.delete apple, "foo" }
         subject { sour_apple.foo }
         it { is_expected.to eq(42) }
@@ -109,12 +113,12 @@ RSpec.describe Ryo::ObjectMixin do
   end
 
   context "when the superclass is Object" do
-    let(:superclass) { :Object }
-    include_examples "tests", Object
+    let(:superclass) { Ryo::Object }
+    include_examples "tests"
   end
 
   context "when the superclass is BasicObject" do
-    let(:superclass) { :BasicObject }
-    include_examples "tests", BasicObject
+    let(:superclass) { Ryo::BasicObject }
+    include_examples "tests"
   end
 end
