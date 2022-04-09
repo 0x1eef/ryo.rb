@@ -40,7 +40,7 @@ RSpec.describe Ryo::ObjectMixin do
   end
 
   shared_examples "prototype-based inheritance" do
-    context "when there is one prototype in the chain" do
+    context "when there is one prototype" do
       context "when traversing to the property on the root prototype" do
         subject { apple.foo }
         it { is_expected.to eq(42) }
@@ -53,7 +53,7 @@ RSpec.describe Ryo::ObjectMixin do
       end
     end
 
-    context "when there are apple prototypes in the chain" do
+    context "when there are two prototypes" do
       context "when traversing to the property on the root prototype" do
         subject { sour_apple.foo }
         it { is_expected.to eq(42) }
