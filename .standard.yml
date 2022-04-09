@@ -1,5 +1,5 @@
 ignore:
-  - 'readme_examples/*.rb':
+  - 'readme_examples/rb/*.rb':
     - Style/LambdaCall 
     - Style/TrailingCommaInHashLiteral
   - '**/*.rb':
