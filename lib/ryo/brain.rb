@@ -10,47 +10,18 @@ module Ryo::Brain
     respond_to?
     respond_to_missing?
   ]
+  private_constant :PROTECTED_METHODS
 
   ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  # @group Public interface
   #
-  # @param [String, to_s] property
-  #  The name of the property.
-  #
-  # @param [Object, BasicObject] value
-  #  The value of the property.
-  #
-  # @return [void]
-  #
-  # @api private
-  def define_property!(ryo, property, value)
-    table = unbox_table(ryo)
-    table[property] = value
-
-    # Define setter
-    if !setter_defined?(ryo, property) && property[-1] != "?"
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
-    end
-
-    # Define getter
-    return if getter_defined?(ryo, property)
-    if PROTECTED_METHODS.include?(property)
-      define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
-    else
-      define_method!(ryo, property) { ryo[property] }
-    end
-  end
-
-  ##
   # @param [Ryo] ryo
   #  An object who has included the Ryo
   #  module.
   #
   # @return [Hash]
-  #  Returns the internal lookup table used by
-  #  *ryo*.
+  #  Returns the internal lookup table of
+  #  the *ryo* object.
   def unbox_table(ryo)
     module_method(:instance_variable_get)
       .bind_call(ryo, :@table)
@@ -96,57 +67,7 @@ module Ryo::Brain
   end
 
   ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String, Symbol] method
-  #  The name of the method.
-  #
-  # @param [Proc] b
-  #  The method's body.
-  #
-  # @return [void]
-  def define_method!(ryo, method, &b)
-    module_method(:define_singleton_method)
-      .bind_call(ryo, method, &b)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String] property
-  #  The name of the property.
-  #
-  # @return [Boolean]
-  #  Returns true when the property has a
-  #  getter method defined.
-  def getter_defined?(ryo, property)
-    module_method(:method)
-      .bind_call(ryo, property)
-      .source_location
-      &.dig(0) == __FILE__
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String] property
-  #  The name of the property.
-  #
-  # @return [Boolean]
-  #  Returns true when the property has a
-  #  setter method defined.
-  def setter_defined?(ryo, property)
-    getter_defined?(ryo, "#{property}=")
-  end
-
-  ##
-  # Equivalent to JavaScript's hasOwnProperty.
+  # Equivalent to JavaScript's "Object.hasOwnProperty".
   #
   # @param [Ryo] ryo
   #  An object who has included the Ryo
@@ -181,7 +102,7 @@ module Ryo::Brain
   end
 
   ##
-  # Deletes a property from *ryo*
+  # Equivalent to JavaScript's "delete" operator.
   #
   # @param [Ryo] ryo
   #  An object who has included the Ryo
@@ -215,6 +136,7 @@ module Ryo::Brain
   end
 
   ##
+  #
   # @param [Ryo] ryo
   #  An object who has included the Ryo
   #  module.
@@ -223,6 +145,41 @@ module Ryo::Brain
   #  Returns the class of *ryo*
   def class_of(ryo)
     module_method(:class).bind_call(ryo)
+  end
+  # @endgroup
+
+  ##
+  # @group Private interface
+  #
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String, to_s] property
+  #  The name of the property.
+  #
+  # @param [Object, BasicObject] value
+  #  The value of the property.
+  #
+  # @return [void]
+  #
+  # @api private
+  def define_property!(ryo, property, value)
+    table = unbox_table(ryo)
+    table[property] = value
+
+    # Define setter
+    if !setter_defined?(ryo, property) && property[-1] != "?"
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    end
+
+    # Define getter
+    return if getter_defined?(ryo, property)
+    if PROTECTED_METHODS.include?(property)
+      define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
+    else
+      define_method!(ryo, property) { ryo[property] }
+    end
   end
 
   ##
@@ -273,7 +230,59 @@ module Ryo::Brain
       .bind_call(ryo, :@table, table)
   end
 
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String, Symbol] method
+  #  The name of the method.
+  #
+  # @param [Proc] b
+  #  The method's body.
+  #
+  # @return [void]
+  def define_method!(ryo, method, &b)
+    module_method(:define_singleton_method)
+      .bind_call(ryo, method, &b)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String] property
+  #  The name of the property.
+  #
+  # @return [Boolean]
+  #  Returns true when the property has a
+  #  getter method defined.
+  def getter_defined?(ryo, property)
+    module_method(:method)
+      .bind_call(ryo, property)
+      .source_location
+      &.dig(0) == __FILE__
+  end
+
+  ##
+  #
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String] property
+  #  The name of the property.
+  #
+  # @return [Boolean]
+  #  Returns true when the property has a
+  #  setter method defined.
+  def setter_defined?(ryo, property)
+    getter_defined?(ryo, "#{property}=")
+  end
+
   def module_method(name)
     Module.instance_method(name)
   end
+  # @endgroup
 end

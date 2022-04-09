@@ -1,6 +1,6 @@
-## Comparing Ryo to OpenStruct
+## Ryo compared to OpenStruct
 
-When comparing Ryo to OpenStruct there are stark differences - 
+When comparing Ryo to OpenStruct there are notable differences
 beyond instances of OpenStruct not having prototypes or implementing
 anything like them. 
 
@@ -19,7 +19,7 @@ the assignment of any property to an object, even if it already exists
 as a method. Ryo also aims to make sure that whatever property you assign, 
 the object will continue to function.
 
-Take this example, where OpenStruct raises an exception when 
+Consider this example, where OpenStruct raises an exception when 
 method_missing is defined as a field:
 
 ```ruby

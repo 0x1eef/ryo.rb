@@ -33,7 +33,7 @@ by requiring `ryo/core_ext/object`. The examples make use of the
 monkeypatch, but if they did not they could use 
 `Ryo::Object.create` instead. 
 
-**A deep dive into prototypes** 
+**Prototypes** 
 
 This example illustrates how prototype-based inheritance works when 
 using Ryo. It is a long example but with each step documented. The 
