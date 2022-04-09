@@ -1,0 +1,4 @@
+doc/
+.*rc
+.*_history
+.yardoc
