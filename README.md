@@ -10,13 +10,11 @@ of Object from JavaScript, or OpenStruct from Ruby.
 
 **1. Compared to JavaScript's "Object"**
 
-Ryo is heavily inspired by JavaScript when it comes to its implementation - 
-it copies its behavior as much as it can, including in regards 
-to prototype-based inheritance. There are Ryo equivalent's to 
-JavaScript - for example, in JavaScript `Object.create(null)` is equivalent
-to `Object.create(nil)` in Ryo. The examples below cover this in more 
-detail. Despite the heavy influence from JavaScript, I would like to think 
-Ryo retains Ruby's character. 
+Ryo is heavily inspired by JavaScript - it is the point of reference
+a lot of the time, including in regards to using prototypes for 
+inheritance. There are Ryo equivalent's to JavaScript - for example, 
+in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)` 
+in Ryo. 
 
 **2. Compared to OpenStruct**
 
@@ -163,7 +161,7 @@ obj.foo = 42
 Kernel.p Ryo.property?(obj, "foo")
 ```
 
-**Create instances of BasicObject (instead of Object)**
+**BasicObject**
 
 There are two options available to create objects that are
 instances of BasicObject. The first is `Ryo::BasicObject.create`
