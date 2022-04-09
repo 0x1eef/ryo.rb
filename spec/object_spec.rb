@@ -36,6 +36,11 @@ RSpec.describe Ryo::ObjectMixin do
         subject { apple == {} }
         it { is_expected.to be(true) }
       end
+
+      context "when comparing against nil" do
+        subject { apple == nil }
+        it { is_expected.to be(false) }
+      end
     end
   end
 
@@ -74,14 +79,26 @@ RSpec.describe Ryo::ObjectMixin do
     end
   end
 
-  context "when the object is Object" do
+  context "when the object is Ryo::Object" do
     let(:object) { Ryo::Object }
     include_examples "the instance methods of Ryo objects"
     include_examples "prototype-based inheritance"
   end
 
-  context "when the object is BasicObject" do
+  context "when the object is Ryo::BasicObject" do
     let(:object) { Ryo::BasicObject }
+    include_examples "the instance methods of Ryo objects"
+    include_examples "prototype-based inheritance"
+  end
+
+  context "when the object is Object" do
+    let(:object) { Object }
+    include_examples "the instance methods of Ryo objects"
+    include_examples "prototype-based inheritance"
+  end
+
+  context "when the object is BasicObject" do
+    let(:object) { BasicObject }
     include_examples "the instance methods of Ryo objects"
     include_examples "prototype-based inheritance"
   end
