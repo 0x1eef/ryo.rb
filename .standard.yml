@@ -8,3 +8,4 @@ ignore:
     - Lint/AssignmentInCondition
     - Lint/ConstantDefinitionInBlock
     - Layout/MultilineOperationIndentation
+    - Style/NilComparison
