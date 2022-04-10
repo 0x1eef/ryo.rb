@@ -105,7 +105,7 @@ module Ryo
       self[property] = args.first
     elsif Ryo.property?(self, property)
       self[property]
-    elsif @proto.respond_to?(name)
+    elsif @proto
       Ryo.call_method(@proto, name, *args, &b)
     end
   end
