@@ -159,6 +159,27 @@ module Ryo::Brain
   def class_of(ryo)
     module_method(:class).bind_call(ryo)
   end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @return [String]
+  #  Returns details about the *ryo* object
+  #  as a String.
+  #
+  # @note
+  #  This is primarily for nice output in IRB,
+  #  Pry, etc. It is used by {Ryo#inspect}.
+  def inspect_object(ryo)
+    format(
+      "#<Ryo object=%{object} @proto=%{proto} @table=%{table}>",
+      object: Object.instance_method(:to_s).bind_call(ryo),
+      proto: unbox_proto(ryo).inspect,
+      table: unbox_table(ryo).inspect
+    )
+  end
   # @endgroup
 
   ##

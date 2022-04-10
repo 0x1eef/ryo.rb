@@ -80,8 +80,7 @@ module Ryo
   alias_method :eql?, :==
 
   def inspect
-    klass = Ryo.class_of(self) == ::Object ? "Object" : "BasicObject"
-    "#<Ryo (#{klass}) @proto=#{@proto.inspect} @table=#{@table.inspect}>"
+    Ryo.inspect_object(self)
   end
 
   def pretty_print(q)
