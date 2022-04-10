@@ -8,60 +8,8 @@ module Ryo::Brain
   private_constant :VITAL_METHODS
 
   ##
-  # @group Public interface
+  # @group JavaScript equivalents
   #
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @return [Hash]
-  #  Returns the internal lookup table of
-  #  the *ryo* object.
-  def unbox_table(ryo)
-    module_method(:instance_variable_get)
-      .bind_call(ryo, :@table)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @return [Ryo, nil]
-  #  Returns the prototype of the *ryo*
-  #  object.
-  #
-  # @note
-  #  This method will return the prototype
-  #  of an object, even when "__proto__" has
-  #  been redefined on the mentioned object.
-  def unbox_proto(ryo)
-    module_method(:instance_variable_get)
-      .bind_call(ryo, :@proto)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String, Symbol] method
-  #  The name of a method.
-  #
-  # @param [Object, BasicObject] args
-  #  A variable number of arguments for *method*.
-  #
-  # @param [Proc] b
-  #  An optional block for *method*.
-  #
-  # @return [Object, BasicObject]
-  #  Returns the return value of the method call.
-  def call_method(ryo, method, *args, &b)
-    module_method(:__send__)
-      .bind_call(ryo, method, *args, &b)
-  end
-
-  ##
   # Equivalent to JavaScript's "Object.hasOwn",
   # "Object.prototype.hasOwnProperty".
   #
@@ -133,6 +81,61 @@ module Ryo::Brain
       return if getter_defined?(ryo, property)
       define_method!(ryo, property) { ryo[property] }
     end
+  end
+  # @endgroup
+
+  ##
+  # @group Public interface
+  #
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @return [Hash]
+  #  Returns the internal lookup table of
+  #  the *ryo* object.
+  def unbox_table(ryo)
+    module_method(:instance_variable_get)
+      .bind_call(ryo, :@table)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @return [Ryo, nil]
+  #  Returns the prototype of the *ryo*
+  #  object.
+  #
+  # @note
+  #  This method will return the prototype
+  #  of an object, even when "__proto__" has
+  #  been redefined on the mentioned object.
+  def unbox_proto(ryo)
+    module_method(:instance_variable_get)
+      .bind_call(ryo, :@proto)
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  An object who has included the Ryo
+  #  module.
+  #
+  # @param [String, Symbol] method
+  #  The name of a method.
+  #
+  # @param [Object, BasicObject] args
+  #  A variable number of arguments for *method*.
+  #
+  # @param [Proc] b
+  #  An optional block for *method*.
+  #
+  # @return [Object, BasicObject]
+  #  Returns the return value of the method call.
+  def call_method(ryo, method, *args, &b)
+    module_method(:__send__)
+      .bind_call(ryo, method, *args, &b)
   end
 
   ##
