@@ -1,7 +1,7 @@
 require_relative "setup"
 
 ##
-# shared examples
+# shared example
 RSpec.shared_examples ".function" do
   describe ".function (alias: .fn)" do
     let(:fruit) { object.create(nil, {eat: Ryo.fn { name }}) }
@@ -42,22 +42,9 @@ RSpec.shared_examples ".function" do
   end
 end
 
-RSpec.describe Ryo do
-  let(:fruit) { Ryo::BasicObject.create(nil) }
-  let(:apple) { Ryo::BasicObject.create(fruit, {name: "Apple"}) }
-  let(:sour_apple) { Ryo::BasicObject.create(apple, {name: "Sour Apple"}) }
-
-  describe ".delete" do
-    before { fruit.foo = 1 }
-
-    context "when a propery is deleted" do
-      before { Ryo.delete(fruit, "foo") }
-      subject { fruit.foo }
-
-      it { is_expected.to be_nil }
-    end
-  end
-
+##
+# shared example
+RSpec.shared_examples ".assign" do
   describe ".assign" do
     it "combines fruit and apple" do
       expect(
@@ -71,24 +58,55 @@ RSpec.describe Ryo do
       ).to eq({"foo" => 1, "bar" => 2, "name" => "Apple"})
     end
   end
+end
+
+##
+# shared example
+RSpec.shared_examples ".delete" do
+  describe ".delete" do
+    before { fruit.foo = 1 }
+
+    context "when a propery is deleted" do
+      before { Ryo.delete(fruit, "foo") }
+      subject { fruit.foo }
+
+      it { is_expected.to be_nil }
+    end
+  end
+end
+
+##
+# specs
+RSpec.describe Ryo do
+  let(:fruit) { object.create(nil) }
+  let(:apple) { object.create(fruit, {name: "Apple"}) }
+  let(:sour_apple) { object.create(apple, {name: "Sour Apple"}) }
 
   context "when the object is Ryo::Object" do
     let(:object) { Ryo::Object }
-    include_examples '.function'
+    include_examples ".function"
+    include_examples ".assign"
+    include_examples ".delete"
   end
 
   context "when the object is Ryo::BasicObject" do
     let(:object) { Ryo::BasicObject }
-    include_examples '.function'
+    include_examples ".function"
+    include_examples ".assign"
+    include_examples ".delete"
   end
 
   context "when the object is Object" do
     let(:object) { Object }
-    include_examples '.function'
+    include_examples ".function"
+    include_examples ".assign"
+    include_examples ".delete"
   end
 
   context "when the object is BasicObject" do
     let(:object) { BasicObject }
-    include_examples '.function'
+    include_examples ".function"
+    include_examples ".assign"
+    include_examples ".delete"
   end
 end
