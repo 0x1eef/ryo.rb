@@ -17,6 +17,7 @@ RSpec.shared_examples ".function" do
 
       context "when the required argument is given" do
         subject { fruit.eat.(42) }
+
         it { is_expected.to eq(42) }
       end
     end
