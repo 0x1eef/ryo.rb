@@ -45,6 +45,23 @@ module Ryo::Brain
     objs[0]
   end
 
+  ##
+  # @example
+  #   person = Object.create(nil, {greet: Ry.fn { puts "Hello #{name}" }})
+  #   tim = Object.create(person, {name: "Tim"})
+  #   tim.greet.()
+  #
+  # @param [Proc] b
+  #  The functions body (as a Proc)
+  #
+  # @return [Ryo::Function]
+  #  Returns a Ryo function that is bound to the
+  #  self of the Ryo object it is assigned to.
+  def function(&b)
+    Ryo::Function.new(&b)
+  end
+  alias_method :fn, :function
+
   # Equivalent to JavaScript's "in" operator.
   #
   # @param [Ryo] ryo
@@ -96,7 +113,7 @@ module Ryo::Brain
   #  the *ryo* object.
   def unbox_table(ryo)
     module_method(:instance_variable_get)
-      .bind_call(ryo, :@table)
+      .bind_call(ryo, :@_table)
   end
 
   ##
@@ -114,7 +131,7 @@ module Ryo::Brain
   #  been redefined on the mentioned object.
   def unbox_proto(ryo)
     module_method(:instance_variable_get)
-      .bind_call(ryo, :@proto)
+      .bind_call(ryo, :@_proto)
   end
 
   ##
@@ -164,6 +181,16 @@ module Ryo::Brain
   end
 
   ##
+  # @param [Ryo::Function, Object, BasicObject] obj
+  #  An object.
+  #
+  # @return [Boolean]
+  #  Returns true when *obj* is a Ryo function.
+  def function?(obj)
+    Ryo::Function === obj
+  end
+
+  ##
   # @param [Ryo] ryo
   #  An object who has included the Ryo
   #  module.
@@ -177,7 +204,7 @@ module Ryo::Brain
   #  Pry, etc. It is used by {Ryo#inspect}.
   def inspect_object(ryo)
     format(
-      "#<Ryo object=%{object} @proto=%{proto} @table=%{table}>",
+      "#<Ryo object=%{object} proto=%{proto} table=%{table}>",
       object: Object.instance_method(:to_s).bind_call(ryo),
       proto: unbox_proto(ryo).inspect,
       table: unbox_table(ryo).inspect
@@ -203,7 +230,7 @@ module Ryo::Brain
   # @api private
   def define_property!(ryo, property, value)
     table = unbox_table(ryo)
-    table[property] = value
+    table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
     # Define setter
     if !setter_defined?(ryo, property) && property[-1] != "?"
       define_method!(ryo, "#{property}=") { ryo[property] = _1 }
@@ -245,7 +272,7 @@ module Ryo::Brain
   # @api private
   def assign_prototype!(ryo, prototype)
     module_method(:instance_variable_set)
-      .bind_call(ryo, :@proto, prototype)
+      .bind_call(ryo, :@_proto, prototype)
   end
 
   ##
@@ -262,7 +289,7 @@ module Ryo::Brain
   # @api private
   def assign_table!(ryo, table)
     module_method(:instance_variable_set)
-      .bind_call(ryo, :@table, table)
+      .bind_call(ryo, :@_table, table)
   end
 
   ##

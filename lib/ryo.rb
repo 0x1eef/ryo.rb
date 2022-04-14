@@ -5,6 +5,7 @@ module Ryo
   require_relative "ryo/object_mixin"
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
+  require_relative "ryo/function"
 
   extend Ryo::Brain
 
@@ -14,8 +15,8 @@ module Ryo
   #
   # @return [Object, BasicObject]
   def initialize(prototype)
-    @proto = prototype
-    @table = {}
+    @_proto = prototype
+    @_table = {}
   end
 
   ##
@@ -24,7 +25,7 @@ module Ryo
   #
   # @return [Ryo, nil]
   def __proto__
-    @proto
+    @_proto
   end
 
   ##
@@ -41,10 +42,10 @@ module Ryo
   def [](property)
     property = property.to_s
     if Ryo.property?(self, property)
-      @table[property]
+      @_table[property]
     else
-      return unless @proto
-      Ryo.call_method(@proto, property)
+      return unless @_proto
+      Ryo.call_method(@_proto, property)
     end
   end
 
@@ -70,11 +71,11 @@ module Ryo
   #  two Ryo objects have the same lookup table.
   def ==(other)
     if Ryo === other
-      @table == Ryo.unbox_table(other)
+      @_table == Ryo.unbox_table(other)
     else
       other = Hash.try_convert(other)
       return false unless other
-      @table == other
+      @_table == other
     end
   end
   alias_method :eql?, :==
@@ -104,8 +105,9 @@ module Ryo
       self[property] = args.first
     elsif Ryo.property?(self, property)
       self[property]
-    elsif @proto
-      Ryo.call_method(@proto, name, *args, &b)
+    elsif @_proto
+      Ryo.call_method(@_proto, name, *args, &b)
+         .tap { _1.bind!(self) if Ryo.function?(_1) }
     end
   end
 end

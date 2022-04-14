@@ -48,7 +48,7 @@ require "ryo/core_ext/object"
 # "eat".
 fruit = Object.create(nil, {
   sour: false,
-  eat: lambda { |fruit| "Eating a #{fruit.name}" },
+  eat: Ryo.fn { "Eating a #{name}" },
 })
 
 ##
@@ -65,7 +65,7 @@ Kernel.p apple.color # => "green"
 ##
 # Find matches in the prototype chain.
 Kernel.p apple.sour # => false
-Kernel.p apple.eat.(apple) # => "Eating a Apple"
+Kernel.p apple.eat.() # => "Eating a Apple"
 
 ##
 # Create a third object, with "apple" as its
@@ -81,7 +81,7 @@ Kernel.p sour_apple.sour # => true
 ##
 # Find matches in the prototype chain.
 Kernel.p sour_apple.color # => "green"
-Kernel.p sour_apple.eat.(sour_apple) # => "Eating a Sour Apple"
+Kernel.p sour_apple.eat.() # => "Eating a Sour Apple"
 ``` 
 
 **Equivalent to JavaScript's `Object.assign`**

@@ -4,7 +4,10 @@
  * "eat" using Object.assign().
  */
 const fruit = Object.create(null);
-Object.assign(fruit, { sour: false, eat: (fruit) => `Eating a ${fruit.name}` });
+Object.assign(fruit, {
+  sour: false,
+  eat() { return `Eating a ${this.name}`; }
+});
 
 /**
  * Create a second object, with "fruit" as
@@ -26,7 +29,7 @@ console.log(apple.color);
  * Find matches in the prototype chain.
  */
 console.log(apple.sour);
-console.log(apple.eat(apple));
+console.log(apple.eat());
 
 /**
  * Create a second object, with "apple" as
@@ -48,4 +51,4 @@ console.log(sourApple.sour);
  * Find matches in the prototype chain.
  */
 console.log(sourApple.color);
-console.log(sourApple.eat(sourApple));
+console.log(sourApple.eat());
