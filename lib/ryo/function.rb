@@ -39,7 +39,7 @@ class Ryo::Function
   ##
   # @return [Proc]
   #  Returns the function as a lambda bound
-  #  to {#reciever}.
+  #  to {#receiver}.
   def to_proc
     lambda!(@body)
   end

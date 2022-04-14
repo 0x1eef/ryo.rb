@@ -1,54 +1,65 @@
 /**
- * Create an instance of Object, with no prototype.
- * On this object,  define the properties "sour" and
- * "eat" using Object.assign().
+ * Creates an instance of Object, with no prototype.
+ * On this object, define the properties "planet", and
+ * "greet" using Object.assign().
  */
-const fruit = Object.create(null);
-Object.assign(fruit, {
-  sour: false,
-  eat() { return `Eating a ${this.name}`; }
+const person = Object.create(null);
+Object.assign(person, {
+  planet: 'Earth',
+  greet () {
+    const greeting = `${this.name} asks: have you tried ${this.language} ?` +
+                     `It is popular on my home planet, ${this.planet}.`;
+    console.log(greeting);
+  }
 });
 
 /**
- * Create a second object, with "fruit" as
- * its prototype. On this object, define
- * the properties "name" and "color" using
+ * Create a second object, with "person" as
+ * its prototype. On this object, define the
+ * properties "name" and "language" using
  * Object.assign().
  */
-const apple = Object.create(fruit);
-Object.assign(apple, { name: 'Apple', color: 'green' });
+const larry = Object.create(person);
+Object.assign(larry, { name: 'Larry Wall', language: 'Perl' });
 
 /**
- * Find matches directly on the "apple"
+ * Find matches directly on the "larry"
  * object.
  */
-console.log(apple.name);
-console.log(apple.color);
+larry.name;     // => "Larry Wall"
+larry.language; // => "Perl"
 
 /**
  * Find matches in the prototype chain.
  */
-console.log(apple.sour);
-console.log(apple.eat());
+larry.planet;  // => "Earth"
+larry.greet(); // => "Larry Wall asks: have you tried Perl? ..."
 
 /**
- * Create a second object, with "apple" as
+ * Create a second object, with "larry" as
  * its prototype. On this object, define
- * the properties "name" and "sour" using
+ * the properties "name" and "language" using
  * Object.assign().
  */
-const sourApple = Object.create(apple);
-Object.assign(sourApple, { name: 'Sour Apple', sour: true });
+const matz = Object.create(larry);
+Object.assign(matz, { name: 'Yukihiro Matsumoto', language: 'Ruby' });
 
 /**
- * Find matches directly on the "sourApple"
+ * Find matches directly on the "matz"
  * object.
  */
-console.log(sourApple.name);
-console.log(sourApple.sour);
+matz.name;     // => "Yukihiro Matsumoto"
+matz.language; // => "Ruby"
 
 /**
  * Find matches in the prototype chain.
  */
-console.log(sourApple.color);
-console.log(sourApple.eat());
+matz.planet;  // => "Earth"
+matz.greet(); // => "Yukihiro Matsumoto asks: have you tried Ruby? ..."
+
+/**
+ Delete the "language" property from matz,
+ and find it on the larry prototype instead
+*/
+delete matz.language;
+matz.greet(); // => "Yukihiro Matsumoto asks: have you tried Perl? ..."

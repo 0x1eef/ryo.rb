@@ -2,6 +2,7 @@ ignore:
   - 'readme_examples/rb/*.rb':
     - Style/LambdaCall 
     - Style/TrailingCommaInHashLiteral
+    - Layout/ExtraSpacing
   - '**/*.rb':
     - Layout/ParameterAlignment
     - Layout/ArgumentAlignment

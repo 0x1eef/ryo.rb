@@ -3,41 +3,51 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-# On this object,  define the properties "sour" and
-# "eat".
-fruit = Object.create(nil, {
-  sour: false,
-  eat: Ryo.fn { "Eating a #{name}" },
+# On this object, define the properties "planet",
+# and "greet".
+person = Object.create(nil, {
+  planet: "Earth",
+  greet: Ryo.fn {
+    greeting = "#{name} asks: have you tried #{language}? " \
+               "It is popular on my home planet, #{planet}."
+    puts greeting
+  }
 })
 
 ##
-# Create a second object, with "fruit" as
+# Create a second object, with "person" as
 # its prototype. On this object, define
-# the properties "name" and "color"
-apple = Object.create(fruit, {name: "Apple", color: "green"})
+# the properties "name", and "language".
+larry = Object.create(person, {name: "Larry Wall", language: "Perl"})
 
 ##
-# Find matches directly on the apple object.
-Kernel.p apple.name # => "Apple"
-Kernel.p apple.color # => "green"
+# Find matches directly on the larry object.
+larry.name     # => "Larry Wall"
+larry.language # => "Perl"
 
 ##
 # Find matches in the prototype chain.
-Kernel.p apple.sour # => false
-Kernel.p apple.eat.() # => "Eating a Apple"
+larry.planet   # => "Earth"
+larry.greet.() # => "Larry Wall asks: have you tried Perl? ..."
 
 ##
-# Create a third object, with "apple" as its
+# Create a third object, with "larry" as its
 # prototype. On this object, define the properties
-# "name" and "sour".
-sour_apple = Object.create(apple, {name: "Sour Apple", sour: true})
+# "name" and "language".
+matz = Object.create(larry, {name: "Yukihiro Matsumoto", language: "Ruby"})
 
 ##
-# Find matches directly on the sour_apple object.
-Kernel.p sour_apple.name # => "Sour Apple"
-Kernel.p sour_apple.sour # => true
+# Find matches directly on the matz object.
+matz.name     # => "Yukihiro Matsumoto"
+matz.language # => "Ruby"
 
 ##
 # Find matches in the prototype chain.
-Kernel.p sour_apple.color # => "green"
-Kernel.p sour_apple.eat.() # => "Eating a Sour Apple"
+matz.planet   # => "Earth"
+matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Ruby? ..."
+
+##
+# Delete the "language" property from matz,
+# and find it on the larry prototype instead.
+Ryo.delete(matz, "language")
+matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
