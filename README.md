@@ -1,41 +1,61 @@
 # ryo.rb
 
 ryo.rb is an implementation of prototype-based inheritance in pure
-Ruby. The library is heavily inspired by JavaScript's implementation, 
+Ruby. The library is inspired by JavaScript's implementation, 
 in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
-The objects returned by Ryo's `Object.create` are similar to instances 
-of Object from JavaScript, or OpenStruct from Ruby. 
 
 ## Comparisons
 
 **1. Compared to JavaScript's "Object"**
 
-Ryo is heavily inspired by JavaScript - it is the point of reference
-a lot of the time, including in regards to using prototypes for 
+Ryo is inspired by JavaScript - it is the point of reference
+a lot of the time, especially in regards to using prototypes for 
 inheritance. There are Ryo equivalent's to JavaScript - for example, 
 in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)` 
-in Ryo. 
+in Ryo. The number of JavaScript equivalents in Ryo is plentiful, for example
+`Ryo.delete` is the equivalent to JavaScript's 
+[`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete), and `Ryo.assign` is equivalent to JavaScript's 
+[`Object.assign`](). There are more that are covered later in the **Examples** section. 
+
+Ryo implements most of its functionality through singleton methods on the 
+`Ryo` module. It is similar to how JavaScript's `Object` has static methods
+that work regardless of what monkey patches an object might have. Ryo follows
+a similar path as JavaScript where Ryo objects and Ryo's functionality are 
+separated (as much as possible).
 
 **2. Compared to OpenStruct**
 
-The comparison with OpenStruct was too long to include with the README - 
-about four paragraphs. It is available to read separately at [docs/comparison_with_openstruct.md](docs/comparison_to_openstruct.md), and 
-it explains some of the ideas behind Ryo.
+**TODO**
 
 ## Examples
 
 **Introduction**
 
 The examples use `Object.create` - a monkeypatch that is opt-in
-by requiring `ryo/core_ext/object`. The examples use the monkeypatch - 
-if they didn't they could use `Ryo::Object.create` instead. 
+by requiring `ryo/core_ext/object`. if they didn't, they could use 
+`Ryo::Object.create` instead. Both of those mentioned methods return 
+instances of Ruby's Object class, with some inherited behavior to make 
+them Ryo objects.
+
+Ryo objects can also be instances of BasicObject, either by using the 
+opt-in monkeypatch `BasicObject.create` (`ryo/core_ext/basic_object`) or 
+by using `Ryo::BasicObject.create`.
 
 **Prototypes** 
 
-This example illustrates how prototype-based inheritance works when 
-using Ryo. It is a long example but with each step documented. The 
+This example illustrates how prototype-based inheritance works in 
+Ryo. It is a long example with each step documented. The 
 JavaScript equivalent to this example can be found at 
 [readme_examples/js/prototypes.js](readme_examples/js/prototypes.js).
+
+Early in the example you will come across, `Ryo.fn` - which can also be
+written as `Ryo.function`. It returns an object that is similar to a lambda,
+with a key difference: its self is bound to the object it is assigned to. This
+provides equivalent JavaScript behavior.
+
+At the end of the example you will come across `Ryo.delete(matz, "language")`, 
+it is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
+
 
 ```ruby
 require "ryo"
@@ -95,77 +115,99 @@ matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
 
 **Equivalent to JavaScript's `Object.assign`**
 
-Object.assign can merge two or more objects, starting
-from right to left. The objects can be a mix of Ryo, 
-and Hash objects. The JavaScript equivalent to this example
-can be found at [readme_examples/js/object_assign.js](/readme_examples/js/object_assign.js)
+A careful eye will notice that the second argument in Ryo's 
+`Object.create` method does not exist in JavaScript. Good catch, it
+was added for convenience and as a Rubyism. Ryo still does have 
+`Ryo.assign` though, an equivalent to JavaScript's 
+[`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
+
+For example, to avoid giving the second argument to `Object.create`, 
+one could write something like what follows below. The javascript equivalent 
+to this example can be found at [readme_examples/js/object.assign.js](/readme_examples/js/object.assign.js).
 
 ```ruby
 require "ryo"
 require "ryo/core_ext/object"
 
+##
+# Create an instance of Object, with
+# no prototype.
 fruit = Object.create(nil)
-apple = Object.create(fruit)
-Ryo.assign(fruit, apple, {sour: true})
 
-Kernel.p apple.sour # => true
-Kernel.p fruit.sour # => true
+##
+# Merge {sour:true} into "fruit".
+Ryo.assign(fruit, {sour: true})
+
+puts fruit.sour # => true
+```
+
+It is possible to merge as many objects as you want,
+from right to left, and they can be a mix of Ryo objects 
+and Hash objects. The javascript equivalent 
+to this example can be found at [readme_examples/js/object.assign.2.js](/readme_examples/js/object.assign.2.js).
+
+```ruby
+require "ryo"
+require "ryo/core_ext/object"
+
+##
+# Create an instance of Object, with
+# no prototype.
+fruit = Object.create(nil)
+
+##
+# Create another object, with "fruit"
+# as its prototype.
+pineapple = Object.create(fruit)
+
+##
+# Merge {sour: true} into "pineapple", and then
+# merge "pineapple" into "fruit".
+Ryo.assign(fruit, pineapple, {sour: true})
+
+puts fruit.sour # => true
+puts pineapple.sour # => true
+
 ```
 
 **Equivalent to JavaScript's `in` operator**
 
+JavaScript's [`in` operator]() can check for property membership
+in an object and in its prototype chain. If the property is found
+on neither of those, `false` is returned. Ryo's equivalent to this
+is the `Ryo.in?` method. The javascript equivalent 
+to this example can be found at [readme_examples/js/in.operator.js](/readme_examples/js/in.operator.js).
+
+
 ```ruby
-##
-# Create an instance of Object, with no prototype.
-# On this object, define the property "eat".
-fruit = Object.create(nil, {
-  eat: lambda { "nomnom" }
-})
-
-##
-# Create a second object, with "fruit" as
-# its prototype. On this object, define
-# the property "name".
-apple = Object.create(fruit, {name: "Apple"})
-
-##
-# Query the "apple" object using Ryo.in? - 
-# This returns true
-Ryo.in?(apple, "eat")
-
-##
-# This also returns true 
-Ryo.in?(apple, "name")
-
-##
-# This returns false
-Ryo.in?(apple, "foobar")
-```
-
-**Equivalent to JavaScript's `delete(obj.foo)`**
-
-```ruby 
 require "ryo"
 require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-obj = Object.create(nil)
+# On this object, define the property "wheels".
+vehicle = Object.create(nil, {wheels: 4})
 
 ##
-# Assign the property "foo" the value of
-# "42".
-obj.foo = 42
+# Create a second object, with "vehicle" as
+# its prototype. On this object, define
+# the property "model".
+honda = Object.create(vehicle, {model: "Honda"})
 
 ##
-# Using "Ryo", delete the "foo"
-# property from "obj".
-Ryo.delete(obj, "foo")
+# Returns true after finding the "wheels"
+# property in the prototype chain of "honda".
+puts Ryo.in?(honda, "wheels")
 
 ##
-# Prints nil
-Kernel.p obj.foo
+# Returns true after finding the "model"
+# property directly on "honda".
+puts Ryo.in?(honda, "model")
 
+##
+# Returns false after not finding the "foobar"
+# property on "honda", or in its prototype chain.
+puts Ryo.in?(honda, "foobar")
 ```
 
 **Equivalent to JavaScript's `Object.hasOwn`, `Object.prototype.hasOwnProperty`**
@@ -187,42 +229,6 @@ obj.foo = 42
 # Use "Ryo" to ask the object if it
 # has the property "foo".
 Kernel.p Ryo.property?(obj, "foo")
-```
-
-**BasicObject**
-
-There are two options available to create objects that are
-instances of BasicObject. The first is `Ryo::BasicObject.create`
-and the second is to use the `BasicObject.create` monkeypatch
-by requiring `ryo/core_ext/basic_object`.
-
-The first option:
-
-```ruby
-require "ryo"
-
-##
-# Create an instance of BasicObject,
-# and assign the property "foo" the
-# value of 1.
-obj = Ryo::BasicObject.create(nil, {foo: 1})
-
-Kernel.p obj.foo
-```
-
-The second option:
-
-```ruby
-require "ryo"
-require "ryo/core_ext/basic_object"
-
-##
-# Create an instance of BasicObject,
-# and assign the property "foo" the
-# value of 1.
-obj = BasicObject.create(nil, {foo: 1})
-
-Kernel.p obj.foo
 ```
 
 ## LICENSE
