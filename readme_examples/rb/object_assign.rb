@@ -1,3 +1,4 @@
+require_relative "setup"
 require "ryo"
 require "ryo/core_ext/object"
 
