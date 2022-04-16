@@ -4,7 +4,7 @@ ryo.rb is an implementation of prototype-based inheritance in pure
 Ruby. The library is inspired by JavaScript's implementation,
 in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
 
-## Comparisons
+## Compared to..
 
 **1. Compared to JavaScript's "Object"**
 
@@ -12,19 +12,12 @@ Ryo is inspired by JavaScript - it is the point of reference
 a lot of the time, especially in regards to using prototypes for
 inheritance. There are Ryo equivalent's to JavaScript - for example,
 in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)`
-in Ryo. The number of JavaScript equivalents in Ryo is plentiful, for example
-`Ryo.delete` is the equivalent to JavaScript's
-[`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete), and `Ryo.assign` is equivalent to JavaScript's
-[`Object.assign`](). There are more that are covered later in the **Examples** section.
+in Ryo.
 
-Ryo implements most of its functionality through singleton methods on the
-`Ryo` module. It is similar to JavaScript's [`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
-in that both have methods that work independent of the methods or property
-an object might have redefined. Ryo's singleton methods follow a pattern where
-the first argument is always a Ryo object, or "target" in JavaScript parlance. The rest
-of the arguments are for the functionality the singleton method provides. It is
-very much intentional that Ryo objects and Ryo's functionality are separated -
-as much as possible.
+The [Ryo::Reflect module](https://0x1eef.github.io/docs/ryo.rb/Ryo/Reflect.html) implements numerous other JavaScript
+equivalents, and it is based upon JavaScript's
+[`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
+Similar to the Reflect object and some of the static methods on Object, Ryo separates the behavior it provides from the objects it creates.
 
 **2. Compared to OpenStruct**
 
@@ -49,7 +42,7 @@ by using `Ryo::BasicObject.create`.
 This example illustrates how prototype-based inheritance works in
 Ryo. It is a long example with each step documented. The
 JavaScript equivalent to this example can be found at
-[readme_examples/js/1_prototypes.js](readme_examples/js/1_prototypes.js).
+[readme_examples/js/1_prototypes.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/1_prototypes.js).
 
 Early in the example you will come across, `Ryo.fn` - which can also be
 written as `Ryo.function`. It returns an object that is similar to a lambda,
@@ -122,7 +115,7 @@ matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
 `Ryo.assign` can be used in place of the second argument to `Object.create`,
 for example - one could write something like what follows below. The javascript
 equivalent to this example can be found at
-[readme_examples/js/2_object.assign.js](/readme_examples/js/2_object.assign.js).
+[readme_examples/js/2_object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_object.assign.js).
 
 ```ruby
 require "ryo"
@@ -144,7 +137,7 @@ It's possible to merge as many objects as you want,
 from right to left, and they can be a mix of Ryo objects
 and Hash objects. The javascript equivalent
 to this example can be found at
-[readme_examples/js/2_1.object.assign.js](/readme_examples/js/2_1.object.assign.js).
+[readme_examples/js/2_1.object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_1.object.assign.js).
 
 ```ruby
 require "ryo"
@@ -176,7 +169,7 @@ JavaScript's [`in` operator]() can check for property membership
 in an object and in its prototype chain. If the property is found
 on neither of those, `false` is returned. Ryo's equivalent to this
 is the `Ryo.in?` method. The javascript equivalent
-to this example can be found at [readme_examples/js/3_in.operator.js](/readme_examples/js/3_in.operator.js).
+to this example can be found at [https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/3_in.operator.js](/readme_examples/js/3_in.operator.js).
 
 
 ```ruby
