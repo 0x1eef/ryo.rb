@@ -1,7 +1,7 @@
 # ryo.rb
 
 ryo.rb is an implementation of prototype-based inheritance in pure
-Ruby. The library is inspired by JavaScript's implementation, 
+Ruby. The library is inspired by JavaScript's implementation,
 in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
 
 ## Comparisons
@@ -9,18 +9,18 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 **1. Compared to JavaScript's "Object"**
 
 Ryo is inspired by JavaScript - it is the point of reference
-a lot of the time, especially in regards to using prototypes for 
-inheritance. There are Ryo equivalent's to JavaScript - for example, 
-in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)` 
+a lot of the time, especially in regards to using prototypes for
+inheritance. There are Ryo equivalent's to JavaScript - for example,
+in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)`
 in Ryo. The number of JavaScript equivalents in Ryo is plentiful, for example
-`Ryo.delete` is the equivalent to JavaScript's 
-[`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete), and `Ryo.assign` is equivalent to JavaScript's 
-[`Object.assign`](). There are more that are covered later in the **Examples** section. 
+`Ryo.delete` is the equivalent to JavaScript's
+[`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete), and `Ryo.assign` is equivalent to JavaScript's
+[`Object.assign`](). There are more that are covered later in the **Examples** section.
 
-Ryo implements most of its functionality through singleton methods on the 
+Ryo implements most of its functionality through singleton methods on the
 `Ryo` module. It is similar to how JavaScript's `Object` has static methods
 that work regardless of what monkey patches an object might have. Ryo follows
-a similar path as JavaScript where Ryo objects and Ryo's functionality are 
+a similar path as JavaScript where Ryo objects and Ryo's functionality are
 separated (as much as possible).
 
 **2. Compared to OpenStruct**
@@ -32,28 +32,28 @@ separated (as much as possible).
 **Introduction**
 
 The examples use `Object.create` - a monkeypatch that is opt-in
-by requiring `ryo/core_ext/object`. if they didn't, they could use 
-`Ryo::Object.create` instead. Both of those mentioned methods return 
-instances of Ruby's Object class, with some inherited behavior to make 
+by requiring `ryo/core_ext/object`. if they didn't, they could use
+`Ryo::Object.create` instead. Both of those mentioned methods return
+instances of Ruby's Object class, with some inherited behavior to make
 them Ryo objects.
 
-Ryo objects can also be instances of BasicObject, either by using the 
-opt-in monkeypatch `BasicObject.create` (`ryo/core_ext/basic_object`) or 
+Ryo objects can also be instances of BasicObject, either by using the
+opt-in monkeypatch `BasicObject.create` (`ryo/core_ext/basic_object`) or
 by using `Ryo::BasicObject.create`.
 
-**Prototypes** 
+**1. Prototypes**
 
-This example illustrates how prototype-based inheritance works in 
-Ryo. It is a long example with each step documented. The 
-JavaScript equivalent to this example can be found at 
-[readme_examples/js/prototypes.js](readme_examples/js/prototypes.js).
+This example illustrates how prototype-based inheritance works in
+Ryo. It is a long example with each step documented. The
+JavaScript equivalent to this example can be found at
+[readme_examples/js/1_prototypes.js](readme_examples/js/1_prototypes.js).
 
 Early in the example you will come across, `Ryo.fn` - which can also be
 written as `Ryo.function`. It returns an object that is similar to a lambda,
 with a key difference: its self is bound to the object it is assigned to. This
 provides equivalent JavaScript behavior.
 
-At the end of the example you will come across `Ryo.delete(matz, "language")`, 
+At the end of the example you will come across `Ryo.delete(matz, "language")`,
 it is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
 
 
@@ -111,19 +111,19 @@ matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Ruby? ..."
 # and find it on the larry prototype instead.
 Ryo.delete(matz, "language")
 matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
-``` 
+```
 
-**Equivalent to JavaScript's `Object.assign`**
+**2. Equivalent to JavaScript's `Object.assign`**
 
-A careful eye will notice that the second argument in Ryo's 
+A careful eye will notice that the second argument in Ryo's
 `Object.create` method does not exist in JavaScript. Good catch, it
-was added for convenience and as a Rubyism. Ryo still does have 
-`Ryo.assign` though, an equivalent to JavaScript's 
+was added for convenience and as a Rubyism. Ryo still does have
+`Ryo.assign` though, an equivalent to JavaScript's
 [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
 
-For example, to avoid giving the second argument to `Object.create`, 
-one could write something like what follows below. The javascript equivalent 
-to this example can be found at [readme_examples/js/object.assign.js](/readme_examples/js/object.assign.js).
+For example, to avoid giving the second argument to `Object.create`,
+one could write something like what follows below. The javascript equivalent
+to this example can be found at [readme_examples/js/2_object.assign.js](/readme_examples/js/2_object.assign.js).
 
 ```ruby
 require "ryo"
@@ -142,9 +142,9 @@ puts fruit.sour # => true
 ```
 
 It is possible to merge as many objects as you want,
-from right to left, and they can be a mix of Ryo objects 
-and Hash objects. The javascript equivalent 
-to this example can be found at [readme_examples/js/object.assign.2.js](/readme_examples/js/object.assign.2.js).
+from right to left, and they can be a mix of Ryo objects
+and Hash objects. The javascript equivalent
+to this example can be found at [readme_examples/js/2_1.object.assign.js](/readme_examples/js/2_1.object.assign.js).
 
 ```ruby
 require "ryo"
@@ -170,13 +170,13 @@ puts pineapple.sour # => true
 
 ```
 
-**Equivalent to JavaScript's `in` operator**
+**3. Equivalent to JavaScript's `in` operator**
 
 JavaScript's [`in` operator]() can check for property membership
 in an object and in its prototype chain. If the property is found
 on neither of those, `false` is returned. Ryo's equivalent to this
-is the `Ryo.in?` method. The javascript equivalent 
-to this example can be found at [readme_examples/js/in.operator.js](/readme_examples/js/in.operator.js).
+is the `Ryo.in?` method. The javascript equivalent
+to this example can be found at [readme_examples/js/3_in.operator.js](/readme_examples/js/3_in.operator.js).
 
 
 ```ruby
@@ -210,7 +210,7 @@ puts Ryo.in?(honda, "model")
 puts Ryo.in?(honda, "foobar")
 ```
 
-**Equivalent to JavaScript's `Object.hasOwn`, `Object.prototype.hasOwnProperty`**
+**4. Equivalent to JavaScript's `Object.hasOwn`, `Object.prototype.hasOwnProperty`**
 
 ```ruby
 require "ryo"
