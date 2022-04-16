@@ -118,15 +118,11 @@ matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
 
 **2. Equivalent to JavaScript's `Object.assign`**
 
-A careful eye will notice that the second argument in Ryo's
-`Object.create` method does not exist in JavaScript. Good catch, it
-was added for convenience and as a Rubyism. Ryo still does have
-`Ryo.assign` though, an equivalent to JavaScript's
-[`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
-
-For example, to avoid giving the second argument to `Object.create`,
-one could write something like what follows below. The javascript equivalent
-to this example can be found at [readme_examples/js/2_object.assign.js](/readme_examples/js/2_object.assign.js).
+`Ryo.assign` is Ryo's equivalent to [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
+`Ryo.assign` can be used in place of the second argument to `Object.create`,
+for example - one could write something like what follows below. The javascript
+equivalent to this example can be found at
+[readme_examples/js/2_object.assign.js](/readme_examples/js/2_object.assign.js).
 
 ```ruby
 require "ryo"
@@ -144,10 +140,11 @@ Ryo.assign(fruit, {sour: true})
 puts fruit.sour # => true
 ```
 
-It is possible to merge as many objects as you want,
+It's possible to merge as many objects as you want,
 from right to left, and they can be a mix of Ryo objects
 and Hash objects. The javascript equivalent
-to this example can be found at [readme_examples/js/2_1.object.assign.js](/readme_examples/js/2_1.object.assign.js).
+to this example can be found at
+[readme_examples/js/2_1.object.assign.js](/readme_examples/js/2_1.object.assign.js).
 
 ```ruby
 require "ryo"
