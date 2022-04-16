@@ -1,4 +1,11 @@
-module Ryo::Brain
+##
+# The Reflect module's instance methods are available as
+# singleton methods on the `Ryo` and `Ryo::Reflect` modules.
+# The Reflect module follows a pattern where the first argument
+# is a Ryo object, and the rest of the arguments are for the
+# functionality the singleton method provides. It is similar to
+# JavaScript's [`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
+module Ryo::Reflect
   VITAL_METHODS = %w[
     method_missing
     pretty_print

@@ -18,10 +18,13 @@ in Ryo. The number of JavaScript equivalents in Ryo is plentiful, for example
 [`Object.assign`](). There are more that are covered later in the **Examples** section.
 
 Ryo implements most of its functionality through singleton methods on the
-`Ryo` module. It is similar to how JavaScript's `Object` has static methods
-that work regardless of what monkey patches an object might have. Ryo follows
-a similar path as JavaScript where Ryo objects and Ryo's functionality are
-separated (as much as possible).
+`Ryo` module. It is similar to JavaScript's [`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
+in that both have methods that work independent of the methods or property
+an object might have redefined. Ryo's singleton methods follow a pattern where
+the first argument is always a Ryo object, or "target" in JavaScript parlance. The rest
+of the arguments are for the functionality the singleton method provides. It is
+very much intentional that Ryo objects and Ryo's functionality are separated -
+as much as possible.
 
 **2. Compared to OpenStruct**
 
