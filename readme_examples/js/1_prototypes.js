@@ -7,7 +7,7 @@ const person = Object.create(null);
 Object.assign(person, {
   planet: 'Earth',
   greet () {
-    const greeting = `${this.name} asks: have you tried ${this.language} ?` +
+    const greeting = `${this.name} asks: have you tried ${this.language} ? ` +
                      `It is popular on my home planet, ${this.planet}.`;
     console.log(greeting);
   }
@@ -19,8 +19,10 @@ Object.assign(person, {
  * properties "name" and "language" using
  * Object.assign().
  */
-const larry = Object.create(person);
-Object.assign(larry, { name: 'Larry Wall', language: 'Perl' });
+const larry = Object.create(person, {
+  name: {value: 'Larry Wall'},
+  language: {value: 'Perl'}
+});
 
 /**
  * Find matches directly on the "larry"
@@ -41,8 +43,10 @@ larry.greet(); // => "Larry Wall asks: have you tried Perl? ..."
  * the properties "name" and "language" using
  * Object.assign().
  */
-const matz = Object.create(larry);
-Object.assign(matz, { name: 'Yukihiro Matsumoto', language: 'Ruby' });
+const matz = Object.create(larry, {
+  name: {value: 'Yukihiro Matsumoto'},
+  language: {value: 'Ruby', configurable: true}
+});
 
 /**
  * Find matches directly on the "matz"
