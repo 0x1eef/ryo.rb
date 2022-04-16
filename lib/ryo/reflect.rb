@@ -6,6 +6,8 @@
 # functionality the singleton method provides. It is similar to
 # JavaScript's [`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
 module Ryo::Reflect
+  extend self
+
   VITAL_METHODS = %w[
     method_missing
     pretty_print
@@ -50,61 +52,6 @@ module Ryo::Reflect
       n ? merge!(n, obj) : merge!(objs[0], objs[1])
     end
     objs[0]
-  end
-
-  ##
-  # @example
-  #   person = Object.create(nil, {greet: Ry.fn { puts "Hello #{name}" }})
-  #   tim = Object.create(person, {name: "Tim"})
-  #   tim.greet.()
-  #
-  # @param [Proc] b
-  #  The functions body (as a Proc)
-  #
-  # @return [Ryo::Function]
-  #  Returns a Ryo function that is bound to the
-  #  self of the Ryo object it is assigned to.
-  def function(&b)
-    Ryo::Function.new(&b)
-  end
-  alias_method :fn, :function
-
-  # Equivalent to JavaScript's "in" operator.
-  #
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String] property
-  #  The property.
-  #
-  # @return [Boolean]
-  #  Returns true when *property* is a member of *ryo*,
-  #  or its prototype chain.
-  def in?(ryo, property)
-    property?(ryo, property) ||
-    property?(unbox_proto(ryo), property)
-  end
-
-  ##
-  # Equivalent to JavaScript's "delete" operator.
-  #
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [String] property
-  #  The property to delete.
-  #
-  # @return [void]
-  def delete(ryo, property)
-    property = property.to_s
-    if property?(ryo, property)
-      unbox_table(ryo).delete(property)
-    else
-      return if getter_defined?(ryo, property)
-      define_method!(ryo, property) { ryo[property] }
-    end
   end
   # @endgroup
 

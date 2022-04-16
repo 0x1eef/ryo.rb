@@ -2,12 +2,14 @@
 
 module Ryo
   require_relative "ryo/reflect"
+  require_relative "ryo/keywords"
   require_relative "ryo/object_mixin"
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
   require_relative "ryo/function"
 
   extend Ryo::Reflect
+  extend Ryo::Keywords
 
   ##
   # @param [Ryo, nil] prototype
