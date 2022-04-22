@@ -75,10 +75,11 @@ Ryo. It is a long example with each step documented. The
 JavaScript equivalent to this example can be found at
 [readme_examples/js/1_prototypes.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/1_prototypes.js).
 
-Early in the example you will come across, `Ryo.fn` - which can also be
-written as `Ryo.function`. It returns an object that is similar to a lambda,
-with a key difference: its self is bound to the object it is assigned to. This
-provides equivalent JavaScript behavior.
+Early in the example you will come across, [`Ryo.fn`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html) -
+which can also be written as [`Ryo.function`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html). It
+returns an object that is similar to a lambda, with a key difference: its
+self is bound to the object it is assigned to. This provides equivalent
+JavaScript behavior.
 
 At the end of the example you will come across `Ryo.delete(matz, "language")`,
 it is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
@@ -235,6 +236,12 @@ puts Ryo.in?(honda, "foobar")
 ```
 
 **4. Equivalent to JavaScript's `Object.hasOwn`, `Object.prototype.hasOwnProperty`**
+
+`Ryo.property?` is Ryo's equivalent to JavaScript's [`Object.hasOwn`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn), and
+to a lesser extent, [`Object.prototype.hasOwnProperty`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty). With `Ryo.property?`
+one can discover if a property is defined directly on an object - without
+consulting the prototype chain. The javascript equivalent
+to this example can be found at [readme_examples/js/4_object.hasOwn.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/4_object.hasOwn.js).
 
 ```ruby
 require "ryo"
