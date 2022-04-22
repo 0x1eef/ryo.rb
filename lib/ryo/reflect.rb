@@ -155,18 +155,6 @@ module Ryo::Reflect
   end
 
   ##
-  # Delete all properties from *ryo*.
-  #
-  # @param [Ryo] ryo
-  #  A Ryo object.
-  #
-  # @return [nil]
-  def clear!(ryo)
-    table_of(ryo).clear
-    nil
-  end
-
-  ##
   #
   # @param [Ryo] ryo
   #  An object who has included the Ryo
