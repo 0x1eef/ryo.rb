@@ -1,14 +1,17 @@
 ##
 # The {Ryo::Reflect Ryo::Reflect} module implements equivalents
-# to JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
-# The module implements Ryo-specific reflection features as well. The
+# to JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
+# and equivalents to some of the static methods on JavaScript's
+# [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object).
+#
+# The module also implements Ryo-specific reflection features as well. The
 # instance methods of this module are available as singleton methods
 # on the {Ryo Ryo} module.
 module Ryo::Reflect
   extend self
 
   ##
-  # @group JavaScript equivalents
+  # @group JavaScript equivalents (Reflect)
 
   ##
   # Equivalent to JavaScript's `Reflect.getPrototypeOf`.
@@ -67,10 +70,14 @@ module Ryo::Reflect
     }
     nil
   end
+  # @endgroup
 
   ##
-  # Equivalent to JavaScript's "Object.hasOwn",
-  # "Object.prototype.hasOwnProperty".
+  # @group JavaScript equivalents (Object)
+
+  ##
+  # Equivalent to JavaScript's `Object.hasOwn`,
+  # and `Object.prototype.hasOwnProperty`.
   #
   # @param [Ryo] ryo
   #  A Ryo object.
@@ -86,7 +93,7 @@ module Ryo::Reflect
   end
 
   ##
-  # Equivalent to JavaScript's "Object.assign"
+  # Equivalent to JavaScript's `Object.assign`.
   #
   # @param [Ryo, Hash] objs
   #  A variable number of arguments to merge
@@ -198,9 +205,6 @@ module Ryo::Reflect
   # @endgroup
 
   ##
-  # @group Private interface
-
-  ##
   # @param [Ryo] ryo
   #  A Ryo object.
   #
@@ -210,7 +214,7 @@ module Ryo::Reflect
   # @param [Proc] b
   #  The method's body.
   #
-  # @return [void]
+  # @private
   def define_method!(ryo, method, &b)
     module_method(:define_singleton_method)
       .bind_call(ryo, method, &b)
@@ -226,6 +230,8 @@ module Ryo::Reflect
   # @return [Boolean]
   #  Returns true when the property has been
   #  defined with a getter method.
+  #
+  # @private
   def getter_defined?(ryo, property)
     module_method(:method)
       .bind_call(ryo, property)
@@ -244,12 +250,14 @@ module Ryo::Reflect
   # @return [Boolean]
   #  Returns true when the property has been
   #  defined with a setter method.
+  #
+  # @private
   def setter_defined?(ryo, property)
     getter_defined?(ryo, "#{property}=")
   end
 
   ##
-  # @api private
+  # @private
   def merge!(obj1, obj2)
     obj1 = table_of(obj1) if Ryo === obj1
     obj2 = table_of(obj2) if Ryo === obj2
@@ -258,7 +266,7 @@ module Ryo::Reflect
   end
 
   ##
-  # @api private
+  # @private
   def module_method(name)
     Module.instance_method(name)
   end

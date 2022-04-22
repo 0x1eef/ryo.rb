@@ -27,6 +27,10 @@ module Ryo::ObjectMixin
   # This method is intended for those who want to use
   # Ryo as an alternative to OpenStruct.
   #
+  # @example
+  #  ryo = Ryo::BasicObject.from({foo: {bar: 42}})
+  #  ryo.foo.bar # => 42
+  #
   # @param [Hash, #to_hash] props
   #  A Hash object.
   #
