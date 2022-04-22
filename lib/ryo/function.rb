@@ -22,6 +22,7 @@ class Ryo::Function
   def receiver
     @ryo
   end
+  alias_method :self, :receiver
 
   ##
   # Change the receiver (self) of the function.
