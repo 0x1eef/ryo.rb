@@ -1,7 +1,11 @@
 ##
-# The {Ryo::Function} class represents a Ryo function.
-# Usually it is not used directly but through {Ryo.function},
-# or {Ryo.fn} (an alias).
+# The {Ryo::Function Ryo::Function} class represents a Ryo
+# function. The class is usually not used directly but through
+# `Ryo.function { ... }`.
+#
+# A Ryo function has a special relationship with Ryo objects, where
+# when a Ryo function is assigned as a property to a Ryo object,
+# its "self" becomes bound to the Ryo object.
 class Ryo::Function
   ##
   # @param [Proc] body
