@@ -1,31 +1,14 @@
 ##
-# The Reflect module's instance methods are available as
-# singleton methods on the `Ryo` and `Ryo::Reflect` modules.
-# The Reflect module follows a pattern where the first argument
-# is a Ryo object, and the rest of the arguments are for the
-# functionality the singleton method provides. It is similar to
-# JavaScript's [`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
+# The {Ryo::Reflect Ryo::Reflect} module implements equivalents
+# to JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
+# The module implements Ryo-specific reflection features as well. The
+# instance methods of this module are available as singleton methods
+# on the {Ryo Ryo} module.
 module Ryo::Reflect
   extend self
 
   ##
   # @group JavaScript equivalents
-  #
-  # Equivalent to JavaScript's "Object.hasOwn",
-  # "Object.prototype.hasOwnProperty".
-  #
-  # @param [Ryo] ryo
-  #  A Ryo object.
-  #
-  # @param [String] property
-  #  The property.
-  #
-  # @return [Boolean]
-  #  Returns true when *property* is a member of
-  #  *ryo*.
-  def property?(ryo, property)
-    table_of(ryo).key?(property.to_s)
-  end
 
   ##
   # Equivalent to JavaScript's `Reflect.getPrototypeOf`.
@@ -54,6 +37,52 @@ module Ryo::Reflect
     module_method(:instance_variable_set)
       .bind_call(ryo, :@_proto, prototype)
     nil
+  end
+
+  ##
+  # Equivalent to JavaScript's `Reflect.defineProperty`.
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @param [String, to_s] property
+  #  The name of the property.
+  #
+  # @param [Object, BasicObject] value
+  #  The value of the property.
+  #
+  # @return [nil]
+  def define_property(ryo, property, value)
+    table = table_of(ryo)
+    table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
+    # Define setter
+    if !setter_defined?(ryo, property) && property[-1] != "?"
+      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
+    end
+    # Define getter
+    return if getter_defined?(ryo, property)
+    define_method!(ryo, property) { |*args, &b|
+      args.empty? && b.nil? ? ryo[property] :
+                              super(*args, &b)
+    }
+    nil
+  end
+
+  ##
+  # Equivalent to JavaScript's "Object.hasOwn",
+  # "Object.prototype.hasOwnProperty".
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @param [String] property
+  #  The property.
+  #
+  # @return [Boolean]
+  #  Returns true when *property* is a member of
+  #  *ryo*.
+  def property?(ryo, property)
+    table_of(ryo).key?(property.to_s)
   end
 
   ##
@@ -150,7 +179,7 @@ module Ryo::Reflect
   end
 
   ##
-  # @param [Ryo::Function, Object, BasicObject] obj
+  # @param [Ryo::Function, Object, BasicObjectq] obj
   #  An object.
   #
   # @return [Boolean]
@@ -182,33 +211,6 @@ module Ryo::Reflect
 
   ##
   # @group Private interface
-  #
-  # @param [Ryo] ryo
-  #  A Ryo object.
-  #
-  # @param [String, to_s] property
-  #  The name of the property.
-  #
-  # @param [Object, BasicObject] value
-  #  The value of the property.
-  #
-  # @return [void]
-  #
-  # @api private
-  def define_property!(ryo, property, value)
-    table = table_of(ryo)
-    table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
-    # Define setter
-    if !setter_defined?(ryo, property) && property[-1] != "?"
-      define_method!(ryo, "#{property}=") { ryo[property] = _1 }
-    end
-    # Define getter
-    return if getter_defined?(ryo, property)
-    define_method!(ryo, property) { |*args, &b|
-      args.empty? && b.nil? ? ryo[property] :
-                              super(*args, &b)
-    }
-  end
 
   ##
   # @param [Ryo] ryo

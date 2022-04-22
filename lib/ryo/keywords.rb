@@ -1,7 +1,7 @@
 ##
 # The {Ryo::Keywords Ryo::Keywords} module implements Ryo equivalent's
 # to some of JavaScript's keywords - for example, the `in` and `delete`
-# operators. This module's instance methods are available as singleton
+# operators. The instance methods of this module are available as singleton
 # methods on the {Ryo} module.
 module Ryo::Keywords
   extend self
