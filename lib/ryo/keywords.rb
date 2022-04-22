@@ -54,7 +54,7 @@ module Ryo::Keywords
   def delete(ryo, property)
     property = property.to_s
     if Ryo::Reflect.property?(ryo, property)
-      Ryo::Reflect.unbox_table(ryo).delete(property)
+      Ryo::Reflect.table_of(ryo).delete(property)
     else
       return if Ryo::Reflect.getter_defined?(ryo, property)
       Ryo::Reflect.define_method!(ryo, property) { ryo[property] }

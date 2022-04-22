@@ -89,7 +89,7 @@ module Ryo
   #  two Ryo objects have the same lookup table.
   def ==(other)
     if Ryo === other
-      @_table == Ryo.unbox_table(other)
+      @_table == Ryo.table_of(other)
     else
       other = Hash.try_convert(other)
       return false unless other

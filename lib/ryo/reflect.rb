@@ -15,8 +15,7 @@ module Ryo::Reflect
   # "Object.prototype.hasOwnProperty".
   #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @param [String] property
   #  The property.
@@ -25,7 +24,20 @@ module Ryo::Reflect
   #  Returns true when *property* is a member of
   #  *ryo*.
   def property?(ryo, property)
-    unbox_table(ryo).key?(property.to_s)
+    table_of(ryo).key?(property.to_s)
+  end
+
+  ##
+  # Equivalent to JavaScript's `Reflect.getPrototypeOf`.
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @return [Ryo, nil]
+  #  Returns the prototype of the *ryo* object.
+  def prototype_of(ryo)
+    module_method(:instance_variable_get)
+      .bind_call(ryo, :@_proto)
   end
 
   ##
@@ -42,19 +54,6 @@ module Ryo::Reflect
     module_method(:instance_variable_set)
       .bind_call(ryo, :@_proto, prototype)
     nil
-  end
-
-  ##
-  # Equivalent to JavaScript's `Reflect.getPrototypeOf`.`
-  #
-  # @param [Ryo] ryo
-  #  A Ryo object.
-  #
-  # @return [Ryo, nil]
-  #  Returns the prototype of the *ryo* object.
-  def prototype_of(ryo)
-    module_method(:instance_variable_get)
-      .bind_call(ryo, :@_proto)
   end
 
   ##
@@ -77,24 +76,38 @@ module Ryo::Reflect
   # @endgroup
 
   ##
-  # @group Public interface
+  # @group Ryo-specific
   #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @return [Hash]
-  #  Returns the internal lookup table of
-  #  the *ryo* object.
-  def unbox_table(ryo)
+  #  Returns the lookup table used by a Ryo object.
+  def table_of(ryo)
     module_method(:instance_variable_get)
       .bind_call(ryo, :@_table)
   end
 
   ##
+  # Sets the lookup table used by a Ryo object.
+  #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
+  #
+  # @param [Hash] table
+  #  The lookup table to assign to a Ryo object.
+  #
+  # @return [nil]
+  def set_table_of(ryo, table)
+    module_method(:instance_variable_set)
+      .bind_call(ryo, :@_table, table)
+    nil
+  end
+
+  ##
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
   #
   # @param [String, Symbol] method
   #  The name of a method.
@@ -116,13 +129,12 @@ module Ryo::Reflect
   # Delete all properties from *ryo*.
   #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
-  # @return [void]
+  # @return [nil]
   def clear!(ryo)
-    unbox_table(ryo).clear
-    true
+    table_of(ryo).clear
+    nil
   end
 
   ##
@@ -142,15 +154,14 @@ module Ryo::Reflect
   #  An object.
   #
   # @return [Boolean]
-  #  Returns true when *obj* is a Ryo function.
+  #  Returns true when the given object is a Ryo function.
   def function?(obj)
     Ryo::Function === obj
   end
 
   ##
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @return [String]
   #  Returns details about the *ryo* object
@@ -164,7 +175,7 @@ module Ryo::Reflect
       "#<Ryo object=%{object} proto=%{proto} table=%{table}>",
       object: Object.instance_method(:to_s).bind_call(ryo),
       proto: prototype_of(ryo).inspect,
-      table: unbox_table(ryo).inspect
+      table: table_of(ryo).inspect
     )
   end
   # @endgroup
@@ -173,8 +184,7 @@ module Ryo::Reflect
   # @group Private interface
   #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @param [String, to_s] property
   #  The name of the property.
@@ -186,7 +196,7 @@ module Ryo::Reflect
   #
   # @api private
   def define_property!(ryo, property, value)
-    table = unbox_table(ryo)
+    table = table_of(ryo)
     table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
     # Define setter
     if !setter_defined?(ryo, property) && property[-1] != "?"
@@ -202,25 +212,7 @@ module Ryo::Reflect
 
   ##
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [Ryo] table
-  #  The internal look table to assign to
-  #  *ryo*.
-  #
-  # @return [void]
-  #
-  # @api private
-  def assign_table!(ryo, table)
-    module_method(:instance_variable_set)
-      .bind_call(ryo, :@_table, table)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @param [String, Symbol] method
   #  The name of the method.
@@ -236,8 +228,7 @@ module Ryo::Reflect
 
   ##
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @param [String] property
   #  The name of the property.
@@ -255,8 +246,7 @@ module Ryo::Reflect
   ##
   #
   # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  #  A Ryo object.
   #
   # @param [String] property
   #  The name of the property.
@@ -271,8 +261,8 @@ module Ryo::Reflect
   ##
   # @api private
   def merge!(obj1, obj2)
-    obj1 = unbox_table(obj1) if Ryo === obj1
-    obj2 = unbox_table(obj2) if Ryo === obj2
+    obj1 = table_of(obj1) if Ryo === obj1
+    obj2 = table_of(obj2) if Ryo === obj2
     obj2.each { obj1[_1.to_s] = _2 }
     obj1
   end
