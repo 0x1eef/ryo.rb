@@ -13,6 +13,7 @@ class Ryo::Function
   def initialize(&body)
     @body = body
     @ryo = nil
+    @to_proc = nil
   end
 
   ##
@@ -30,9 +31,10 @@ class Ryo::Function
   # @param [Ryo] ryo
   #  A Ryo object.
   #
-  # @return [void]
+  # @return [nil]
   def bind!(ryo)
     @ryo = ryo
+    @to_proc = nil
   end
 
   ##
@@ -46,7 +48,7 @@ class Ryo::Function
   #  Returns the function as a lambda bound
   #  to {#receiver}.
   def to_proc
-    lambda!(@body)
+    @to_proc ||= lambda!(@body)
   end
 
   private
