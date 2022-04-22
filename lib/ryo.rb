@@ -13,6 +13,21 @@ module Ryo
   extend Ryo::Keywords
 
   ##
+  # @param [Object, BasicObject] ryo
+  #  A Ryo object to extend.
+  #
+  # @param [Module] mod
+  #  A module to extend *ryo* with.
+  #
+  # @return [Ryo]
+  #  Returns a Ryo object, extended by *mod*.
+  def self.extend!(ryo, mod)
+    Module
+      .instance_method(:extend)
+      .bind_call(ryo, mod)
+  end
+
+  ##
   # @param [Ryo, nil] prototype
   #  The prototype.
   #
