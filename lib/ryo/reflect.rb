@@ -167,7 +167,7 @@ module Ryo::Reflect
   end
 
   ##
-  # @param [Ryo::Function, Object, BasicObjectq] obj
+  # @param [Ryo::Function, Object, BasicObject] obj
   #  An object.
   #
   # @return [Boolean]

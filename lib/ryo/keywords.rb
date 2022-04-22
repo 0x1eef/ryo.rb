@@ -50,7 +50,8 @@ module Ryo::Keywords
   # @param [String] property
   #  The property to delete.
   #
-  # @return [void]
+  # @return [Object, BasicObject]
+  #  Returns the value of the deleted property.
   def delete(ryo, property)
     property = property.to_s
     if Ryo::Reflect.property?(ryo, property)
