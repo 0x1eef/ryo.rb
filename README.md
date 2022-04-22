@@ -32,6 +32,8 @@ OpenStruct, with a few differences:
   without breaking.
 * Methods overwritten by a property remain callable if they receive 1+ arguments.
 
+## Examples
+
 **Introduction**
 
 The examples use `Object.create` - a monkeypatch that is opt-in
@@ -176,7 +178,7 @@ JavaScript's [`in` operator]() can check for property membership
 in an object and in its prototype chain. If the property is found
 on neither of those, `false` is returned. Ryo's equivalent to this
 is the `Ryo.in?` method. The javascript equivalent
-to this example can be found at [https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/3_in.operator.js](/readme_examples/js/3_in.operator.js).
+to this example can be found at [readme_examples/js/3_in.operator.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/3_in.operator.js).
 
 
 ```ruby
