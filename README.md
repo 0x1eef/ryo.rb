@@ -6,24 +6,31 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 
 ## Compared to..
 
-**1. Compared to JavaScript's "Object"**
+**1. Compared to JavaScript**
 
 Ryo is inspired by JavaScript - it is the point of reference
-a lot of the time, especially in regards to using prototypes for
-inheritance. There are Ryo equivalent's to JavaScript - for example,
+a lot of the time. There are Ryo equivalent's to JavaScript - for example,
 in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)`
 in Ryo.
 
-The [Ryo::Reflect module](https://0x1eef.github.io/docs/ryo.rb/Ryo/Reflect.html) implements numerous other JavaScript
-equivalents, and it is based upon JavaScript's
-[`Reflect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect).
-Similar to the Reflect object and some of the static methods on Object, Ryo separates the behavior it provides from the objects it creates.
+There are Ryo modules that implement more JavaScript equivalents,
+such as `Ryo::Reflect` - which is based on JavaScript's Reflect object,
+and `Ryo::Keywords` - which is based on JavaScript operators like `delete`
+and `in`. Both of those modules extend the `Ryo` module - and that helps
+keep the typing to a minimum.
+
 
 **2. Compared to OpenStruct**
 
-**TODO**
+A Ryo object without a prototype is similar to an instance of
+OpenStruct, with a few differences:
 
-## Examples
+* For the most part, Ryo provides an object free of implementation details.
+* Ryo implements most of its functionality independent of the objects
+  it creates.
+* Ryo objects can have `#method_missing` assigned as a property
+  without breaking.
+* Methods overwritten by a property remain callable if they receive 1+ arguments.
 
 **Introduction**
 
