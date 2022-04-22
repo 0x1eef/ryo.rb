@@ -37,7 +37,7 @@ module Ryo::Keywords
   #  or its prototype chain.
   def in?(ryo, property)
     Ryo::Reflect.property?(ryo, property) ||
-    Ryo::Reflect.property?(unbox_proto(ryo), property)
+    Ryo::Reflect.property?(Ryo::Reflect.prototype_of(ryo), property)
   end
 
   ##

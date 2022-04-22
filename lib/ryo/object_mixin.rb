@@ -14,7 +14,7 @@ module Ryo::ObjectMixin
   # @private
   def create(prototype, props = {}, klass:)
     ryo = klass.new
-    Ryo.assign_prototype!(ryo, prototype)
+    Ryo.set_prototype_of(ryo, prototype)
     Ryo.assign_table!(ryo, {})
     Ryo.extend!(ryo, Ryo)
     props.each { ryo[_1] = _2 }

@@ -29,6 +29,35 @@ module Ryo::Reflect
   end
 
   ##
+  # Equivalent to JavaScript's `Reflect.setPrototypeOf`.
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @param [Ryo] prototype
+  #  The prototype to assign to *ryo*.
+  #
+  # @return [nil]
+  def set_prototype_of(ryo, prototype)
+    module_method(:instance_variable_set)
+      .bind_call(ryo, :@_proto, prototype)
+    nil
+  end
+
+  ##
+  # Equivalent to JavaScript's `Reflect.getPrototypeOf`.`
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @return [Ryo, nil]
+  #  Returns the prototype of the *ryo* object.
+  def prototype_of(ryo)
+    module_method(:instance_variable_get)
+      .bind_call(ryo, :@_proto)
+  end
+
+  ##
   # Equivalent to JavaScript's "Object.assign"
   #
   # @param [Ryo, Hash] objs
@@ -60,24 +89,6 @@ module Ryo::Reflect
   def unbox_table(ryo)
     module_method(:instance_variable_get)
       .bind_call(ryo, :@_table)
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @return [Ryo, nil]
-  #  Returns the prototype of the *ryo*
-  #  object.
-  #
-  # @note
-  #  This method will return the prototype
-  #  of an object, even when "__proto__" has
-  #  been redefined on the mentioned object.
-  def unbox_proto(ryo)
-    module_method(:instance_variable_get)
-      .bind_call(ryo, :@_proto)
   end
 
   ##
@@ -152,7 +163,7 @@ module Ryo::Reflect
     format(
       "#<Ryo object=%{object} proto=%{proto} table=%{table}>",
       object: Object.instance_method(:to_s).bind_call(ryo),
-      proto: unbox_proto(ryo).inspect,
+      proto: prototype_of(ryo).inspect,
       table: unbox_table(ryo).inspect
     )
   end
@@ -187,22 +198,6 @@ module Ryo::Reflect
       args.empty? && b.nil? ? ryo[property] :
                               super(*args, &b)
     }
-  end
-
-  ##
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
-  #
-  # @param [Ryo] prototype
-  #  The prototype to assign to *ryo*.
-  #
-  # @return [void]
-  #
-  # @api private
-  def assign_prototype!(ryo, prototype)
-    module_method(:instance_variable_set)
-      .bind_call(ryo, :@_proto, prototype)
   end
 
   ##
