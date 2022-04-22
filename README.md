@@ -30,7 +30,29 @@ OpenStruct, with a few differences:
   it creates.
 * Ryo objects can have `#method_missing` assigned as a property
   without breaking.
-* Methods overwritten by a property remain callable if they receive 1+ arguments.
+* Methods overshadowed by a property remain callable when they receive 1+ arguments.
+* Ryo has an API for walking a Hash recursively - replacing Hash objects
+  with Ryo objects.
+
+The last item on the list makes mention of a specialized API that
+was created for those who want to use Ryo as an OpenStruct alternative.
+The following is an example of that API:
+
+```ruby
+require "ryo"
+require "ryo/core_ext/object"
+require "ryo/core_ext/basic_object"
+
+##
+# Create an instance of BasicObject.
+ryo = BasicObject.from(foo: {bar: {baz: "foobarbaz"}})
+ryo.foo.bar.baz # => "foobarbaz"
+
+##
+# Create an instance of Object.
+ryo = Object.from(foo: {bar: {baz: "foobarbaz"}})
+ryo.foo.bar.baz # => "foobarbaz"
+```
 
 ## Examples
 
@@ -232,6 +254,13 @@ obj.foo = 42
 # has the property "foo".
 Kernel.p Ryo.property?(obj, "foo")
 ```
+
+## Thanks
+
+I'd like to extend special thanks to mooff on `irc.libera.chat/#ruby` for
+brain storming and taking part in discussions about Ryo. Those discussions
+had a big impact on the direction Ryo took.
+
 
 ## LICENSE
 
