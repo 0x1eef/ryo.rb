@@ -8,14 +8,6 @@
 module Ryo::Reflect
   extend self
 
-  VITAL_METHODS = %w[
-    method_missing
-    pretty_print
-    respond_to?
-    respond_to_missing?
-  ].freeze
-  private_constant :VITAL_METHODS
-
   ##
   # @group JavaScript equivalents
   #
@@ -191,11 +183,10 @@ module Ryo::Reflect
     end
     # Define getter
     return if getter_defined?(ryo, property)
-    if VITAL_METHODS.include?(property)
-      define_method!(ryo, property) { |*args, &b| args.empty? ? ryo[property] : super(*args, &b) }
-    else
-      define_method!(ryo, property) { ryo[property] }
-    end
+    define_method!(ryo, property) { |*args, &b|
+      args.empty? && b.nil? ? ryo[property] :
+                              super(*args, &b)
+    }
   end
 
   ##
