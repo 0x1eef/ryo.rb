@@ -76,7 +76,7 @@ module Ryo
   # @param [Object,BasicObject] value
   #  The value.
   def []=(property, value)
-    Ryo.define_property!(self, property.to_s, value)
+    Ryo.define_property(self, property.to_s, value)
   end
 
   ##
