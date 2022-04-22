@@ -7,6 +7,7 @@ module Ryo
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
   require_relative "ryo/function"
+  require_relative "ryo/tap"
 
   extend Ryo::Reflect
   extend Ryo::Keywords

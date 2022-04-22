@@ -1,4 +1,8 @@
 ignore:
+  - 'lib/ryo/object_mixin.rb':
+    - Layout/IndentationWidth
+    - Layout/ElseAlignment
+    - Layout/EndAlignment
   - 'readme_examples/rb/*.rb':
     - Style/LambdaCall 
     - Style/TrailingCommaInHashLiteral

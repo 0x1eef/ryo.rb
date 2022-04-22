@@ -6,8 +6,8 @@ class Object
   # @param props (see Ryo::ObjectMixin#create)
   #
   # @return [Object<Ryo>]
-  #  Returns an instance of Object, with
-  #  the Ryo module extended into it.
+  #  Returns an instance of Object - extended by
+  #  the Ryo module.
   def self.create(prototype, props = {})
     super(prototype, props, klass: self)
   end

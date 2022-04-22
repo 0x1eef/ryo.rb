@@ -200,17 +200,18 @@ module Ryo::Reflect
 
   ##
   # @param [Object, BasicObject] ryo
-  #  An object to extend with the "Ryo"
-  #  module.
+  #  A Ryo object to extend.
+  #
+  # @param [Module] mod
+  #  A module to extend *ryo* with.
   #
   # @return [Ryo]
-  #  Returns the same object, with Ryo
-  #  extended into it.
+  #  Returns a Ryo object, extended by *mod*.
   #
   # @api private
-  def extend_object!(ryo)
+  def extend!(ryo, mod)
     module_method(:extend)
-      .bind_call(ryo, Ryo)
+      .bind_call(ryo, mod)
   end
 
   ##
