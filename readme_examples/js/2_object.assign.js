@@ -4,9 +4,17 @@
  */
 const fruit = Object.create(null)
 
-/** *
- * Merge {sour:true} into "fruit".
+/**
+ * Create another object, with "fruit"
+ * as its prototype.
  */
-Object.assign(fruit, {sour: true})
+const pineapple = Object.create(fruit)
 
-console.log(fruit.sour) // => true
+/**
+ * Merge {sour: true} into "pineapple", and then
+ * merge "pineapple" into "fruit".
+ */
+Object.assign(fruit, pineapple, {sour: true})
+
+console.log(fruit.sour)     // => true
+console.log(pineapple.sour) // => true

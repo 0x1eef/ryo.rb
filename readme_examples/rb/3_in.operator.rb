@@ -16,14 +16,14 @@ honda = Object.create(vehicle, {model: "Honda"})
 ##
 # Returns true after finding the "wheels"
 # property in the prototype chain of "honda".
-puts Ryo.in?(honda, "wheels")
+Kernel.p Ryo.in?(honda, "wheels")
 
 ##
 # Returns true after finding the "model"
 # property directly on "honda".
-puts Ryo.in?(honda, "model")
+Kernel.p Ryo.in?(honda, "model")
 
 ##
 # Returns false after not finding the "foobar"
 # property on "honda", or in its prototype chain.
-puts Ryo.in?(honda, "foobar")
+Kernel.p Ryo.in?(honda, "foobar")

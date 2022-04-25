@@ -14,11 +14,11 @@ in JavaScript `Object.create(null)` is equivalent to `Object.create(nil)`
 in Ryo.
 
 There are Ryo modules that implement more JavaScript equivalents,
-such as `Ryo::Reflect` - which is based on JavaScript's Reflect object,
-and `Ryo::Keywords` - which is based on JavaScript operators like `delete`
-and `in`. Both of those modules extend the `Ryo` module - and that helps
-keep the typing to a minimum.
-
+such as [`Ryo::Reflect`](http://0x1eef.github.io/x/ryo.rb/Ryo/Reflect.html) -
+which is based on JavaScript's Reflect object, and [`Ryo::Keywords`](http://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html) -
+which is based on JavaScript operators like `delete` and `in`. Both
+modules extend the `Ryo` module - and that helps keep the typing to
+a minimum.
 
 **2. Compared to OpenStruct**
 
@@ -78,11 +78,10 @@ JavaScript equivalent to this example can be found at
 Early in the example you will come across, [`Ryo.fn`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html) -
 which can also be written as [`Ryo.function`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html). It
 returns an object that is similar to a lambda, with a key difference: its
-self is bound to the object it is assigned to. This provides equivalent
-JavaScript behavior.
+self is bound to the object it is assigned to, and that provides [equivalent
+JavaScript behavior](https://github.com/0x1eef/ryo.rb/blob/fab438f8c406d074510f1f12d9eb1179deb344d1/readme_examples/js/1_prototypes.js#L9-L13).
 
-At the end of the example you will come across `Ryo.delete(matz, "language")`,
-it is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
+At the end of the example you will come across `Ryo.delete(matz, "language")`, and that is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
 
 
 ```ruby
@@ -144,32 +143,10 @@ matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
 **2. Equivalent to JavaScript's `Object.assign`**
 
 `Ryo.assign` is Ryo's equivalent to [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
-`Ryo.assign` can be used in place of the second argument to `Object.create`,
-for example - one could write something like what follows below. The javascript
-equivalent to this example can be found at
+With `Ryo.assign`, one can merge as many objects as they want,
+from right to left, and the objects can be a mix of Ryo objects
+and Hash objects. The javascript equivalent to this example can be found at
 [readme_examples/js/2_object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_object.assign.js).
-
-```ruby
-require "ryo"
-require "ryo/core_ext/object"
-
-##
-# Create an instance of Object, with
-# no prototype.
-fruit = Object.create(nil)
-
-##
-# Merge {sour:true} into "fruit".
-Ryo.assign(fruit, {sour: true})
-
-puts fruit.sour # => true
-```
-
-It's possible to merge as many objects as you want,
-from right to left, and they can be a mix of Ryo objects
-and Hash objects. The javascript equivalent
-to this example can be found at
-[readme_examples/js/2_1.object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_1.object.assign.js).
 
 ```ruby
 require "ryo"
@@ -222,17 +199,18 @@ honda = Object.create(vehicle, {model: "Honda"})
 ##
 # Returns true after finding the "wheels"
 # property in the prototype chain of "honda".
-puts Ryo.in?(honda, "wheels")
+Kernel.p Ryo.in?(honda, "wheels")
 
 ##
 # Returns true after finding the "model"
 # property directly on "honda".
-puts Ryo.in?(honda, "model")
+Kernel.p Ryo.in?(honda, "model")
 
 ##
 # Returns false after not finding the "foobar"
 # property on "honda", or in its prototype chain.
-puts Ryo.in?(honda, "foobar")
+Kernel.p Ryo.in?(honda, "foobar")
+
 ```
 
 **4. Equivalent to JavaScript's `Object.hasOwn`, `Object.prototype.hasOwnProperty`**
@@ -249,18 +227,26 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-obj = Object.create(nil)
+ryo = Object.create(nil, {foo: "foo"})
 
 ##
-# Assign the property "foo" the value of
-# "42".
-obj.foo = 42
+# Create a second object, with the "ryo" object as
+# its prototype.
+ryo2 = Object.create(ryo, {bar: "bar"})
 
 ##
-# Use "Ryo" to ask the object if it
-# has the property "foo".
-Kernel.p Ryo.property?(obj, "foo")
+# Returns false
+Kernel.p Ryo.property?(ryo2, "foo")
+
+##
+# Returns true
+Kernel.p Ryo.property?(ryo2, "bar")
 ```
+
+## Resources
+
+* [**Source code (github.com/0x1eef/ryo.rb)**](https://github.com/0x1eef/ryo.rb)
+* [**Docs (0x1eef.github.io/x/ryo.rb)**](https://0x1eef.github.io/x/ryo.rb)
 
 ## Thanks
 
