@@ -77,6 +77,17 @@ RSpec.shared_examples ".delete" do
 end
 
 ##
+# shared example
+RSpec.shared_examples ".properties_of" do
+  let(:ryo1) { object.create(nil, foo: 1, bar: 2)  }
+  let(:ryo2) { object.create(ryo1, baz: 3, daz: 4) }
+
+  subject { Ryo.properties_of(ryo2) }
+
+  it { is_expected.to eq(["baz", "daz"]) }
+end
+
+##
 # specs
 RSpec.describe Ryo do
   let(:fruit) { object.create(nil) }
@@ -88,6 +99,7 @@ RSpec.describe Ryo do
     include_examples ".function"
     include_examples ".assign"
     include_examples ".delete"
+    include_examples ".properties_of"
   end
 
   context "when the object is Ryo::BasicObject" do
@@ -95,6 +107,7 @@ RSpec.describe Ryo do
     include_examples ".function"
     include_examples ".assign"
     include_examples ".delete"
+    include_examples ".properties_of"
   end
 
   context "when the object is Object" do
@@ -102,6 +115,7 @@ RSpec.describe Ryo do
     include_examples ".function"
     include_examples ".assign"
     include_examples ".delete"
+    include_examples ".properties_of"
   end
 
   context "when the object is BasicObject" do
@@ -109,5 +123,6 @@ RSpec.describe Ryo do
     include_examples ".function"
     include_examples ".assign"
     include_examples ".delete"
+    include_examples ".properties_of"
   end
 end

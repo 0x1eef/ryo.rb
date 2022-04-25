@@ -70,6 +70,20 @@ module Ryo::Reflect
     }
     nil
   end
+
+  ##
+  # Equivalent to JavaScript's `Reflect.ownKeys`, and
+  # JavaScript's `Object.keys`.
+  #
+  # @param [Ryo] ryo
+  #  A Ryo object.
+  #
+  # @return [Array<String>]
+  #  Returns the properties defined directly on the Ryo object.
+  def properties_of(ryo)
+    table_of(ryo).keys
+  end
+
   # @endgroup
 
   ##
