@@ -3,3 +3,4 @@ doc/
 .*_history
 .yardoc
 *.lock
+pkg/
