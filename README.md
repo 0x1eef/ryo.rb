@@ -79,7 +79,7 @@ Early in the example you will come across, [`Ryo.fn`](http://0x1eef.github.test/
 which can also be written as [`Ryo.function`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html). It
 returns an object that is similar to a lambda, with a key difference: its
 self is bound to the object it is assigned to, and that provides [equivalent
-JavaScript behavior](https://github.com/0x1eef/ryo.rb/blob/fab438f8c406d074510f1f12d9eb1179deb344d1/readme_examples/js/1_prototypes.js#L9).
+JavaScript behavior](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/1_prototypes.js#L9).
 
 At the end of the example you will come across `Ryo.delete(crystal, "name")`, and
 that is equivalent to JavaScript's
