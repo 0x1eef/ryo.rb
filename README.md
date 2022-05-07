@@ -79,9 +79,11 @@ Early in the example you will come across, [`Ryo.fn`](http://0x1eef.github.test/
 which can also be written as [`Ryo.function`](http://0x1eef.github.test/x/ryo.rb/Ryo/Function.html). It
 returns an object that is similar to a lambda, with a key difference: its
 self is bound to the object it is assigned to, and that provides [equivalent
-JavaScript behavior](https://github.com/0x1eef/ryo.rb/blob/fab438f8c406d074510f1f12d9eb1179deb344d1/readme_examples/js/1_prototypes.js#L9-L13).
+JavaScript behavior](https://github.com/0x1eef/ryo.rb/blob/fab438f8c406d074510f1f12d9eb1179deb344d1/readme_examples/js/1_prototypes.js#L9).
 
-At the end of the example you will come across `Ryo.delete(matz, "language")`, and that is equivalent to JavaScript's [`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
+At the end of the example you will come across `Ryo.delete(crystal, "name")`, and
+that is equivalent to JavaScript's
+[`delete` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
 
 
 ```ruby
@@ -90,54 +92,51 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-# On this object, define the properties "planet",
-# and "greet".
-person = Object.create(nil, {
-  planet: "Earth",
-  greet: Ryo.fn {
-    greeting = "#{name} asks: have you tried #{language}? " \
-               "It is popular on my home planet, #{planet}."
-    puts greeting
-  }
+# On this object, define the properties "name"
+# and "description".
+perl = Object.create(nil, {
+  name: "Perl",
+  description: Ryo.fn { "The #{name} programming language" }
 })
 
 ##
-# Create a second object, with "person" as
-# its prototype. On this object, define
-# the properties "name", and "language".
-larry = Object.create(person, {name: "Larry Wall", language: "Perl"})
+# Find matches directly on the "perl" object.
+puts perl.name # => "Perl"
+puts perl.description.() # => "The Perl programming language"
 
 ##
-# Find matches directly on the larry object.
-larry.name     # => "Larry Wall"
-larry.language # => "Perl"
+# Create a second object, with "perl" as
+# its prototype.
+ruby = Object.create(perl, {name: "Ruby" })
 
 ##
-# Find matches in the prototype chain.
-larry.planet   # => "Earth"
-larry.greet.() # => "Larry Wall asks: have you tried Perl? ..."
-
-##
-# Create a third object, with "larry" as its
-# prototype. On this object, define the properties
-# "name" and "language".
-matz = Object.create(larry, {name: "Yukihiro Matsumoto", language: "Ruby"})
-
-##
-# Find matches directly on the matz object.
-matz.name     # => "Yukihiro Matsumoto"
-matz.language # => "Ruby"
+# Find matches directly on the "ruby" object.
+puts ruby.name # => "Ruby"
 
 ##
 # Find matches in the prototype chain.
-matz.planet   # => "Earth"
-matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Ruby? ..."
+puts ruby.description.() # => "The Ruby programming language"
 
 ##
-# Delete the "language" property from matz,
-# and find it on the larry prototype instead.
-Ryo.delete(matz, "language")
-matz.greet.() # => "Yukihiro Matsumoto asks: have you tried Perl? ..."
+# Create a third object, with "ruby" as its prototype.
+crystal = Object.create(ruby, {name: "Crystal"})
+
+##
+# Find matches directly on the "crystal" object.
+puts crystal.name # => "Crystal"
+
+##
+# Find matches in the prototype chain.
+puts crystal.description.() # => "The Crystal programming language"
+
+##
+# Delete "name" from "crystal".
+Ryo.delete(crystal, "name")
+
+##
+# Find matches in the prototype chain.
+puts crystal.description.() # => "The Ruby programming language"
+
 ```
 
 **2. Equivalent to JavaScript's `Object.assign`**
