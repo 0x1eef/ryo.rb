@@ -9,8 +9,8 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 **1. Compared to JavaScript**
 
 Ryo is inspired by JavaScript - it is the point of reference
-a lot of the time. There are Ryo equivalent's to JavaScript - for example,
-JavaScript's `Object.create(null)` is equivalent to either
+a lot of the time. There are Ryo equivalents to JavaScript - for
+example, JavaScript's `Object.create(null)` is equivalent to either
 `Object.create(nil)` - which uses an opt-in monkeypatch, or
 `Ryo::Object.create(nil)` - which does not uses a monkeypatch.
 
