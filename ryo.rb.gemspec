@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.authors = ["0x1eef"]
   gem.email = ["0x1eef@ryonmail.com"]
   gem.homepage = "https://github.com/0x1eef/ryo.rb#readme"
-  gem.version = Proto::VERSION
+  gem.version = Ryo::VERSION
   gem.licenses = ["MIT"]
   gem.files = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
