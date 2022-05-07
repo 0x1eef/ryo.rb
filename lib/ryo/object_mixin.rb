@@ -37,7 +37,10 @@ module Ryo::ObjectMixin
   # @return [Object<Ryo>, BasicObject<Ryo, Ryo::Tap>]
   #  Returns a Ryo object.
   def from(props)
-    props   = props.to_hash
+    props = Hash.try_convert(props)
+    if props.nil?
+      raise TypeError, "The provided object can't be coerced into a Hash"
+    end
     visited = {}
     props.each do |key, value|
       visited[key] = if Hash === value

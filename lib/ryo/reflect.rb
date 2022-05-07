@@ -109,9 +109,10 @@ module Ryo::Reflect
   ##
   # Equivalent to JavaScript's `Object.assign`.
   #
-  # @param [Ryo, Hash] objs
-  #  A variable number of arguments to merge
-  #  starting from right to left.
+  # @param [Ryo, Hash, #to_hash] objs
+  #  A variable number of arguments to
+  #  merge - starting from the right, and
+  #  moving towards the left.
   #
   # @return [Ryo]
   #  Returns the first element of *objs*.
@@ -273,10 +274,19 @@ module Ryo::Reflect
   ##
   # @private
   def merge!(obj1, obj2)
-    obj1 = table_of(obj1) if Ryo === obj1
-    obj2 = table_of(obj2) if Ryo === obj2
+    obj1, obj2 = coerce_to_hash(obj1), coerce_to_hash(obj2)
     obj2.each { obj1[_1.to_s] = _2 }
     obj1
+  end
+
+  ##
+  # @private
+  def coerce_to_hash(obj)
+    if Ryo === obj
+      table_of(obj)
+    else
+      Hash.try_convert(obj)
+    end
   end
 
   ##

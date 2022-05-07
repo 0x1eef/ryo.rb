@@ -10,9 +10,9 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 
 Ryo is inspired by JavaScript - it is the point of reference
 a lot of the time. There are Ryo equivalents to JavaScript - for
-example, JavaScript's `Object.create(null)` is equivalent to either
-`Object.create(nil)` - which uses an opt-in monkeypatch, or
-`Ryo::Object.create(nil)` - which does not uses a monkeypatch.
+example, JavaScript's `Object.create(null)` is equivalent to
+`Object.create(nil)` - which is using an opt-in monkeypatch, and
+`Ryo::Object.create(nil)` - which is not using a monkeypatch.
 
 There are Ryo modules that implement more JavaScript equivalents,
 such as [`Ryo::Reflect`](http://0x1eef.github.io/x/ryo.rb/Ryo/Reflect.html) -
@@ -108,7 +108,7 @@ puts perl.description.() # => "The Perl programming language"
 ##
 # Create a second object, with "perl" as
 # its prototype.
-ruby = Object.create(perl, {name: "Ruby" })
+ruby = Object.create(perl, {name: "Ruby"})
 
 ##
 # Find matches directly on the "ruby" object.
@@ -144,8 +144,10 @@ puts crystal.description.() # => "The Ruby programming language"
 
 `Ryo.assign` is Ryo's equivalent to [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
 With `Ryo.assign`, one can merge as many objects as they want,
-from right to left, and the objects can be a mix of Ryo objects
-and Hash objects. The javascript equivalent to this example can be found at
+from right to left, and the objects can be a mix of Ryo objects,
+Hash objects, and objects that can be coerced into Hash objects.
+
+The javascript equivalent to this example can be found at
 [readme_examples/js/2_object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_object.assign.js).
 
 ```ruby

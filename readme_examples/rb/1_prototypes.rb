@@ -19,7 +19,7 @@ puts perl.description.() # => "The Perl programming language"
 ##
 # Create a second object, with "perl" as
 # its prototype.
-ruby = Object.create(perl, {name: "Ruby" })
+ruby = Object.create(perl, {name: "Ruby"})
 
 ##
 # Find matches directly on the "ruby" object.

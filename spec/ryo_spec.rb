@@ -22,7 +22,7 @@ RSpec.shared_examples ".function" do
 
     context "when the function requires argument(s)" do
       context "when the required argument is not given" do
-        subject { ryo1.func.()  }
+        subject { ryo1.func.() }
         it { expect { is_expected }.to raise_error(ArgumentError) }
       end
 
@@ -80,7 +80,7 @@ end
 # Shared example
 RSpec.shared_examples ".properties_of" do
   describe ".properties_of" do
-    let(:ryo1) { object.create(nil, foo: 1, bar: 2)  }
+    let(:ryo1) { object.create(nil, foo: 1, bar: 2) }
     let(:ryo2) { object.create(ryo1, baz: 3, daz: 4) }
     subject { Ryo.properties_of(ryo2) }
     it { is_expected.to eq(["baz", "daz"]) }
@@ -107,6 +107,11 @@ RSpec.shared_examples ".from" do
           .foo.bar[0].baz
       end
       it { is_expected.to eq(42) }
+    end
+
+    context "when given an object that can't be coerced to a Hash" do
+      subject { proc { object.from(Object.new) } }
+      it { is_expected.to raise_error(TypeError) }
     end
   end
 end
