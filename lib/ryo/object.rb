@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class Ryo::Object
-  extend Ryo::ObjectMixin
-
   ##
   # @param prototype (see Ryo::ObjectMixin#create)
   # @param props (see Ryo::ObjectMixin#create)
   #
-  # @return [Object<Ryo>]
-  #  Returns an instance of Object - extended by
-  #  the Ryo module.
+  # @return [Ryo::Object]
+  #  Returns an instance of Ryo::Object.
   def self.create(props, prototype = nil)
-    super(props, prototype, klass: self)
+    Ryo::Builder.build(props, prototype, build_class: self)
+  end
+
+  def self.from(props, prototype = nil)
+    Ryo::Builder.build_from(props, prototype, build_class: self)
   end
 end
 

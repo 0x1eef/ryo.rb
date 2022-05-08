@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
-module Ryo::ObjectMixin
+module Ryo::Builder
   ##
   # @param [Ryo, nil] prototype
   #  The prototype, or nil for none.
   #
   # @param [Hash] props
-  #  The properties to assign to the
-  #  object.
+  #  The properties to assign to the object.
   #
-  # @param [Object,BasicObject] klass
+  # @param [Ryo::Object, Ryo::BasicObject] build_class
   #  The class of the object.
-  #  Options are either Object (default) or BasicObject.
   #
   # @private
-  def create(props, prototype = nil, klass:)
-    ryo = klass.new
+  def self.build(props, prototype = nil, build_class:)
+    ryo = build_class.new
     Ryo.set_prototype_of(ryo, prototype)
     Ryo.set_table_of(ryo, {})
     Ryo.extend!(ryo, Ryo)
@@ -25,9 +23,7 @@ module Ryo::ObjectMixin
 
   ##
   # Recursively walks through a Hash, and returns a
-  # Ryo object (with no prototype) in its place.
-  # This method is intended for those who want to use
-  # Ryo as an alternative to OpenStruct.
+  # Ryo object in its place.
   #
   # @example
   #  ryo = Ryo::BasicObject.from({foo: {bar: 42}})
@@ -36,9 +32,9 @@ module Ryo::ObjectMixin
   # @param [Hash, #to_hash] props
   #  A Hash object.
   #
-  # @return [Object<Ryo>, BasicObject<Ryo, Ryo::Tap>]
+  # @return [Ryo::Object, Ryo::BasicObject]
   #  Returns a Ryo object.
-  def from(props, prototype = nil)
+  def self.build_from(props, prototype = nil, build_class:)
     props = Hash.try_convert(props)
     if props.nil?
       raise TypeError, "The provided object can't be coerced into a Hash"
@@ -46,14 +42,14 @@ module Ryo::ObjectMixin
     visited = {}
     props.each do |key, value|
       visited[key] = if Hash === value
-        from(value)
+        build_from(value, build_class: build_class)
       elsif Array === value
-        value.map { from(_1) }
+        value.map { build_from(_1, build_class: build_class) }
       else
         value
       end
     end
-    obj = create(visited, prototype)
+    obj = build(visited, prototype, build_class: build_class)
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
 end

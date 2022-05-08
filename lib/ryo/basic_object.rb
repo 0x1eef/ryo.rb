@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Ryo::BasicObject < BasicObject
-  extend ::Ryo::ObjectMixin
-
   ##
   # @param prototype (see Ryo::ObjectMixin#create)
   # @param props (see Ryo::ObjectMixin#create)
@@ -10,7 +8,11 @@ class Ryo::BasicObject < BasicObject
   # @return [Ryo::BasicObject]
   #  Returns an instance of Ryo::BasicObject.
   def self.create(props, prototype = nil)
-    super(props, prototype, klass: self)
+    ::Ryo::Builder.build(props, prototype, build_class: self)
+  end
+
+  def self.from(props, prototype = nil)
+    ::Ryo::Builder.build_from(props, prototype, build_class: self)
   end
 end
 
