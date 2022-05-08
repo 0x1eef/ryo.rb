@@ -19,7 +19,7 @@ Ryo.assign(fruit, pineapple, {sweet: true}, {delicious: true})
 
 ##
 # Prints true (x2)
-puts fruit.sweet #
+puts fruit.sweet
 puts fruit.delicious
 
 ##
