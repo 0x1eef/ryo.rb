@@ -253,8 +253,8 @@ Kernel.p Ryo.property?(ryo2, "bar")
 
 ## Resources
 
-* [*Homepage: 0x1eef.github.io/x/ryo.rb*](https://0x1eef.github.io/x/ryo.rb)
-* [*Source code: github.com/0x1eef/ryo.rb*](https://github.com/0x1eef/ryo.rb)
+* [Homepage](https://0x1eef.github.io/x/ryo.rb)
+* [Source code](https://github.com/0x1eef/ryo.rb)
 
 
 ## Thanks
