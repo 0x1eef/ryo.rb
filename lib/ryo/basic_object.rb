@@ -9,8 +9,8 @@ class Ryo::BasicObject < BasicObject
   #
   # @return [Ryo::BasicObject]
   #  Returns an instance of Ryo::BasicObject.
-  def self.create(props, prototype=nil)
-    super(props, prototype, klass: BasicObject)
+  def self.create(props, prototype = nil)
+    super(props, prototype, klass: self)
   end
 end
 
@@ -22,6 +22,6 @@ end
 #
 # @return [Ryo::BasicObject]
 #  returns an instance of {Ryo::BasicObject}
-def Ryo::BasicObject(props, prototype=nil)
+def Ryo.BasicObject(props, prototype = nil)
   Ryo::BasicObject.create(props, prototype)
 end
