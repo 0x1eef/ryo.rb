@@ -14,7 +14,7 @@ module Ryo::ObjectMixin
   #  Options are either Object (default) or BasicObject.
   #
   # @private
-  def create(prototype, props = {}, klass:)
+  def create(props, prototype = nil, klass:)
     ryo = klass.new
     Ryo.set_prototype_of(ryo, prototype)
     Ryo.set_table_of(ryo, {})
@@ -53,7 +53,7 @@ module Ryo::ObjectMixin
         value
       end
     end
-    obj = create(prototype, visited)
+    obj = create(visited, prototype)
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
 end

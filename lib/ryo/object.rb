@@ -10,7 +10,17 @@ class Ryo::Object
   # @return [Object<Ryo>]
   #  Returns an instance of Object - extended by
   #  the Ryo module.
-  def self.create(prototype, props = {})
-    super(prototype, props, klass: self)
+  def self.create(props, prototype=nil)
+    super(props, prototype, klass: self)
   end
+end
+
+##
+# @example
+#  point = Ryo::Object(x: 0, y: 0)
+#
+# @param (see #Ryo)
+# @return (see #Ryo)
+def Ryo::Object(props, prototype=nil)
+  Ryo::Object.create(props, prototype)
 end

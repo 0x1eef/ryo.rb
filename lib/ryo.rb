@@ -163,10 +163,10 @@ end
 # @param [<.each>] each_obj
 #  An object that implements each, and yields two arguments.
 #
-# @param [Ryo] proto
+# @param [Ryo] prototype
 #  The prototype.
 #
 # @return [Ryo::Object]
-def Ryo(each_obj, proto = nil)
-  Ryo::Object.create(proto, each_obj)
+def Ryo(each_obj, prototype = nil)
+  Ryo::Object.create(each_obj, prototype)
 end
