@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+##
+# [The mysterious case of the believer](https://www.youtube.com/watch?v=liMUF306cHs)
 module Ryo
   require_relative "ryo/reflect"
   require_relative "ryo/keywords"
