@@ -4,7 +4,7 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-book = Object.create(nil);
+book = Object.create(nil)
 
 ##
 # Merge {page_count: 10} into "book",
