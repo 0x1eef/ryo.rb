@@ -144,9 +144,7 @@ puts crystal.description.() # => "The Ruby programming language"
 
 `Ryo.assign` is Ryo's equivalent to [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
 With `Ryo.assign`, one can merge multiple source objects into a target
-object, and the source objects can be a mix of Ryo, and Hash objects.
-
-The javascript equivalent to this example can be found at
+object, and the source objects can be a mix of Ryo, and Hash objects. The javascript equivalent to this example can be found at
 [readme_examples/js/2_object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_object.assign.js).
 
 ```ruby
