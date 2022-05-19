@@ -143,9 +143,8 @@ puts crystal.description.() # => "The Ruby programming language"
 **2. Equivalent to JavaScript's `Object.assign`**
 
 `Ryo.assign` is Ryo's equivalent to [`Object.assign`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
-With `Ryo.assign`, one can merge as many objects as they want,
-from right to left, and the objects can be a mix of Ryo objects,
-Hash objects, and objects that can be coerced into Hash objects.
+With `Ryo.assign`, one can merge multiple source objects into a target
+object, and the source objects can be a mix of Ryo, and Hash objects.
 
 The javascript equivalent to this example can be found at
 [readme_examples/js/2_object.assign.js](https://github.com/0x1eef/ryo.rb/blob/master/readme_examples/js/2_object.assign.js).
@@ -156,28 +155,28 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-fruit = Object.create(nil)
+book = Object.create(nil);
 
 ##
-# Create an instance of Object, with "fruit" as its
-# prototype.
-pineapple = Object.create(fruit)
+# Merge {page_count: 10} into "book",
+# then merge {title: "..."} into "book",
+# and finally merge {page_count: 20} into
+# "book".
+Ryo.assign(
+  book,
+  {page_count: 10},
+  {title: "The mysterious case of the believer"},
+  {page_count: 20}
+)
 
 ##
-# Merge {delicious:true} into {sweet: true},
-# then merge the result of that merge into
-# pineapple, finally merge pineapple into fruit.
-Ryo.assign(fruit, pineapple, {sweet: true}, {delicious: true})
+# Prints 20
+puts book.page_count
 
 ##
-# Prints true (x2)
-puts fruit.sweet
-puts fruit.delicious
+# Prints: The mysterious case of the believer
+puts book.title
 
-##
-# Prints true (x2)
-puts pineapple.sweet
-puts pineapple.delicious
 ```
 
 **3. Equivalent to JavaScript's `in` operator**

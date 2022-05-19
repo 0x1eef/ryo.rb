@@ -4,25 +4,24 @@ require "ryo/core_ext/object"
 
 ##
 # Create an instance of Object, with no prototype.
-fruit = Object.create(nil)
+book = Object.create(nil);
 
 ##
-# Create an instance of Object, with "fruit" as its
-# prototype.
-pineapple = Object.create(fruit)
+# Merge {page_count: 10} into "book",
+# then merge {title: "..."} into "book",
+# and finally merge {page_count: 20} into
+# "book".
+Ryo.assign(
+  book,
+  {page_count: 10},
+  {title: "The mysterious case of the believer"},
+  {page_count: 20}
+)
 
 ##
-# Merge {delicious:true} into {sweet: true},
-# then merge the result of that merge into
-# pineapple, finally merge pineapple into fruit.
-Ryo.assign(fruit, pineapple, {sweet: true}, {delicious: true})
+# Prints 20
+puts book.page_count
 
 ##
-# Prints true (x2)
-puts fruit.sweet
-puts fruit.delicious
-
-##
-# Prints true (x2)
-puts pineapple.sweet
-puts pineapple.delicious
+# Prints: The mysterious case of the believer
+puts book.title

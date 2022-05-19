@@ -109,20 +109,23 @@ module Ryo::Reflect
   ##
   # Equivalent to JavaScript's `Object.assign`.
   #
-  # @param [Ryo, Hash, #to_hash] objs
-  #  A variable number of arguments to
-  #  merge - starting from the right, and
-  #  moving towards the left.
+  #
+  # @param [Ryo, Hash, #to_hash] target
+  #  The target object.
+  #
+  # @param [Ryo, Hash, #to_hash] sources
+  #  A variable number of source objects that
+  #  will be merged into the target object.
   #
   # @return [Ryo]
-  #  Returns the first element of *objs*.
-  def assign(*objs)
-    robjs = objs.reverse
-    robjs.each.with_index do |obj, i|
-      n = robjs[i + 1]
-      n ? merge!(n, obj) : merge!(objs[0], objs[1])
+  #  Returns the modified target object.
+  def assign(target, *sources)
+    sources.each do |source|
+      coerce_to_hash(source).each do |k, v|
+        target[k.to_s] = v
+      end
     end
-    objs[0]
+    target
   end
   # @endgroup
 

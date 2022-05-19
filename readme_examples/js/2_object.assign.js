@@ -1,29 +1,27 @@
 /**
  * Create an instance of Object, with no prototype.
  */
-const fruit = Object.create(null)
+const book = Object.create(null);
 
 /**
- * Create another object, with "fruit" as its
- * prototype.
+ * Merge {pageCount: 10} into "book",
+ * then merge {title: "..."} into "book",
+ * and finally merge {pageCount: 20} into
+ * "book".
  */
-const pineapple = Object.create(fruit)
+Object.assign(
+  book,
+  {pageCount: 10},
+  {title: "The mysterious case of the believer"},
+  {pageCount: 20}
+);
 
 /**
- * Merge {delicious:true} into {sweet: true},
- * then merge the result of that merge into
- * pineapple, finally merge pineapple into fruit.
+ * Prints 20
  */
-Object.assign(fruit, pineapple, {sweet: true}, {delicious: true})
+console.log(book.pageCount);
 
 /**
- * Prints true (x2)
+ * Prints: The mysterious case of the believer
  */
-console.log(fruit.sweet)
-console.log(fruit.delicious)
-
-/**
- * Prints true (x2)
- */
-console.log(pineapple.sweet);
-console.log(pineapple.delicious);
+console.log(book.title);
