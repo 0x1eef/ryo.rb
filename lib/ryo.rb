@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# [The mysterious case of the believer](https://www.youtube.com/watch?v=liMUF306cHs)
+# <a href="https://www.youtube.com/watch?v=liMUF306cHs" target="_blank"><i>Terry, the believer</i></a>.
 module Ryo
   require_relative "ryo/reflect"
   require_relative "ryo/keywords"
