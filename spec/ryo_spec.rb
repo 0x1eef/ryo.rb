@@ -70,4 +70,33 @@ RSpec.describe Ryo do
       it { is_expected.to eq("block") }
     end
   end
+
+  describe ".from" do
+    context "when given a set of nested Hash objects" do
+      subject { vehicles.cars.wheels.quantity }
+      let(:vehicles) { Ryo.from(cars: {wheels: {quantity: 4}}) }
+      it { is_expected.to eq(4) }
+    end
+
+    context "when given a Hash nested in an Array" do
+      subject { house.rooms[0].quantity }
+      let(:house) { Ryo.from(rooms: [{quantity: 4}]) }
+      it { is_expected.to eq(4) }
+    end
+
+    context "with a prototype" do
+      let(:point) { Ryo.from(x: 0, y: 0) }
+      let(:vehicles) { Ryo.from({cars: {wheels: {quantity: 4}}}, point) }
+
+      context "when traversing to the prototype" do
+        subject { [vehicles.x, vehicles.y] }
+        it { is_expected.to eq([0, 0]) }
+      end
+
+      context "when traversing to the prototype on a nested node" do
+        subject { [vehicles.cars.x, vehicles.cars.y] }
+        it { is_expected.to eq([nil, nil]) }
+      end
+    end
+  end
 end
