@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  specs:
     strategy:
       fail-fast: false
       matrix:
@@ -19,5 +19,5 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run: gem install -g gem.deps.rb
-    - run: rspec spec/
+    - run: bundle install
+    - run: bundle exec rspec spec/
