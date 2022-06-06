@@ -1,4 +1,4 @@
-reqyure "bundler/setup"
+require "bundler/setup"
 require "rspec"
 require "ryo"
 require "ryo/core_ext/object"
