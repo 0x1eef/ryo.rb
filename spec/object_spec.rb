@@ -2,43 +2,6 @@ require_relative "setup"
 
 ##
 # Shared example
-RSpec.shared_examples "prototype-based inheritance" do
-  context "when there is one prototype" do
-    context "when traversing to a property on the root prototype" do
-      subject { ryo2.foo }
-      it { is_expected.to eq(42) }
-    end
-
-    context "when a property is deleted from the root prototype" do
-      before { Ryo.delete ryo1, "foo" }
-      subject { ryo2.foo }
-      it { is_expected.to eq(nil) }
-    end
-  end
-
-  context "when there are two prototypes" do
-    context "when traversing to a property on the root prototype" do
-      subject { ryo3.foo }
-      it { is_expected.to eq(42) }
-    end
-
-    context "when traversing to a property on the middle prototype" do
-      let(:ryo2) { object.create(ryo1, foo: 84) }
-      subject { ryo3.foo }
-      it { is_expected.to eq(84) }
-    end
-
-    context "when a property is deleted from the middle prototype" do
-      let(:ryo2) { object.create(ryo1, foo: 84) }
-      before { Ryo.delete ryo2, "foo" }
-      subject { ryo3.foo }
-      it { is_expected.to eq(42) }
-    end
-  end
-end
-
-##
-# Shared example
 shared_examples "the instance methods of Ryo objects" do
   describe "#respond_to?" do
     context "when a property is defined" do
