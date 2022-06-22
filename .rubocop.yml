@@ -1,0 +1,42 @@
+##
+# Plugins
+require:
+  - standard
+  - rubocop-rspec
+
+##
+# Defaults: standard-rb
+inherit_gem:
+  standard: config/base.yml
+
+##
+# Extra cops
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+##
+# Disabled cops (rspec-specific)
+RSpec/FilePath:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/NotToNot:
+  Enabled: false
+RSpec/EmptyLineAfterHook:
+  Enabled: false
+RSpec/EmptyLineAfterSubject:
+  Enabled: false
+RSpec/DescribedClass:
+  Exclude:
+    - spec/ryo_spec.rb
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: false
+
+##
+# Disabled cops (lib-specific)
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Style/LambdaCall:
+  Enabled: false
