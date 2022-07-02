@@ -147,3 +147,15 @@ module Ryo
     end
   end
 end
+
+##
+# @param [#each] each_obj
+#  An object that implements each, and yields two arguments.
+#
+# @param [Ryo] proto
+#  The prototype.
+#
+# @return [Ryo::Object]
+def Ryo(each_obj, proto=nil)
+  Ryo::Object.create(proto, each_obj)
+end
