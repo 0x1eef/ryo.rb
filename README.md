@@ -11,8 +11,7 @@ in particular Ryo ports JavaScript's [`Object.create`](https://developer.mozilla
 Ryo is inspired by JavaScript - it is the point of reference
 a lot of the time. There are Ryo equivalents to JavaScript - for
 example, JavaScript's `Object.create(null)` is equivalent to
-`Object.create(nil)` - which is using an opt-in monkeypatch, and
-`Ryo::Object.create(nil)` - which is not using a monkeypatch.
+`Object.create(nil)`.
 
 There are Ryo modules that implement more JavaScript equivalents,
 such as [`Ryo::Reflect`](http://0x1eef.github.io/x/ryo.rb/Ryo/Reflect.html) -
