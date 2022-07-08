@@ -13,8 +13,8 @@ perl = Object.create(nil, {
 
 ##
 # Find matches directly on the "ruby" object.
-puts perl.name # => "Perl"
-puts perl.description.() # => "The Perl programming language"
+p perl.name # => "Perl"
+p perl.description.() # => "The Perl programming language"
 
 ##
 # Create a second object, with "perl" as
@@ -23,11 +23,11 @@ ruby = Object.create(perl, {name: "Ruby"})
 
 ##
 # Find matches directly on the "ruby" object.
-puts ruby.name # => "Ruby"
+p ruby.name # => "Ruby"
 
 ##
 # Find matches in the prototype chain.
-puts ruby.description.() # => "The Ruby programming language"
+p ruby.description.() # => "The Ruby programming language"
 
 ##
 # Create a third object, with "ruby" as its prototype.
@@ -35,11 +35,11 @@ crystal = Object.create(ruby, {name: "Crystal"})
 
 ##
 # Find matches directly on the "crystal" object.
-puts crystal.name # => "Crystal"
+p crystal.name # => "Crystal"
 
 ##
 # Find matches in the prototype chain.
-puts crystal.description.() # => "The Crystal programming language"
+p crystal.description.() # => "The Crystal programming language"
 
 ##
 # Delete "name" from "crystal".
@@ -47,4 +47,4 @@ Ryo.delete(crystal, "name")
 
 ##
 # Find matches in the prototype chain.
-puts crystal.description.() # => "The Ruby programming language"
+p crystal.description.() # => "The Ruby programming language"

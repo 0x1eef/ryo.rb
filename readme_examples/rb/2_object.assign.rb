@@ -20,8 +20,8 @@ Ryo.assign(
 
 ##
 # Prints 20
-puts book.page_count
+p book.page_count
 
 ##
 # Prints: The mysterious case of the believer
-puts book.title
+p book.title

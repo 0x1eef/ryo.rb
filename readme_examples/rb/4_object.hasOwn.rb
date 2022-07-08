@@ -13,8 +13,8 @@ ryo2 = Object.create(ryo, {bar: "bar"})
 
 ##
 # Returns false
-Kernel.p Ryo.property?(ryo2, "foo")
+p Ryo.property?(ryo2, "foo")
 
 ##
 # Returns true
-Kernel.p Ryo.property?(ryo2, "bar")
+p Ryo.property?(ryo2, "bar")
