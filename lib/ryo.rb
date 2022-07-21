@@ -28,6 +28,24 @@ module Ryo
   end
 
   ##
+  # Iterates over a Ryo object.
+  #
+  # @example
+  #  Ryo.each(Object.from(a: 1, b: 2)).map { _2 * 2 }
+  #  # => [2, 4]
+  #
+  # @param [Ryo]
+  #  A Ryo object.
+  #
+  # @return [Enumerator, Array]
+  #  Returns an Enumerator when a block is not given, and
+  #  returns an Array otherwise.
+  def self.each(ryo)
+    return enum_for(:each, ryo) unless block_given?
+    properties_of(ryo).each { yield(_1, ryo[_1]) }
+  end
+
+  ##
   # @param [Ryo, nil] prototype
   #  The prototype.
   #
