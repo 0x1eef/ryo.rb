@@ -23,9 +23,8 @@ somewhat simple while capturing a number of advanced features (such as [`Ryo.fn`
 ```ruby
 require "ryo"
 
-default = Ryo(option: 'foo')
-config  = Ryo({
-  padding: 24,
+default = Ryo(option: "foo", padding: 24)
+config = Ryo({
   print: Ryo.fn { |source, option|
     print source.ljust(padding), option, "\n"
   }
@@ -38,7 +37,7 @@ config.print.call("option (from 'default')", config.option)
 ##
 # Read directly from 'config'
 print("assign config.option", "\n")
-config.option = 'bar'
+config.option = "bar"
 config.print.call("option (from 'config')", config.option)
 
 ##
