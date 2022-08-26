@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "setup"
 
 RSpec.describe "Ryo objects" do
@@ -24,13 +26,13 @@ RSpec.describe "Ryo objects" do
 
   describe "#eql?" do
     context "when two objects are equal" do
-      let(:car_2) { Ryo(name: "Car") }
       subject { car == car_2 }
+      let(:car_2) { Ryo(name: "Car") }
       it { is_expected.to be(true) }
     end
 
     context "when an object and a Hash are equal" do
-      subject { car == {'name' => 'Car'} }
+      subject { car == {"name" => "Car"} }
       it { is_expected.to be(true) }
     end
 

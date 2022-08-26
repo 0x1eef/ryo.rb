@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "setup"
 
 RSpec.describe "Prototypes" do
@@ -11,8 +13,8 @@ RSpec.describe "Prototypes" do
     end
 
     context "when a property is deleted from the root prototype" do
-      before { Ryo.delete(root, "name") }
       subject { node.name }
+      before { Ryo.delete(root, "name") }
       it { is_expected.to eq(nil) }
     end
   end
@@ -28,15 +30,15 @@ RSpec.describe "Prototypes" do
     end
 
     context "when traversing to a property on the middle prototype" do
-      let(:node_1) { Ryo({name: "Node 1"}, root) }
       subject { node_2.name }
+      let(:node_1) { Ryo({name: "Node 1"}, root) }
       it { is_expected.to eq("Node 1") }
     end
 
     context "when a property is deleted from the middle prototype" do
+      subject { node_2.name }
       let(:node_1) { Ryo({name: "Node 1"}, root) }
       before { Ryo.delete(node_1, "name") }
-      subject { node_2.name }
       it { is_expected.to eq("root") }
     end
   end
