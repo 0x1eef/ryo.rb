@@ -38,7 +38,7 @@ module Ryo::ObjectMixin
   #
   # @return [Object<Ryo>, BasicObject<Ryo, Ryo::Tap>]
   #  Returns a Ryo object.
-  def from(props)
+  def from(props, prototype = nil)
     props = Hash.try_convert(props)
     if props.nil?
       raise TypeError, "The provided object can't be coerced into a Hash"
@@ -53,7 +53,7 @@ module Ryo::ObjectMixin
         value
       end
     end
-    obj = create(nil, visited)
+    obj = create(prototype, visited)
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
 end

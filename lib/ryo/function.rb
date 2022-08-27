@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # The {Ryo::Function Ryo::Function} class represents a Ryo
 # function. The class is usually not used directly but through

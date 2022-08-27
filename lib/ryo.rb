@@ -46,6 +46,17 @@ module Ryo
   end
 
   ##
+  # Creates a Ryo object by recursively walking a Hash
+  # object.
+  #
+  # @param (see #Ryo)
+  #
+  # @return (see #Ryo)
+  def self.from(props, prototype = nil)
+    Ryo::Object.from(props, prototype)
+  end
+
+  ##
   # @param [Ryo, nil] prototype
   #  The prototype.
   #
@@ -149,7 +160,7 @@ module Ryo
 end
 
 ##
-# @param [#each] each_obj
+# @param [<.each>] each_obj
 #  An object that implements each, and yields two arguments.
 #
 # @param [Ryo] proto
