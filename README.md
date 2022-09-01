@@ -60,14 +60,14 @@ the objects it creates, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#
 ```ruby
 require "ryo"
 
-car = Ryo(name: 'ford', year: 1922)
+car = Ryo(name: "ford", year: 1922)
 Ryo.each(car) do |key, value|
   p [key, value]
 end
 
 ##
-# ['name', 'ford']
-# ['year', 1922]
+# ["name", 'ford']
+# ["year", 1922]
 ```
 
 #### Map
@@ -84,7 +84,7 @@ car = Ryo(name: "ford", year: 1922)
 p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
 
 ##
-# ['telsa', 2022]
+# ["telsa", 2022]
 ```
 
 ### Recursion
