@@ -70,6 +70,23 @@ end
 # ['year', 1922]
 ```
 
+#### Map
+
+The previous example introduced `Ryo.each` - a method that returns an
+Enumerator when a block is not given. This feature provides access to
+methods such as "map". The following example demonstrates a map operation
+using Ryo:
+
+```ruby
+require "ryo"
+
+car = Ryo(name: "ford", year: 1922)
+p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
+
+##
+# ['telsa', 2022]
+```
+
 ## Install
 
 Still in early development.
