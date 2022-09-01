@@ -72,8 +72,8 @@ end
 
 #### Map
 
-The previous example introduced `Ryo.each` - a method that returns an
-Enumerator when a block is not given. An Enumerator provides access to
+The previous example introduced [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that returns an
+Enumerator when a block is not given. An [Enumerator](https://www.rubydoc.info/stdlib/core/Enumerator) provides access to
 methods such as "map". The following example demonstrates a map operation
 using Ryo:
 
@@ -85,6 +85,32 @@ p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
 
 ##
 # ['telsa', 2022]
+```
+
+### Recursion
+
+#### Ryo.from
+
+The [`Ryo.from`](http://0x1eef.github.test/x/ryo.rb/Ryo.html#from-class_method) method has the same interface as the [`Ryo`](http://0x1eef.github.test/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method, but
+it is implemented to recursively walk a Hash object and create Ryo objects
+from any nested Hash objects that it finds.
+
+The reason recursion is not default behavior is that it has the potential to
+be a slow operation when given a complex Hash object that's potentially very large -
+otherwise there shouldn't be a noticeable performance impact.
+
+The following example demonstrates [`Ryo.from`](http://0x1eef.github.test/x/ryo.rb/Ryo.html#from-class_method):
+
+```ruby
+require "ryo"
+
+vehicles = Ryo.from(bike: {wheels: 2}, car: {wheels: 4})
+p vehicles.bike.wheels
+p vehicles.car.wheels
+
+##
+# 2
+# 4
 ```
 
 ## Install
