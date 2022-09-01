@@ -5,11 +5,6 @@ the implementation taking a lot of inspiration from JavaScript. Ryo can be
 used for creating Ruby objects from Hash objects, for implementing configuration
 objects, and for other use cases where prototype-based inheritance can be useful.
 
-A notable feature of Ryo is that properties that overshadow a method remain callable
-as long as the property is called with one or more arguments - this means that methods
-such as `#method_missing` can be defined as a property without breaking the underlying
-`#method_missing` implementation. The same is true for `#puts`, and so on.
-
 ## Examples
 
 ### Prototypes
