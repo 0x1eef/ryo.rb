@@ -73,7 +73,7 @@ end
 #### Map
 
 The previous example introduced `Ryo.each` - a method that returns an
-Enumerator when a block is not given. This feature provides access to
+Enumerator when a block is not given. An Enumerator provides access to
 methods such as "map". The following example demonstrates a map operation
 using Ryo:
 
