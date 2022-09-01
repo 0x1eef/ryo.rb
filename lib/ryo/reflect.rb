@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # The {Ryo::Reflect Ryo::Reflect} module implements equivalents
 # to JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
@@ -121,9 +123,7 @@ module Ryo::Reflect
   #  Returns the modified target object.
   def assign(target, *sources)
     sources.each do |source|
-      coerce_to_hash(source).each do |k, v|
-        target[k.to_s] = v
-      end
+      coerce_to_hash(source).each { target[_1.to_s] = _2 }
     end
     target
   end

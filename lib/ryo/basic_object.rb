@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ryo::BasicObject < BasicObject
   extend ::Ryo::ObjectMixin
 

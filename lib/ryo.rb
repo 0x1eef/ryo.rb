@@ -13,14 +13,14 @@ module Ryo
   extend Ryo::Keywords
 
   ##
-  # @param [Object, BasicObject] ryo
-  #  A Ryo object to extend.
+  # @param [Ryo::Object, Ryo::BasicObject] ryo
+  #  A Ryo object.
   #
   # @param [Module] mod
-  #  A module to extend *ryo* with.
+  #  The module to extend a Ryo object with.
   #
   # @return [Ryo]
-  #  Returns a Ryo object, extended by *mod*.
+  #  Returns a Ryo object extended by **mod**.
   def self.extend!(ryo, mod)
     Module
       .instance_method(:extend)
@@ -31,15 +31,15 @@ module Ryo
   # Iterates over a Ryo object.
   #
   # @example
-  #  Ryo.each(Object.from(a: 1, b: 2)).map { _2 * 2 }
+  #  Ryo(foo: 1, bar: 2).each.map { _2 * 2 }
   #  # => [2, 4]
   #
-  # @param [Ryo]
+  # @param [Ryo::Object, Ryo::BasicObject] ryo
   #  A Ryo object.
   #
   # @return [Enumerator, Array]
-  #  Returns an Enumerator when a block is not given, and
-  #  returns an Array otherwise.
+  #  Returns an Enumerator when a block is not given,
+  #  otherwise returns an Array.
   def self.each(ryo)
     return enum_for(:each, ryo) unless block_given?
     properties_of(ryo).each { yield(_1, ryo[_1]) }
@@ -156,6 +156,6 @@ end
 #  The prototype.
 #
 # @return [Ryo::Object]
-def Ryo(each_obj, proto=nil)
+def Ryo(each_obj, proto = nil)
   Ryo::Object.create(proto, each_obj)
 end

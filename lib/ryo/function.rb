@@ -1,8 +1,8 @@
 ##
 # The {Ryo::Function Ryo::Function} class represents a Ryo
 # function. The class is usually not used directly but through
-# `Ryo.function { ... }`. A Ryo function has a special relationship
-# with Ryo objects: when a Ryo function is assigned as a property
+# {Ryo::Keywords#fn Ryo.fn}. A Ryo function has a special relationship
+# with Ryo objects - when a Ryo function is assigned as a property
 # on a Ryo object, its "self" becomes bound to the Ryo object.
 class Ryo::Function
   ##

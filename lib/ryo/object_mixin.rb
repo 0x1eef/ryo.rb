@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ryo::ObjectMixin
   ##
   # @param [Ryo, nil] prototype
@@ -44,12 +46,12 @@ module Ryo::ObjectMixin
     visited = {}
     props.each do |key, value|
       visited[key] = if Hash === value
-                       from(value)
-                     elsif Array === value
-                       value.map { from(_1) }
-                     else
-                       value
-                     end
+        from(value)
+      elsif Array === value
+        value.map { from(_1) }
+      else
+        value
+      end
     end
     obj = create(nil, visited)
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)

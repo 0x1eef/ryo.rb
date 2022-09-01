@@ -33,7 +33,9 @@ RSpec/MultipleExpectations:
   Enabled: false
 RSpec/EmptyLineAfterFinalLet:
   Enabled: false
-
+Style/NilComparison:
+  Exclude:
+    - spec/ryo_object_spec.rb
 ##
 # Disabled cops (lib-specific)
 Layout/MultilineMethodCallIndentation:

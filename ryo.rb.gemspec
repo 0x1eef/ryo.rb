@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "./lib/ryo/version"
 Gem::Specification.new do |gem|
   gem.name = "ryo.rb"

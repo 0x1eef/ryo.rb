@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "setup"
 require "ryo"
 require "ryo/core_ext/object"
