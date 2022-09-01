@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ryo::Object
   extend Ryo::ObjectMixin
 
@@ -9,6 +11,6 @@ class Ryo::Object
   #  Returns an instance of Object - extended by
   #  the Ryo module.
   def self.create(prototype, props = {})
-    super(prototype, props, klass: Object)
+    super(prototype, props, klass: self)
   end
 end
