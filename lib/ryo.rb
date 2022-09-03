@@ -112,7 +112,7 @@ module Ryo
     else
       other = Hash.try_convert(other)
       return false unless other
-      @_table == other
+      @_table == other.map { [_1.to_s, _2] }.to_h
     end
   end
   alias_method :eql?, :==

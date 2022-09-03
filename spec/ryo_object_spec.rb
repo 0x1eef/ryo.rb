@@ -36,6 +36,17 @@ RSpec.describe "Ryo objects" do
       it { is_expected.to be(true) }
     end
 
+    context "when an object and symbol-key Hash are equal" do
+      subject { car == {name: "Car"} }
+      it { is_expected.to be(true) }
+    end
+
+    context "when an object and nested symbol-key Hash are equal" do
+      let(:car) { Ryo.from(name: "Car", wheels: {quantity: 4, weight: {lbs: "50"}}) }
+      subject { car == {name: "Car", wheels: {quantity: 4, weight: {lbs: "50"}}} }
+      it { is_expected.to be(true) }
+    end
+
     context "when an object is compared against nil" do
       subject { car == nil }
       it { is_expected.to be(false) }
