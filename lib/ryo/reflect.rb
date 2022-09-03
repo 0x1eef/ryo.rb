@@ -45,6 +45,22 @@ module Ryo::Reflect
   end
 
   ##
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
+  #  A Ryo object.
+  #
+  # @return [Array<Ryo::Object, Ryo::BasicObject>]
+  #  Returns the prototype chain of **ryo** as an Array.
+  def prototype_chain_of(ryo)
+    prototypes = []
+    loop do
+      ryo = prototype_of(ryo)
+      break unless ryo
+      prototypes.push(ryo)
+    end
+    prototypes
+  end
+
+  ##
   # Equivalent to JavaScript's `Reflect.defineProperty`.
   #
   # @param [Ryo] ryo

@@ -13,6 +13,23 @@ RSpec.describe Ryo do
     it { is_expected.to eq("Mazda") }
   end
 
+  describe ".prototype_chain_of" do
+    context "when given the last node in a chain of prototypes" do
+      subject { Ryo.prototype_chain_of(node_3) }
+      let(:root) { Ryo({a: 1}) }
+      let(:node_1) { Ryo({b: 2}, root) }
+      let(:node_2) { Ryo({c: 3}, node_1) }
+      let(:node_3) { Ryo({d: 4}, node_2) }
+
+      it { is_expected.to eq([node_2, node_1, root]) }
+    end
+
+    context "when given an object without a prototype" do
+      subject { Ryo.prototype_chain_of(Ryo({})) }
+      it { is_expected.to eq([]) }
+    end
+  end
+
   describe ".assign" do
     let(:car) { Ryo(name: "Ford") }
     let(:bike) { Ryo(wheels: 2) }
