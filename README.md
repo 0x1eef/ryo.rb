@@ -9,6 +9,25 @@ objects, and for other use cases where prototype-based inheritance can be useful
 
 ### Prototypes
 
+#### Point object
+
+The following demonstrates prototype-based inheritance in the simplest
+terms I could imagine so far. It introduces three objects to form a single
+point object with the properties, "x" and "y":
+
+```ruby
+require "ryo"
+
+point_x = Ryo(x: 0)
+point_y = Ryo({y: 0}, point_x)
+point = Ryo({}, point_y)
+
+p [point.x, point.y]
+
+##
+# [0, 0]
+```
+
 #### Configuration object
 
 The following example demonstrates prototype-based inheritance by implementing a common pattern -
