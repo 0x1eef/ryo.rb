@@ -42,8 +42,8 @@ RSpec.describe "Ryo objects" do
     end
 
     context "when an object and nested symbol-key Hash are equal" do
-      let(:car) { Ryo.from(name: "Car", wheels: {quantity: 4, weight: {lbs: "50"}}) }
       subject { car == {name: "Car", wheels: {quantity: 4, weight: {lbs: "50"}}} }
+      let(:car) { Ryo.from(name: "Car", wheels: {quantity: 4, weight: {lbs: "50"}}) }
       it { is_expected.to be(true) }
     end
 
