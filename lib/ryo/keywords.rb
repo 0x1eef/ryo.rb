@@ -10,8 +10,8 @@ module Ryo::Keywords
 
   ##
   # @example
-  #   person = Ryo(greet: Ryo.fn { |name| puts "Hello #{name}" })
-  #   person.greet.("tim")
+  #   point = Ryo(x: 0, y: 0, print: Ryo.fn { print x, y, "\n" })
+  #   point.print.()
   #
   # @param [Proc] b
   #  The function's body.
@@ -27,15 +27,14 @@ module Ryo::Keywords
 
   # Equivalent to JavaScript's **in** operator.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String] property
+  # @param [<String, #to_s>] property
   #  The property name.
   #
   # @return [Boolean]
-  #  Returns true when **property** is a member of **ryo**, or
-  #  its prototype chain.
+  #  Returns true when **property** is a member of **ryo**, or its prototype chain.
   def in?(ryo, property)
     Ryo::Reflect.property?(ryo, property) ||
       Ryo::Reflect.property?(Ryo::Reflect.prototype_of(ryo), property)
@@ -44,10 +43,10 @@ module Ryo::Keywords
   ##
   # More or less equivalent to JavaScript's **delete** operator.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String] property
+  # @param [<String, #to_s>] property
   #  The property to delete.
   #
   # @return [::Object, ::BasicObject]
