@@ -110,8 +110,8 @@ p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
 
 #### Ryo.from
 
-The [`Ryo.from`](http://0x1eef.github.test/x/ryo.rb/Ryo.html#from-class_method) method has
-the same interface as the [`Ryo`](http://0x1eef.github.test/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
+The [`Ryo.from`](http://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
+the same interface as the [`Ryo`](http://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
 from any nested Hash objects that it finds along the way.
 
@@ -119,7 +119,7 @@ The reason recursion is not default behavior is that it has the potential to
 be a slow operation when given a complex Hash object that's potentially very large -
 otherwise there shouldn't be a noticeable performance impact.
 
-The following example demonstrates [`Ryo.from`](http://0x1eef.github.test/x/ryo.rb/Ryo.html#from-class_method):
+The following example demonstrates [`Ryo.from`](http://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
 ```ruby
 require "ryo"
@@ -158,7 +158,7 @@ p [point.x, point.y]
 
 #### Ryo::BasicObject.from
 
-[Ryo::BasicObject.from](http://0x1eef.github.test/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
+[Ryo::BasicObject.from](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
 is identical to Ryo.from but rather than returning instance(s) of [Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html)
 it returns instance(s) of [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html)
 instead:
