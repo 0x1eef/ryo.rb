@@ -8,11 +8,11 @@ class Ryo::Object
   # @return [Ryo::Object]
   #  Returns an instance of Ryo::Object.
   def self.create(props, prototype = nil)
-    Ryo::Builder.build(props, prototype, build_class: self)
+    Ryo::Builder.build(props, prototype, build: self)
   end
 
   def self.from(props, prototype = nil)
-    Ryo::Builder.build_from(props, prototype, build_class: self)
+    Ryo::Builder.build_from(props, prototype, build: self)
   end
 end
 
