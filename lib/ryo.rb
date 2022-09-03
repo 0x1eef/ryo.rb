@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+##
+# The {Ryo Ryo} module implements most of its behavior as singleton methods
+# that are inherited from the {Ryo::Reflect Ryo::Reflect}, and
+# {Ryo::Keywords Ryo:Keywords} modules.
+#
+# @example
+#   # Ryo.delete
+#   point = Ryo(x: 0, y: 0)
+#   Ryo.delete(point, "x")
+#   point.x # => nil
+#
+#   # Ryo.assign
+#   point = Ryo.assign(Ryo({}), {x: 0}, {y: 0})
+#   point.x # => 0
 module Ryo
   require_relative "ryo/reflect"
   require_relative "ryo/keywords"
