@@ -30,6 +30,17 @@ RSpec.describe Ryo do
     end
   end
 
+  describe ".each" do
+    context "when iterating over properties in the prototype chain" do
+      subject { Ryo.each(point).map { [_1, _2] } }
+      let(:point_x) { Ryo(x: 0) }
+      let(:point_y) { Ryo({y: 5}, point_x) }
+      let(:point) { Ryo({}, point_y) }
+
+      it { is_expected.to eq([["y", 5], ["x", 0]]) }
+    end
+  end
+
   describe ".assign" do
     let(:car) { Ryo(name: "Ford") }
     let(:bike) { Ryo(wheels: 2) }

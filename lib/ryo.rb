@@ -42,7 +42,11 @@ module Ryo
   #  otherwise returns an Array.
   def self.each(ryo)
     return enum_for(:each, ryo) unless block_given?
-    properties_of(ryo).each { yield(_1, ryo[_1]) }
+    props = [
+      *properties_of(ryo),
+      *prototype_chain_of(ryo).flat_map { properties_of(_1) }
+    ].uniq
+    props.each { yield(_1, ryo[_1]) }
   end
 
   ##
