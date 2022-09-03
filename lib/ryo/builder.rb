@@ -9,19 +9,19 @@
 # @api private
 module Ryo::Builder
   ##
+  # @param [<Ryo::Object, Ryo::BasicObject>] buildee
+  #  The class of the object to build.
+  #
   # @param [<Hash, #to_h>] props
   #  A Hash object, or an object that can be coerced into a Hash object.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>, nil] prototype
   #  The prototype, or nil for none.
   #
-  # @param [<Ryo::Object, Ryo::BasicObject>] build
-  #  The class of the object to build.
-  #
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object.
-  def self.build(props, prototype = nil, build:)
-    ryo = build.new
+  def self.build(buildee, props, prototype = nil)
+    ryo = buildee.new
     Ryo.set_prototype_of(ryo, prototype)
     Ryo.set_table_of(ryo, {})
     Ryo.extend!(ryo, Ryo)
@@ -34,7 +34,7 @@ module Ryo::Builder
   #
   # @param (see Ryo::Builder.build)
   # @return (see Ryo::Builder.build)
-  def self.build_from(props, prototype = nil, build:)
+  def self.recursive_build(buildee, props, prototype = nil)
     props = Hash.try_convert(props)
     if props.nil?
       raise TypeError, "The provided object can't be coerced into a Hash"
@@ -42,14 +42,14 @@ module Ryo::Builder
     visited = {}
     props.each do |key, value|
       visited[key] = if Hash === value
-        build_from(value, build: build)
+        recursive_build(buildee, value)
       elsif Array === value
-        value.map { build_from(_1, build: build) }
+        value.map { recursive_build(buildee, _1) }
       else
         value
       end
     end
-    obj = build(visited, prototype, build: build)
+    obj = build(buildee, visited, prototype)
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
 end

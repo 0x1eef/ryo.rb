@@ -8,11 +8,11 @@ class Ryo::BasicObject < BasicObject
   # @return [Ryo::BasicObject]
   #  Returns an instance of Ryo::BasicObject.
   def self.create(props, prototype = nil)
-    ::Ryo::Builder.build(props, prototype, build: self)
+    ::Ryo::Builder.build(self, props, prototype)
   end
 
   def self.from(props, prototype = nil)
-    ::Ryo::Builder.build_from(props, prototype, build: self)
+    ::Ryo::Builder.recursive_build(self, props, prototype)
   end
 end
 
