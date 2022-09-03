@@ -14,8 +14,8 @@ class Ryo::BasicObject < BasicObject
   ##
   # Creates a Ryo object by recursively walking a Hash object.
   #
-  # @param props (see Ryo::Builder#recursive_build)
-  # @param prototype (see Ryo::Builder#resursive_build)
+  # @param props (see Ryo::Builder.recursive_build)
+  # @param prototype (see Ryo::Builder.recursive_build)
   #
   # @return [Ryo::BasicObject]
   #  Returns an instance of {Ryo::BasicObject Ryo::BasicObject}.
