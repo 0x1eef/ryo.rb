@@ -7,6 +7,10 @@ objects, and for other use cases where prototype-based inheritance can be useful
 
 ## Examples
 
+The examples cover quite a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
+is available as a complete reference, and covers parts of the interface not
+covered by the examples.
+
 ### Prototypes
 
 #### Point object
@@ -193,6 +197,11 @@ ryo = Ryo::Object(then: 12)
 p ryo.then # => 12
 p ryo.then { 34 } # => 34
 ```
+
+## Resources
+
+* [Source code (GitHub)](https://github.com/0x1eef/ryo.rb#readme)
+* [Documentation](https://0x1eef.github.io/x/ryo.rb/)
 
 ## Install
 
