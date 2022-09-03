@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.licenses = ["MIT"]
   gem.files = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
-  gem.description = "ryo.rb implements ryotype-based inheritance in pure Ruby"
+  gem.description = "Ryo is a Ruby library that implements prototype-based inheritance."
   gem.summary = gem.description
   gem.add_development_dependency "yard", "~> 0.9"
   gem.add_development_dependency "redcarpet", "~> 3.5"

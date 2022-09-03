@@ -177,4 +177,11 @@ p ryo.then { 34 } # => 34
 
 ## Install
 
-Still in early development.
+Ryo is available as a RubyGem:
+
+    gem install ryo.rb
+
+## License
+
+This project is released under the terms of the MIT license. <br>
+See [./LICENSE.txt] for details.
