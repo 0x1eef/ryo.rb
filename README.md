@@ -156,7 +156,9 @@ p vehicles.car.wheels
 # 4
 ```
 
-### Footnotes
+### Collisions
+
+#### Resolution strategy
 
 When a property and method collide, Ryo tries to find the best resolution. Since Ryo properties
 don't accept arguments, and methods can - we are able to distinguish a property from a method in
