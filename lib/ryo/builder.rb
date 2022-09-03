@@ -30,7 +30,7 @@ module Ryo::Builder
   end
 
   ##
-  # Recursively walks a Hash object, and then returns a Ryo object.
+  # Creates a Ryo object by recursively walking a Hash object.
   #
   # @param (see Ryo::Builder.build)
   # @return (see Ryo::Builder.build)
