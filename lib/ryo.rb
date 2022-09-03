@@ -13,13 +13,13 @@ module Ryo
   extend Ryo::Keywords
 
   ##
-  # @param [Ryo::Object, Ryo::BasicObject] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @param [Module] mod
-  #  The module to extend a Ryo object with.
+  #  A module to extend a Ryo object with.
   #
-  # @return [Ryo]
+  # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object extended by **mod**.
   def self.extend!(ryo, mod)
     Module
@@ -46,12 +46,13 @@ module Ryo
   end
 
   ##
-  # Creates a Ryo object by recursively walking a Hash
-  # object.
+  # Creates a Ryo object by recursively walking a Hash object.
   #
-  # @param (see #Ryo)
+  # @param props (see Ryo::Builder.build)
+  # @param prototype (see Ryo::Builder.build)
   #
-  # @return (see #Ryo)
+  # @return [Ryo::Object]
+  #  Returns an instance of {Ryo::Object Ryo::Object}.
   def self.from(props, prototype = nil)
     Ryo::Object.from(props, prototype)
   end
@@ -109,13 +110,11 @@ module Ryo
   end
 
   ##
-  # @param [Ryo, Hash, #to_h] other
+  # @param [<Ryo::Object, Ryo::BasicObject>, Hash, #to_h] other
   #  An object to compare against.
   #
   # @return [Boolean]
-  #  Returns true when *other* is equal to the
-  #  lookup table used by a Ryo object, or when
-  #  two Ryo objects have the same lookup table.
+  #  Returns true **other** is equal to self.
   def ==(other)
     if Ryo === other
       @_table == Ryo.table_of(other)
@@ -131,20 +130,26 @@ module Ryo
     Ryo.inspect_object(self)
   end
 
+  ##
+  # @private
   def pretty_print(q)
     q.text(inspect)
   end
 
+  ##
+  # @private
   def respond_to?(property, include_all = false)
     respond_to_missing?(property, include_all)
   end
 
+  ##
+  # @private
   def respond_to_missing?(property, include_all = false)
     true
   end
 
   ##
-  # @api private
+  # @private
   def method_missing(name, *args, &b)
     property = name.to_s
     if property[-1] == "="

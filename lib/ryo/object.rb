@@ -19,9 +19,13 @@ end
 ##
 # @example
 #  point = Ryo::Object(x: 0, y: 0)
+#  p [point.x, point.y] # => [0, 0]
 #
-# @param (see #Ryo)
-# @return (see #Ryo)
+# @param props (see Ryo::Builder.build)
+# @param prototype (see Ryo::Builder.build)
+#
+# @return [Ryo::Object]
+#   Returns an instance of {Ryo::Object Ryo::Object}.
 def Ryo.Object(props, prototype = nil)
   Ryo::Object.create(props, prototype)
 end
