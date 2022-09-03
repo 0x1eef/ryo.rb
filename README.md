@@ -184,4 +184,4 @@ Ryo is available as a RubyGem:
 ## License
 
 This project is released under the terms of the MIT license. <br>
-See [./LICENSE.txt] for details.
+See [./LICENSE.txt](./LICENSE.txt) for details.
