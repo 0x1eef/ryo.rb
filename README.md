@@ -208,8 +208,8 @@ Ryo is available as a RubyGem:
 
 ## Thanks
 
-Thanks to @awfulcooking (mooff) for the helpful discussions and advice that they provided on
-IRC regarding Ryo.
+Thanks to [@awfulcooking (mooff)](https://github.com/awfulcooking) for the helpful
+discussions and advice that they provided on IRC regarding Ryo.
 
 ## License
 
