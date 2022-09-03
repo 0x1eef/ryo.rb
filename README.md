@@ -17,7 +17,8 @@ covered by the examples.
 
 The following demonstrates prototype-based inheritance in the simplest
 terms I could imagine so far. It introduces three objects to form a single
-point object with the properties, "x" and "y":
+point object with the properties, "x" and "y". The [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method used by
+the example returns an instance of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
 
 ```ruby
 require "ryo"
@@ -114,8 +115,8 @@ p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
 
 #### Ryo.from
 
-The [`Ryo.from`](http://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
-the same interface as the [`Ryo`](http://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
+The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
+the same interface as the [`Ryo`](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
 from any nested Hash objects that it finds along the way.
 
@@ -123,18 +124,16 @@ The reason recursion is not default behavior is that it has the potential to
 be a slow operation when given a complex Hash object that's potentially very large -
 otherwise there shouldn't be a noticeable performance impact.
 
-The following example demonstrates [`Ryo.from`](http://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
+The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
 ```ruby
 require "ryo"
 
 vehicles = Ryo.from(bike: {wheels: 2}, car: {wheels: 4})
-p vehicles.bike.wheels
-p vehicles.car.wheels
+p [vehicles.bike.wheels, vehicles.car.wheels]
 
 ##
-# 2
-# 4
+# [2, 4]
 ```
 
 ### BasicObject
@@ -142,11 +141,11 @@ p vehicles.car.wheels
 #### Ryo::BasicObject
 
 All of the previous examples have been working with instances of
-[Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html),
-a subclass of Ruby's Object class. In comparison, [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html) -
+[Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html),
+a subclass of Ruby's Object class. In comparison, [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html) -
 a subclass of Ruby's BasicObject class, provides an object
 with very few methods. The following example demonstrates
-how to create an instance of [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html):
+how to create an instance of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html):
 
 ```ruby
 require "ryo"
@@ -162,21 +161,19 @@ p [point.x, point.y]
 
 #### Ryo::BasicObject.from
 
-[Ryo::BasicObject.from](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
-is identical to Ryo.from but rather than returning instance(s) of [Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html)
-it returns instance(s) of [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html)
+[Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
+is identical to Ryo.from but rather than returning instance(s) of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html)
+it returns instance(s) of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html)
 instead:
 
 ```ruby
 require "ryo"
 
 vehicles = Ryo::BasicObject.from(bike: {wheels: 2}, car: {wheels: 4})
-p vehicles.bike.wheels
-p vehicles.car.wheels
+p [vehicles.bike.wheels, vehicles.car.wheels]
 
 ##
-# 2
-# 4
+# [2, 4]
 ```
 
 ### Collisions
