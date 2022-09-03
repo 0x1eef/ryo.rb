@@ -206,6 +206,11 @@ Ryo is available as a RubyGem:
 
     gem install ryo.rb
 
+## Thanks
+
+Thanks to @awfulcooking (mooff) for the helpful discussions and advice that they provided on
+IRC regarding Ryo.
+
 ## License
 
 This project is released under the terms of the MIT license. <br>
