@@ -156,6 +156,23 @@ p vehicles.car.wheels
 # 4
 ```
 
+### Footnotes
+
+When a property and method collide, Ryo tries to find the best resolution. Since Ryo properties
+don't accept arguments, and methods can - we are able to distinguish a property from a method in
+most cases.
+
+Consider this example, where a property collides with the `Kernel#then` method. This example
+would work the same for other methods that accept a block and/or arguments:
+
+```ruby
+require "ryo"
+
+ryo = Ryo::Object(then: 12)
+p ryo.then # => 12
+p ryo.then { 34 } # => 34
+```
+
 ## Install
 
 Still in early development.
