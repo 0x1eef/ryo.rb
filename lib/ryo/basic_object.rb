@@ -6,7 +6,7 @@ class Ryo::BasicObject < BasicObject
   # @param props (see Ryo::ObjectMixin#create)
   #
   # @return [Ryo::BasicObject]
-  #  Returns an instance of Ryo::BasicObject.
+  #  Returns an instance of {Ryo::BasicObject Ryo::BasicObject}.
   def self.create(props, prototype = nil)
     ::Ryo::Builder.build(self, props, prototype)
   end
