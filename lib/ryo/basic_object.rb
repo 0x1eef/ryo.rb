@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
+##
+# {Ryo::BasicObject Ryo::BasicObject} is a Ryo object that can
+# be created by using {Ryo.BasicObject Ryo.BasicObject()},
+# {Ryo::BasicObject.from Ryo::BasicObject.from}, or
+# {Ryo::BasicObject.create Ryo::BasicObject.create}.
 class Ryo::BasicObject < BasicObject
   ##
-  # @param prototype (see Ryo::ObjectMixin#create)
-  # @param props (see Ryo::ObjectMixin#create)
+  # @param props (see Ryo::Builder.build)
+  # @param prototype (see Ryo::Builder.build)
   #
   # @return [Ryo::BasicObject]
   #  Returns an instance of {Ryo::BasicObject Ryo::BasicObject}.

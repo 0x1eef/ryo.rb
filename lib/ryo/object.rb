@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
+##
+# {Ryo::Object Ryo::Object} is a Ryo object and subclass of
+# Ruby's Object class that can be created by using {Ryo Ryo()},
+# {Ryo.Object Ryo.Object()}, {Ryo::Object.from Ryo::Object.from}, or
+# {Ryo::Object.create Ryo::Object.create}.
 class Ryo::Object
   ##
-  # @param prototype (see Ryo::ObjectMixin#create)
-  # @param props (see Ryo::ObjectMixin#create)
+  # @param props (see Ryo::Builder.build)
+  # @param prototype (see Ryo::Builder.build)
   #
   # @return [Ryo::Object]
   #  Returns an instance of {Ryo::Object Ryo::Object}.
