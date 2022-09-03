@@ -2,11 +2,11 @@
 
 ##
 # The {Ryo::Reflect Ryo::Reflect} module implements equivalents
-# to JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
-# and equivalents to some of the static methods on JavaScript's
-# [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object).
+# from JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
+# and equivalents for some of the static methods on JavaScript's
+# [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) constructor.
 #
-# The module also implements Ryo-specific reflection features as well. The
+# This module also implements Ryo-specific reflection features as well. The
 # instance methods of this module are available as singleton methods
 # on the {Ryo Ryo} module.
 module Ryo::Reflect
@@ -45,34 +45,18 @@ module Ryo::Reflect
   end
 
   ##
+  # Equivalent to JavaScript's `Reflect.defineProperty`.
+  #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @return [Array<Ryo::Object, Ryo::BasicObject>]
-  #  Returns the prototype chain of **ryo** as an Array.
-  def prototype_chain_of(ryo)
-    prototypes = []
-    loop do
-      ryo = prototype_of(ryo)
-      break unless ryo
-      prototypes.push(ryo)
-    end
-    prototypes
-  end
-
-  ##
-  # Equivalent to JavaScript's `Reflect.defineProperty`.
-  #
-  # @param [Ryo] ryo
-  #  A Ryo object.
-  #
-  # @param [String, to_s] property
+  # @param [<String, #to_s>] property
   #  The name of the property.
   #
   # @param [Object, BasicObject] value
   #  The value of the property.
   #
-  # @return [nil]
+  # @return [void]
   def define_property(ryo, property, value)
     table = table_of(ryo)
     table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
@@ -93,11 +77,11 @@ module Ryo::Reflect
   # Equivalent to JavaScript's `Reflect.ownKeys`, and
   # JavaScript's `Object.keys`.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @return [Array<String>]
-  #  Returns the properties defined directly on the Ryo object.
+  #  Returns the properties defined on a Ryo object.
   def properties_of(ryo)
     table_of(ryo).keys
   end
@@ -111,15 +95,14 @@ module Ryo::Reflect
   # Equivalent to JavaScript's `Object.hasOwn`,
   # and `Object.prototype.hasOwnProperty`.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String] property
+  # @param [<String, #to_s>] property
   #  The property.
   #
   # @return [Boolean]
-  #  Returns true when *property* is a member of
-  #  *ryo*.
+  #  Returns true when **property** is a member of a Ryo object.
   def property?(ryo, property)
     table_of(ryo).key?(property.to_s)
   end
@@ -147,25 +130,43 @@ module Ryo::Reflect
 
   ##
   # @group Ryo-specific
+
+  ##
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
+  #  A Ryo object.
   #
-  # @param [Ryo] ryo
+  # @return [Array<Ryo::Object, Ryo::BasicObject>]
+  #  Returns the prototype chain of a Ryo object.
+  def prototype_chain_of(ryo)
+    prototypes = []
+    loop do
+      ryo = prototype_of(ryo)
+      break unless ryo
+      prototypes.push(ryo)
+    end
+    prototypes
+  end
+
+  ##
+  #
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @return [Hash]
-  #  Returns the lookup table used by a Ryo object.
+  #  Returns the table used by a Ryo object.
   def table_of(ryo)
     module_method(:instance_variable_get)
       .bind_call(ryo, :@_table)
   end
 
   ##
-  # Sets the lookup table used by a Ryo object.
+  # Sets the table used by a Ryo object.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @param [Hash] table
-  #  The lookup table to assign to a Ryo object.
+  #  The table to assign to a Ryo object.
   #
   # @return [nil]
   def set_table_of(ryo, table)
@@ -175,20 +176,19 @@ module Ryo::Reflect
   end
 
   ##
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  #
-  # @param [String, Symbol] method
+  # @param [<String, Symbol>] method
   #  The name of a method.
   #
-  # @param [Object, BasicObject] args
-  #  A variable number of arguments for *method*.
+  # @param [::Object, ::BasicObject] args
+  #  Zero or more arguments to call **method** with.
   #
   # @param [Proc] b
-  #  An optional block for *method*.
+  #  An optional block to pass to **method**.
   #
-  # @return [Object, BasicObject]
+  # @return [::Object, ::BasicObject]
   #  Returns the return value of the method call.
   def call_method(ryo, method, *args, &b)
     module_method(:__send__)
@@ -197,12 +197,11 @@ module Ryo::Reflect
 
   ##
   #
-  # @param [Ryo] ryo
-  #  An object who has included the Ryo
-  #  module.
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
+  #  A Ryo object.
   #
   # @return [Class]
-  #  Returns the class of *ryo*
+  #  Returns the class of a Ryo object.
   def class_of(ryo)
     module_method(:class).bind_call(ryo)
   end
@@ -218,16 +217,11 @@ module Ryo::Reflect
   end
 
   ##
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @return [String]
-  #  Returns details about the *ryo* object
-  #  as a String.
-  #
-  # @note
-  #  This is primarily for nice output in IRB,
-  #  Pry, etc. It is used by {Ryo#inspect}.
+  #  Returns a String representation of a Ryo object.
   def inspect_object(ryo)
     format(
       "#<Ryo object=%{object} proto=%{proto} table=%{table}>",
@@ -239,10 +233,10 @@ module Ryo::Reflect
   # @endgroup
 
   ##
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String, Symbol] method
+  # @param [<String, Symbol>] method
   #  The name of the method.
   #
   # @param [Proc] b
@@ -255,10 +249,10 @@ module Ryo::Reflect
   end
 
   ##
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String] property
+  # @param [<String, #to_s>] property
   #  The name of the property.
   #
   # @return [Boolean]
@@ -275,10 +269,10 @@ module Ryo::Reflect
 
   ##
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
-  # @param [String] property
+  # @param [<String, #to_s>] property
   #  The name of the property.
   #
   # @return [Boolean]
