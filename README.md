@@ -113,7 +113,7 @@ p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
 The [`Ryo.from`](http://0x1eef.github.test/x/ryo.rb/Ryo.html#from-class_method) method has
 the same interface as the [`Ryo`](http://0x1eef.github.test/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
-from any nested Hash objects that it finds.
+from any nested Hash objects that it finds along the way.
 
 The reason recursion is not default behavior is that it has the potential to
 be a slow operation when given a complex Hash object that's potentially very large -
@@ -141,7 +141,7 @@ All of the previous examples have been working with instances of
 [Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html),
 a subclass of Ruby's Object class. In comparison, [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html) -
 a subclass of Ruby's BasicObject class, provides an object
-with very few methods defined. The following example demonstrates
+with very few methods. The following example demonstrates
 how to create an instance of [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html):
 
 ```ruby
@@ -158,8 +158,8 @@ p [point.x, point.y]
 
 #### Ryo::BasicObject.from
 
-Ryo::BasicObject.from is identical to Ryo.from but rather than returning
-instance(s) of [Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html)
+[Ryo::BasicObject.from](http://0x1eef.github.test/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
+is identical to Ryo.from but rather than returning instance(s) of [Ryo::Object](http://0x1eef.github.io/x/ryo.rb/Ryo/Object.html)
 it returns instance(s) of [Ryo::BasicObject](http://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html)
 instead:
 
@@ -181,7 +181,7 @@ p vehicles.car.wheels
 
 When a property and method collide, Ryo tries to find the best resolution. Since Ryo properties
 don't accept arguments, and methods can - we are able to distinguish a property from a method in
-most cases.
+many cases.
 
 Consider this example, where a property collides with the `Kernel#then` method. This example
 would work the same for other methods that accept a block and/or arguments:

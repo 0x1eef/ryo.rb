@@ -11,6 +11,14 @@ class Ryo::BasicObject < BasicObject
     ::Ryo::Builder.build(self, props, prototype)
   end
 
+  ##
+  # Creates a Ryo object by recursively walking a Hash object.
+  #
+  # @param props (see Ryo::Builder#recursive_build)
+  # @param prototype (see Ryo::Builder#resursive_build)
+  #
+  # @return [Ryo::BasicObject]
+  #  Returns an instance of {Ryo::BasicObject Ryo::BasicObject}.
   def self.from(props, prototype = nil)
     ::Ryo::Builder.recursive_build(self, props, prototype)
   end
