@@ -37,7 +37,7 @@ module Ryo
   # @param [Ryo::Object, Ryo::BasicObject] ryo
   #  A Ryo object.
   #
-  # @return [Enumerator, Array]
+  # @return [<Enumerator, Array>]
   #  Returns an Enumerator when a block is not given,
   #  otherwise returns an Array.
   def self.each(ryo)
@@ -58,10 +58,9 @@ module Ryo
   end
 
   ##
-  # Returns the prototype of self, or "nil" if self
-  # has no prototype.
+  # Returns the prototype of self, or "nil" if self has no prototype.
   #
-  # @return [Ryo, nil]
+  # @return [<Ryo::Object, Ryo::BasicObject>, nil]
   def __proto__
     @_proto
   end
@@ -70,13 +69,13 @@ module Ryo
   # @param [String] property
   #  The property.
   #
-  # @return [Object, BasicObject]
-  #  The value at *property*, or nil.
+  # @return [<Object, BasicObject>, nil]
+  #  Returns the value at **property**, or nil.
   #
   # @note
-  #  This method will first try to read the property from self, and if
-  #  the property is not found on self the chain of prototypes will be
-  #  traversed through instead.
+  #  This method will first try to read **property** from self, and if
+  #  it is not found on self the chain of prototypes will be traversed
+  #  through instead.
   def [](property)
     property = property.to_s
     if Ryo.property?(self, property)
@@ -88,13 +87,15 @@ module Ryo
   end
 
   ##
-  # Adds a property to self.
+  # Assigns a property to self.
   #
   # @param [String] property
   #  The property.
   #
-  # @param [Object,BasicObject] value
+  # @param [<Object,BasicObject>] value
   #  The value.
+  #
+  # @return [void]
   def []=(property, value)
     Ryo.define_property(self, property.to_s, value)
   end
@@ -116,6 +117,9 @@ module Ryo
   end
   alias_method :eql?, :==
 
+  ##
+  # @return [String]
+  #  Returns a String representation of a Ryo object.
   def inspect
     Ryo.inspect_object(self)
   end
@@ -155,13 +159,11 @@ module Ryo
 end
 
 ##
-# @param [<.each>] each_obj
-#  An object that implements each, and yields two arguments.
-#
-# @param [Ryo] prototype
-#  The prototype.
+# @param props (see Ryo::Builder.build)
+# @param prototype (see Ryo::Builder.build)
 #
 # @return [Ryo::Object]
-def Ryo(each_obj, prototype = nil)
-  Ryo::Object.create(each_obj, prototype)
+#  Returns a Ryo object.
+def Ryo(props, prototype = nil)
+  Ryo::Object.create(props, prototype)
 end
