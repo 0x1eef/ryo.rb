@@ -11,6 +11,9 @@ class Ryo::Function
   ##
   # @param [Proc] body
   #  The body of the function as a block.
+  #
+  # @return [Ryo::Function]
+  #  Returns an instance of {Ryo::Function Ryo::Function}.
   def initialize(&body)
     @body = body
     @ryo = nil
@@ -18,9 +21,8 @@ class Ryo::Function
   end
 
   ##
-  # @return [Ryo]
-  #  Returns the object that the function's "self" is
-  #  bound to.
+  # @return [<Ryo::Object, Ryo::BasicObject>]
+  #  Returns the object that the function's "self" is bound to.
   def receiver
     @ryo
   end
@@ -29,7 +31,7 @@ class Ryo::Function
   ##
   # Change the receiver (self) of the function.
   #
-  # @param [Ryo] ryo
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @return [nil]
@@ -46,8 +48,7 @@ class Ryo::Function
 
   ##
   # @return [Proc]
-  #  Returns the function as a lambda bound
-  #  to {#receiver}.
+  #  Returns the function as a lambda bound to {#receiver}.
   def to_proc
     @to_proc ||= lambda!(@body)
   end
