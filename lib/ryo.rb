@@ -58,16 +58,6 @@ module Ryo
   end
 
   ##
-  # @param [Ryo, nil] prototype
-  #  The prototype.
-  #
-  # @return [Object, BasicObject]
-  def initialize(prototype)
-    @_proto = prototype
-    @_table = {}
-  end
-
-  ##
   # Returns the prototype of self, or "nil" if self
   # has no prototype.
   #
