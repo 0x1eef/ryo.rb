@@ -15,7 +15,7 @@ covered by the examples.
 
 #### Point object
 
-The following demonstrates prototype-based inheritance in the simplest
+The following example demonstrates prototype-based inheritance in the simplest
 terms I could imagine so far. It introduces three objects to form a single
 point object with the properties, "x" and "y". The [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method used by
 the example returns an instance of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):

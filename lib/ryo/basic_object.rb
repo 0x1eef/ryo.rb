@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 ##
-# {Ryo::BasicObject Ryo::BasicObject} is a Ryo object that can
-# be created by using {Ryo.BasicObject Ryo.BasicObject()},
+# {Ryo::BasicObject Ryo::BasicObject} is a Ryo object and subclass
+# of Ruby's BasicObject that can be created by using {Ryo.BasicObject Ryo.BasicObject()},
 # {Ryo::BasicObject.from Ryo::BasicObject.from}, or
 # {Ryo::BasicObject.create Ryo::BasicObject.create}.
 class Ryo::BasicObject < BasicObject
