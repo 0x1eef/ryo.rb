@@ -126,5 +126,25 @@ RSpec.describe Ryo do
         it { is_expected.to eq([nil, nil]) }
       end
     end
+
+    context "when given an Array that contains Hash objects" do
+      context "when given one Hash object" do
+        subject { vehicles[0].wheels.quantity }
+        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}]) }
+        it { is_expected.to eq(4) }
+      end
+
+      context "when given two Hash objects" do
+        subject { vehicles.map { _1.wheels.quantity } }
+        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}, {wheels: {quantity: 3}}]) }
+        it { is_expected.to eq([4, 3]) }
+      end
+
+      context "when given a mix of Hash objects, and other objects" do
+        subject { vehicles.map { Ryo === _1 ? _1.wheels.quantity : _1 } }
+        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}, "foo"]) }
+        it { is_expected.to eq([4, "foo"]) }
+      end
+    end
   end
 end
