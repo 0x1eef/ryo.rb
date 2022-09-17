@@ -49,8 +49,8 @@ require "ryo"
 
 default = Ryo(option: "foo", padding: 24)
 config = Ryo({
-  print: Ryo.fn { |source, option|
-    print source.ljust(padding), option, "\n"
+  print: Ryo.fn { |source, config_option|
+    print source.ljust(padding), config_option, "\n"
   }
 }, default)
 

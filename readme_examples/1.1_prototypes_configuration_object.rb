@@ -5,8 +5,8 @@ require "ryo"
 
 default = Ryo(option: "foo", padding: 24)
 config = Ryo({
-  print: Ryo.fn { |source, option|
-    print source.ljust(padding), option, "\n"
+  print: Ryo.fn { |source, config_option|
+    print source.ljust(padding), config_option, "\n"
   }
 }, default)
 
@@ -25,3 +25,10 @@ config.print.call("option (from 'config')", config.option)
 print("delete config.option", "\n")
 Ryo.delete(config, "option")
 config.print.call("option (from 'default')", config.option)
+
+##
+# option (from 'default') foo
+# assign config.option
+# option (from 'config')  bar
+# delete config.option
+# option (from 'default') foo
