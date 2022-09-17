@@ -53,10 +53,8 @@ module Ryo::Builder
     elsif !props.respond_to?(:each_key)
       arr = []
       props.each do
-        arr.push(
-          _1.respond_to?(:each_key) ?
-          recursive_build(buildee, _1, prototype) : _1
-        )
+        el = _1.respond_to?(:each_key) ? recursive_build(buildee, _1, prototype) : _1
+        arr.push(el)
       end
       return arr
     end
