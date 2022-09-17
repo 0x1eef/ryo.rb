@@ -5,6 +5,11 @@ the implementation taking a lot of inspiration from JavaScript. Ryo can be
 used for creating Ruby objects from Hash objects, for implementing configuration
 objects, and for other use cases where prototype-based inheritance can be useful.
 
+For the sake of simplicity, the objects Ryo works with are described as Hash objects,
+and Array objects. Technically Ryo is duck-typed. When a Hash is mentioned that means
+**any** object that implements `#each_key`, and `#each` - while when an Array is mentioned
+that means **any** object that implements `#each`.
+
 ## Examples
 
 The examples cover quite a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
@@ -134,6 +139,32 @@ p [vehicles.bike.wheels, vehicles.car.wheels]
 
 ##
 # [2, 4]
+```
+
+#### Ryo.from with an Array
+
+The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method can
+walk an Array object, and create Ryo objects from Hash objects that it finds along the way.
+An object that can't be coerced into a Ryo object is left as-is. The following
+example demonstrates how that works in practice:
+
+``` ruby
+require "ryo"
+
+vehicles = Ryo.from([
+  {wheels: {quantity: 2}},
+  "foobar",
+  {wheels: {quantity: 4}}
+])
+
+p vehicles[0].wheels.quantity
+p vehicles[1]
+p vehicles[2].wheels.quantity
+
+##
+# 2
+# "foobar"
+# 4
 ```
 
 ### BasicObject
