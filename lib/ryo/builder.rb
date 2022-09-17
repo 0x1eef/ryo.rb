@@ -48,12 +48,17 @@ module Ryo::Builder
   #
   # @return (see Ryo::Builder.build)
   def self.recursive_build(buildee, props, prototype = nil)
-    if !props.respond_to?(:each)
-      raise TypeError, "The provided object does not implement #each"
+    if !props.respond_to?(:each) && !props.respond_to?(:each_key)
+      raise TypeError, "The provided object does not implement #each / #each_key"
     elsif !props.respond_to?(:each_key)
-      return props.map {
-        _1.respond_to?(:each_key) ? recursive_build(buildee, _1, prototype) : _1
-      }
+      arr = []
+      props.each do
+        arr.push(
+          _1.respond_to?(:each_key) ?
+          recursive_build(buildee, _1, prototype) : _1
+        )
+      end
+      return arr
     end
     recursive_build!(buildee, props, prototype)
   end

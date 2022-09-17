@@ -130,21 +130,42 @@ RSpec.describe Ryo do
     context "when given an Array that contains Hash objects" do
       context "when given one Hash object" do
         subject { vehicles[0].wheels.quantity }
-        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}]) }
+        let(:vehicles) { Ryo.from([{wheels: {quantity: 4}}]) }
         it { is_expected.to eq(4) }
       end
 
       context "when given two Hash objects" do
         subject { vehicles.map { _1.wheels.quantity } }
-        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}, {wheels: {quantity: 3}}]) }
+        let(:vehicles) { Ryo.from([{wheels: {quantity: 4}}, {wheels: {quantity: 3}}]) }
         it { is_expected.to eq([4, 3]) }
       end
 
       context "when given a mix of Hash objects, and other objects" do
         subject { vehicles.map { Ryo === _1 ? _1.wheels.quantity : _1 } }
-        let(:vehicles) { Ryo.from([{wheels: {quantity:4}}, "foo"]) }
+        let(:vehicles) { Ryo.from([{wheels: {quantity: 4}}, "foo"]) }
         it { is_expected.to eq([4, "foo"]) }
       end
+
+      context "when given an object that implements #each but not #each_key" do
+        subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.wheels.quantity : _1 } }
+        let(:each_obj) do
+          Class.new {
+            def initialize
+              @arr = [{wheels: {quantity: 4}}, "foo"]
+            end
+
+            def each
+              @arr.each { yield(_1) }
+            end
+          }
+        end
+        it { is_expected.to eq([4, "foo"]) }
+      end
+    end
+
+    context "when given an object that does implement #each / #each_key" do
+      subject(:from) { Ryo.from(Object.new) }
+      it { expect { from }.to raise_error(TypeError, %r{does not implement #each / #each_key}) }
     end
   end
 end
