@@ -22,9 +22,11 @@ module Ryo
   require_relative "ryo/object"
   require_relative "ryo/function"
   require_relative "ryo/tap"
+  require_relative "ryo/enumerable"
 
   extend Ryo::Reflect
   extend Ryo::Keywords
+  extend Ryo::Enumerable
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
@@ -39,28 +41,6 @@ module Ryo
     Module
       .instance_method(:extend)
       .bind_call(ryo, mod)
-  end
-
-  ##
-  # Iterates over a Ryo object.
-  #
-  # @example
-  #  Ryo(foo: 1, bar: 2).each.map { _2 * 2 }
-  #  # => [2, 4]
-  #
-  # @param [Ryo::Object, Ryo::BasicObject] ryo
-  #  A Ryo object.
-  #
-  # @return [<Enumerator, Array>]
-  #  Returns an Enumerator when a block is not given,
-  #  otherwise returns an Array.
-  def self.each(ryo)
-    return enum_for(:each, ryo) unless block_given?
-    props = [
-      *properties_of(ryo),
-      *prototype_chain_of(ryo).flat_map { properties_of(_1) }
-    ].uniq
-    props.each { yield(_1, ryo[_1]) }
   end
 
   ##

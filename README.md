@@ -7,8 +7,8 @@ objects, and for other use cases where prototype-based inheritance can be useful
 
 For the sake of simplicity, the objects Ryo works with are described as Hash objects,
 and Array objects. Technically Ryo is duck-typed. When a Hash is mentioned that means
-**any** object that implements `#each_key`, and `#each` - while when an Array is mentioned
-that means **any** object that implements `#each`.
+*any* object that implements `#each_key`, and `#each` - while when an Array is mentioned
+that means *any* object that implements `#each`.
 
 ## Examples
 
@@ -82,9 +82,12 @@ config.print.call("option (from 'default')", config.option)
 
 #### Ryo.each
 
-The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can be used to iterate through
-the properties of a Ryo object. Since Ryo takes every effort to not mix its implementation with
-the objects it creates, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) is not implemented as `#each` directly on a Ryo object:
+The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can iterate through the properties of a Ryo object. Since Ryo takes every effort
+to not mix its implementation with the objects it creates, 
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) is not implemented directly 
+on a Ryo object. 
+
+When a block is not given, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) returns an Enumerator that provides access to the methods of Enumerable. Methods on Enumerable won't return a Ryo object, but usually arrays.  Ryo addresses that with its own specialized Enumerable methods that are covered just below. For now - a demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
 require "ryo"
@@ -95,7 +98,7 @@ Ryo.each(car) do |key, value|
 end
 
 ##
-# ["name", 'ford']
+# ["name", "ford"]
 # ["year", 1922]
 ```
 
