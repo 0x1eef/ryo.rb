@@ -30,7 +30,7 @@ module Ryo::Builder
   end
 
   ##
-  # Creates a Ryo object by recursively walking a Hash object.
+  # Creates a Ryo object by recursively walking a Hash object, or an Array of Hash objects.
   #
   # @example
   #   objects = Ryo.from([{x: 0, y: 0}, "foo", {point: {x: 0, y: 0}}])
@@ -40,9 +40,8 @@ module Ryo::Builder
   #
   # @param buildee (see Ryo::Builder.build)
   #
-  # @param [<Hash, Array<#each_key>, #each_key>] props
-  #   A Hash object, or an object that implements "#each_key", or an array of objects that
-  #   implement "#each_key".
+  # @param [<Hash, #each<Hash, #each_key>, #each_key>] props
+  #   An object that implements "#each_key", or an array of objects that implement "#each_key".
   #
   # @param prototype (see Ryo::Builder.build)
   #
