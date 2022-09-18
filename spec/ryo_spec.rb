@@ -4,13 +4,15 @@ require_relative "setup"
 
 RSpec.describe Ryo do
   describe ".set_prototype_of" do
-    subject { point.y }
-    let(:point_1) { Ryo(x: 0, y: 0) }
-    let(:point_2) { Ryo(y: 5) }
-    let(:point) { Ryo({}, point_1) }
+    context "when the prototype of point is changed to point_2" do
+      subject { point.y }
+      let(:point_1) { Ryo(x: 0, y: 0) }
+      let(:point_2) { Ryo(y: 5) }
+      let(:point) { Ryo({}, point_1) }
 
-    before { Ryo.set_prototype_of(point, point_2) }
-    it { is_expected.to eq(5) }
+      before { Ryo.set_prototype_of(point, point_2) }
+      it { is_expected.to eq(5) }
+    end
   end
 
   describe ".prototype_chain_of" do
@@ -36,7 +38,6 @@ RSpec.describe Ryo do
       let(:point_x) { Ryo(x: 0) }
       let(:point_y) { Ryo({y: 5}, point_x) }
       let(:point) { Ryo({}, point_y) }
-
       it { is_expected.to eq([["y", 5], ["x", 0]]) }
     end
   end
@@ -45,13 +46,13 @@ RSpec.describe Ryo do
     let(:point_1) { Ryo(x: 0, y: 0) }
     let(:point_2) { Ryo(y: 10) }
 
-    context "when car and bike are combined" do
+    context "when point_2 is assigned to point_1" do
       subject { Ryo.assign(point_1, point_2) }
       it { is_expected.to eq("x" => 0, "y" => 10) }
       it { is_expected.to be_instance_of(Ryo::Object) }
     end
 
-    context "when Ryo objects and Hash objects are combined" do
+    context "when a Ryo object and Hash object are assigned to point_1" do
       subject { Ryo.assign(point_1, point_2, {move: fn}) }
       let(:fn) { Ryo.fn {} }
       it { is_expected.to eq("x" => 0, "y" => 10, "move" => fn) }
@@ -71,7 +72,7 @@ RSpec.describe Ryo do
   describe ".delete" do
     let(:point) { Ryo(x: 0) }
 
-    context "when a propery is deleted" do
+    context "when a property is deleted" do
       subject { point.x }
       before { Ryo.delete(point, "x") }
       it { is_expected.to be_nil }
@@ -136,12 +137,9 @@ RSpec.describe Ryo do
         subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.point.x.int : _1 } }
         let(:each_obj) do
           Class.new {
-            def initialize
-              @arr = [{point: {x: {int: 4}}}, "foo"]
-            end
-
             def each
-              @arr.each { yield(_1) }
+              arr = [{point: {x: {int: 4}}}, "foo"]
+              arr.each { yield(_1) }
             end
           }
         end
