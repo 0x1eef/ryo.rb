@@ -3,8 +3,11 @@
 require_relative "setup"
 require "ryo"
 
-vehicles = Ryo::BasicObject.from(bike: {wheels: 2}, car: {wheels: 4})
-p [vehicles.bike.wheels, vehicles.car.wheels]
+coords = Ryo::BasicObject.from({
+  point_x: {x: 2},
+  point_y: {y: 4}
+})
+p [coords.point_x.x, coords.point_y.y]
 
 ##
 # [2, 4]

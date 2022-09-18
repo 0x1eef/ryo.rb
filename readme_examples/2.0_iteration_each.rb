@@ -3,11 +3,11 @@
 require_relative "setup"
 require "ryo"
 
-car = Ryo(name: "ford", year: 1922)
-Ryo.each(car) do |key, value|
+point = Ryo(x: 10, y: 20)
+Ryo.each(point) do |key, value|
   p [key, value]
 end
 
 ##
-# ['name', 'ford']
-# ['year', 1922]
+# ["x", 10]
+# ["y", 20]

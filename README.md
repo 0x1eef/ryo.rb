@@ -96,14 +96,14 @@ that are covered just below. For now - a demonstration of
 ```ruby
 require "ryo"
 
-car = Ryo(name: "ford", year: 1922)
-Ryo.each(car) do |key, value|
+point = Ryo(x: 10, y: 20)
+Ryo.each(point) do |key, value|
   p [key, value]
 end
 
 ##
-# ["name", "ford"]
-# ["year", 1922]
+# ["x", 10]
+# ["y", 20]
 ```
 
 #### Ryo.map
@@ -153,11 +153,14 @@ The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.r
 ```ruby
 require "ryo"
 
-vehicles = Ryo.from(bike: {wheels: 2}, car: {wheels: 4})
-p [vehicles.bike.wheels, vehicles.car.wheels]
+coords = Ryo.from({
+  point_x: {x: 0}, 
+  point_y: {y: 10}
+})
+p [coords.point_x.x, coords.point_y.y]
 
 ##
-# [2, 4]
+# [0, 10]
 ```
 
 #### Ryo.from with an Array
@@ -170,15 +173,15 @@ example demonstrates how that works in practice:
 ``` ruby
 require "ryo"
 
-vehicles = Ryo.from([
-  {wheels: {quantity: 2}},
+coords = Ryo.from([
+  {point_x: {x: 2}},
   "foobar",
-  {wheels: {quantity: 4}}
+  {point_y: {y: 4}}
 ])
 
-p vehicles[0].wheels.quantity
-p vehicles[1]
-p vehicles[2].wheels.quantity
+p coords[0].point_x.x
+p coords[1]
+p coords[2].point_y.y
 
 ##
 # 2
@@ -219,8 +222,11 @@ instead:
 ```ruby
 require "ryo"
 
-vehicles = Ryo::BasicObject.from(bike: {wheels: 2}, car: {wheels: 4})
-p [vehicles.bike.wheels, vehicles.car.wheels]
+coords = Ryo::BasicObject.from({
+  point_x: {x: 2},
+  point_y: {y: 4}
+})
+p [coords.point_x.x, coords.point_y.y]
 
 ##
 # [2, 4]
