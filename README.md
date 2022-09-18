@@ -112,10 +112,11 @@ end
 specialized implementations of Enumerable methods that can return a new copy of a Ryo
 object, or mutate a Ryo object and its prototypes.
 
-The following example demonstrates a mutating map operation on a Ryo object with
+The following example demonstrates a mutating map operation of a Ryo object with
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
-The non-mutating counterpart of `Ryo.map!` is
-[`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method), and
+The non-mutating counterpart of
+[`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method) is
+[`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method), and
 it returns a new copy of a Ryo object and its prototypes.
 
 ```ruby
