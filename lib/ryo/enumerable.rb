@@ -28,7 +28,7 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized version of map that mutates a Ryo object
+  # A specialized implementation of map that mutates a Ryo object
   # using a map operation.
   #
   # @example
@@ -38,16 +38,14 @@ module Ryo::Enumerable
   #   ryo.y # => 8
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #    A Ryo object.
+  #  A Ryo object.
   #
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def map!(ryo, &b)
-    each(ryo) do
-      if property?(ryo, _1)
-        ryo[_1] = yield(_1, _2)
-      else
-        map!(prototype_of(ryo), &b)
-      end
+    proto_chain = [ryo, *Ryo.prototype_chain_of(ryo)]
+    each(ryo) do |key, value|
+      ryo = proto_chain.find { |ryo| Ryo.property?(ryo, key) }
+      ryo[key] = yield(key, value)
     end
     ryo
   end
