@@ -168,4 +168,40 @@ RSpec.describe Ryo do
       it { expect { from }.to raise_error(TypeError, %r{does not implement #each / #each_key}) }
     end
   end
+
+  describe "clone" do
+    let(:point_x) { Ryo::BasicObject(x: 1) }
+    let(:point_y) { Ryo::BasicObject({y: 2}, point_x) }
+    let(:point) { Ryo::BasicObject({}, point_y) }
+    subject(:clone) { Ryo.clone(point) }
+
+    context "when the clone is mutated" do
+      before { clone.x = 5 }
+
+      context "when confirmimg the source wasn't mutated" do
+        subject { point.x }
+        it { is_expected.to eq(1) }
+      end
+
+      context "when confirming the clone was mutated" do
+        subject { clone.x }
+        it { is_expected.to eq(5) }
+      end
+    end
+
+    context "when confirming the source and clone are distinct objects" do
+      subject { Ryo.module_method(:equal?).bind_call(point, clone) }
+      it { is_expected.to eq(false) }
+    end
+
+    context "when confirming the source and clone are equal" do
+      subject { point == clone }
+      it { is_expected.to be(true) }
+    end
+
+    context "when confirming the prototypes of the source and clone are equal" do
+      subject { Ryo.prototype_chain_of(point) == Ryo.prototype_chain_of(clone) }
+      it { is_expected.to eq(true) }
+    end
+  end
 end
