@@ -3,15 +3,16 @@
 require_relative "setup"
 require "ryo"
 
-vehicles = Ryo.from([
-  {wheels: {quantity: 2}},
+
+coords = Ryo.from([
+  {point_x: {x: {int: 2}}},
   "foobar",
-  {wheels: {quantity: 4}}
+  {point_y: {y: {int: 4}}}
 ])
 
-p vehicles[0].wheels.quantity
-p vehicles[1]
-p vehicles[2].wheels.quantity
+p coords[0].point_x.x.int
+p coords[1]
+p coords[2].point_y.y.int
 
 ##
 # 2

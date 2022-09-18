@@ -154,10 +154,10 @@ The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.r
 require "ryo"
 
 coords = Ryo.from({
-  point_x: {x: 0}, 
-  point_y: {y: 10}
+  point_x: {x: {int: 0}},
+  point_y: {y: {int: 10}}
 })
-p [coords.point_x.x, coords.point_y.y]
+p [coords.point_x.x.int, coords.point_y.y.int]
 
 ##
 # [0, 10]
@@ -174,14 +174,14 @@ example demonstrates how that works in practice:
 require "ryo"
 
 coords = Ryo.from([
-  {point_x: {x: 2}},
+  {point_x: {x: {int: 2}}},
   "foobar",
-  {point_y: {y: 4}}
+  {point_y: {y: {int: 4}}}
 ])
 
-p coords[0].point_x.x
+p coords[0].point_x.x.int
 p coords[1]
-p coords[2].point_y.y
+p coords[2].point_y.y.int
 
 ##
 # 2
@@ -223,10 +223,10 @@ instead:
 require "ryo"
 
 coords = Ryo::BasicObject.from({
-  point_x: {x: 2},
-  point_y: {y: 4}
+  point_x: {x: {int: 2}},
+  point_y: {y: {int: 4}}
 })
-p [coords.point_x.x, coords.point_y.y]
+p [coords.point_x.x.int, coords.point_y.y.int]
 
 ##
 # [2, 4]
