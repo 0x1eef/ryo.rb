@@ -191,9 +191,9 @@ p coords[2].point_y.y.int
 
 #### Ryo.from with an OpenStruct
 
-All methods that can create Ryo objects support coercing an OpenStruct into a Ryo object. The following
-example demonstrates how [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) 
-can recursively coerce an OpenStruct into a Ryo object. The example also assigns a prototype to the 
+All methods that can create Ryo objects support coercing an OpenStruct object into a Ryo object. The following
+example demonstrates how [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
+can recursively coerce an OpenStruct object into a Ryo object. The example also assigns a prototype to the
 Ryo object created from the OpenStruct object:
 
 ``` ruby

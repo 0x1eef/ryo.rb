@@ -108,12 +108,6 @@ RSpec.describe Ryo do
       it { is_expected.to eq(4) }
     end
 
-    context "when given a Hash nested in an Array" do
-      subject { coords.points[0].x.int }
-      let(:coords) { Ryo.from(points: [{x: {int: 4}}]) }
-      it { is_expected.to eq(4) }
-    end
-
     context "when given an Array that contains Hash objects" do
       context "when given one Hash object" do
         subject { coords[0].point.x.int }
