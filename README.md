@@ -110,7 +110,7 @@ end
 
 [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) provides
 specialized implementations of Enumerable methods that can return a new copy of a Ryo
-object, or mutate a Ryo object and its prototypes in-place.
+object and its prototypes, or mutate a Ryo object and its prototypes in-place.
 
 The following example demonstrates a mutating map operation of a Ryo object with
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
