@@ -44,6 +44,24 @@ module Ryo
   end
 
   ##
+  # Clones a Ryo object, and its prototype(s).
+  #
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
+  #   A Ryo object.
+  #
+  # @return [<Ryo::Object, Ryo::BasicObject>]
+  #   Returns a cloned Ryo object.
+  def self.clone(ryo)
+    clone = module_method(:clone).bind_call(ryo)
+    set_table_of(clone, table_of(ryo).dup)
+    proto = prototype_of(clone)
+    if proto
+      set_prototype_of(clone, clone(proto))
+    end
+    clone
+  end
+
+  ##
   # Creates a Ryo object by recursively walking a Hash object.
   #
   # @param props (see Ryo::Builder.build)
