@@ -83,11 +83,15 @@ config.print.call("option (from 'default')", config.option)
 #### Ryo.each
 
 The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can iterate through the properties of a Ryo object. Since Ryo takes every effort
-to not mix its implementation with the objects it creates, 
-[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) is not implemented directly 
-on a Ryo object. 
+to not mix its implementation with the objects it creates,
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) is not implemented directly
+on a Ryo object.
 
-When a block is not given, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) returns an Enumerator that provides access to the methods of Enumerable. Methods on Enumerable won't return a Ryo object, but usually arrays.  Ryo addresses that with its own specialized Enumerable methods that are covered just below. For now - a demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
+When a block is not given, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
+returns an Enumerator that provides access to the methods of Enumerable. Methods on Enumerable won't
+return a Ryo object, but often arrays.  Ryo addresses that with its own specialized Enumerable methods
+that are covered just below. For now - a demonstration of
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
 require "ryo"
@@ -102,21 +106,27 @@ end
 # ["year", 1922]
 ```
 
-#### Map
+#### Ryo.map!
 
-The previous example introduced [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that returns an
-Enumerator when a block is not given. An [Enumerator](https://www.rubydoc.info/stdlib/core/Enumerator) provides access to
-methods such as "map". The following example demonstrates a map operation
-using Ryo:
+[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) provides
+specialized implementations of Enumerable methods that can mutate a Ryo object, and
+its prototypes. The following example demonstrates a map operation on a Ryo object with
+[`Ryo.map!`](http://self.0x1eef.test/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
 
 ```ruby
 require "ryo"
 
-car = Ryo(name: "ford", year: 1922)
-p Ryo.each(car).map { _1 == "name" ? "telsa" : 2022 }
+point_x = Ryo(x: 2)
+point_y = Ryo({y: 4}, point_x)
+point = Ryo({}, point_y)
+
+Ryo.map!(point) { |key, value| value * 2 }
+p [point.x, point.y]
+p [point_x.x, point_y.y]
 
 ##
-# ["telsa", 2022]
+# [4, 8]
+# [4, 8]
 ```
 
 ### Recursion
