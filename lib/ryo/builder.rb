@@ -12,8 +12,8 @@ module Ryo::Builder
   # @param [<Ryo::Object, Ryo::BasicObject>] buildee
   #  The class of the object to build.
   #
-  # @param [<Hash, #each>] props
-  #  A Hash object, or an object that implements "#each" and yields a key-value pair.
+  # @param [<Hash, #each_pair>] props
+  #  A Hash object, or an object that implements "#each_pair" and yields a key-value pair.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>, nil] prototype
   #  The prototype, or nil for none.
