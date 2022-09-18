@@ -12,30 +12,30 @@ RSpec.describe Ryo::BasicObject do
   end
 
   describe ".from" do
-    context "when given a set of nested Hash objects" do
-      subject { vehicles.cars.wheels.quantity }
-      let(:vehicles) { described_class.from(cars: {wheels: {quantity: 4}}) }
+    context "when given nested Hash objects" do
+      subject { coords.point.x.int }
+      let(:coords) { Ryo::BasicObject.from(point: {x: {int: 4}}) }
       it { is_expected.to eq(4) }
     end
 
-    context "when given a Hash nested in an Array" do
-      subject { house.rooms[0].quantity }
-      let(:house) { described_class.from(rooms: [{quantity: 4}]) }
+    context "when given nested Hash objects in an Array" do
+      subject { coords.points[0].x.int }
+      let(:coords) { Ryo::BasicObject.from(points: [{x: {int: 4}}]) }
       it { is_expected.to eq(4) }
     end
 
     context "with a prototype" do
-      let(:point) { described_class.from(x: 0, y: 0) }
-      let(:vehicles) { described_class.from({cars: {wheels: {quantity: 4}}}, point) }
+      let(:point_x) { Ryo::BasicObject.from(x: {int: 0}) }
+      let(:point) { Ryo::BasicObject.from({y: {int: 2}}, point_x) }
 
       context "when traversing to the prototype" do
-        subject { [vehicles.x, vehicles.y] }
-        it { is_expected.to eq([0, 0]) }
+        subject { point.x.int }
+        it { is_expected.to eq(0) }
       end
 
-      context "when traversing to the prototype on a nested node" do
-        subject { [vehicles.cars.x, vehicles.cars.y] }
-        it { is_expected.to eq([nil, nil]) }
+      context "when verifying a nested Hash object didn't inherit the prototype" do
+        subject { point.y.x }
+        it { is_expected.to eq(nil) }
       end
     end
   end
