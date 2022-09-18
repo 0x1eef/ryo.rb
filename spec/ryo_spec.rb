@@ -170,10 +170,10 @@ RSpec.describe Ryo do
   end
 
   describe "clone" do
+    subject(:clone) { Ryo.clone(point) }
     let(:point_x) { Ryo::BasicObject(x: 1) }
     let(:point_y) { Ryo::BasicObject({y: 2}, point_x) }
     let(:point) { Ryo::BasicObject({}, point_y) }
-    subject(:clone) { Ryo.clone(point) }
 
     context "when the clone is mutated" do
       before { clone.x = 5 }
