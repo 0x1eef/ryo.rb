@@ -47,10 +47,10 @@ module Ryo
   # Clones a Ryo object, and its prototype(s).
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #   A Ryo object.
+  #  A Ryo object.
   #
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  #   Returns a cloned Ryo object.
+  #  Returns a cloned Ryo object.
   def self.clone(ryo)
     clone = module_method(:clone).bind_call(ryo)
     set_table_of(clone, table_of(ryo).dup)
