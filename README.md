@@ -106,12 +106,17 @@ end
 # ["year", 1922]
 ```
 
-#### Ryo.map!
+#### Ryo.map
 
 [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) provides
-specialized implementations of Enumerable methods that can mutate a Ryo object, and
-its prototypes. The following example demonstrates a map operation on a Ryo object with
-[`Ryo.map!`](http://self.0x1eef.test/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
+specialized implementations of Enumerable methods that can return a new copy of a Ryo
+object, or mutate a Ryo object and its prototypes.
+
+The following example demonstrates a mutating map operation on a Ryo object with
+[`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
+The non-mutating counterpart of `Ryo.map!` is
+[`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method), and
+it returns a new copy of a Ryo object and its prototypes.
 
 ```ruby
 require "ryo"

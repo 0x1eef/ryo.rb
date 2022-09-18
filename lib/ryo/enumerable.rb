@@ -30,8 +30,19 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of map that mutates a Ryo object
-  # using a map operation.
+  # A specialized implementation of map that performs a map operation
+  # and returns a *new* Ryo object.
+  #
+  # @param (see #map!)
+  #
+  # @return (see #map!)
+  def map(ryo, &b)
+    map!(Ryo.clone(ryo), &b)
+  end
+
+  ##
+  # A specialized implementation of map that performs a map operation
+  # that mutates a Ryo object.
   #
   # @example
   #   point = Ryo.from(x: 2, y: 4)
