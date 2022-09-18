@@ -136,7 +136,7 @@ RSpec.describe Ryo do
       context "when given a mix of Hash objects, and Ryo objects" do
         subject { coords.map(&:x) }
         let(:coords) { Ryo.from([{x: 1}, Ryo::BasicObject(x: 2)]) }
-        it { is_expected.to eq([1, 2])}
+        it { is_expected.to eq([1, 2]) }
       end
 
       context "when given an object that implements #each but not #each_key" do

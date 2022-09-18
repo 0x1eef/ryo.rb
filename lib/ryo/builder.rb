@@ -25,7 +25,7 @@ module Ryo::Builder
     Ryo.set_prototype_of(ryo, prototype)
     Ryo.set_table_of(ryo, {})
     Ryo.extend!(ryo, Ryo)
-    props.each { ryo[_1] = _2 }
+    props.each_pair { ryo[_1] = _2 }
     ryo
   end
 
@@ -40,22 +40,20 @@ module Ryo::Builder
   #
   # @param buildee (see Ryo::Builder.build)
   #
-  # @param [<Hash, #each<Hash, #each_key>, #each_key>] props
-  #   An object that implements "#each_key", or an array of objects that implement "#each_key".
+  # @param [<Hash, #each<Hash, #each_pair>, #each_pair>] props
+  #   An object that implements "#each_pair", or an array of objects that implement "#each_pair".
   #
   # @param prototype (see Ryo::Builder.build)
   #
   # @return (see Ryo::Builder.build)
   def self.recursive_build(buildee, props, prototype = nil)
-    if !props.respond_to?(:each) && !props.respond_to?(:each_key)
-      raise TypeError, "The provided object does not implement #each / #each_key"
-    elsif !props.respond_to?(:each_key)
-      arr = []
-      props.each do
-        noop = Ryo === _1 || !_1.respond_to?(:each_key)
-        arr.push(noop ? _1 : recursive_build(buildee, _1, prototype))
+    if !props.respond_to?(:each) && !props.respond_to?(:each_pair)
+      raise TypeError, "The provided object does not implement #each / #each_pair"
+    elsif !props.respond_to?(:each_pair)
+      map(props) do
+        noop = Ryo === _1 || !_1.respond_to?(:each_pair)
+        noop ? _1 : recursive_build(buildee, _1, prototype)
       end
-      arr
     else
       recursive_build!(buildee, props, prototype)
     end
@@ -65,11 +63,11 @@ module Ryo::Builder
   # @api private
   def self.recursive_build!(buildee, props, prototype)
     visited = {}
-    props.each do |key, value|
-      visited[key] = if value.respond_to?(:each_key)
+    props.each_pair do |key, value|
+      visited[key] = if value.respond_to?(:each_pair)
         recursive_build(buildee, value)
       elsif value.respond_to?(:each)
-        value.map { recursive_build(buildee, _1) }
+        map(value) { recursive_build(buildee, _1) }
       else
         value
       end
@@ -78,4 +76,13 @@ module Ryo::Builder
     Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
   private_class_method :recursive_build!
+
+  ##
+  # @api private
+  def self.map(obj)
+    ary = []
+    obj.each { ary.push(yield(_1)) }
+    ary
+  end
+  private_class_method :map
 end

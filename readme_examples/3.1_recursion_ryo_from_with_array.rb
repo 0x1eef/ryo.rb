@@ -3,7 +3,6 @@
 require_relative "setup"
 require "ryo"
 
-
 coords = Ryo.from([
   {point_x: {x: {int: 2}}},
   "foobar",

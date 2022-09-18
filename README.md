@@ -7,8 +7,8 @@ objects, and for other use cases where prototype-based inheritance can be useful
 
 For the sake of simplicity, the objects Ryo works with are described as Hash objects,
 and Array objects. Technically Ryo is duck-typed. When a Hash is mentioned that means
-*any* object that implements `#each_key`, and `#each` - while when an Array is mentioned
-that means *any* object that implements `#each`.
+*any* object that implements `#each_pair` - while when an Array is mentioned that means
+*any* object that implements `#each`.
 
 ## Examples
 
@@ -187,6 +187,28 @@ p coords[2].point_y.y.int
 # 2
 # "foobar"
 # 4
+```
+
+#### Ryo.from with an OpenStruct
+
+All methods that can create Ryo objects support coercing an OpenStruct into a Ryo object. The following
+example demonstrates how [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) 
+can recursively coerce an OpenStruct into a Ryo object. The example also assigns a prototype to the 
+Ryo object created from the OpenStruct object:
+
+``` ruby
+require "ryo"
+require "ostruct"
+
+point = Ryo.from(
+  OpenStruct.new(x: {int: 5}),
+  Ryo.from(y: {int: 10})
+)
+
+p [point.x.int, point.y.int]
+
+##
+# [5, 10]
 ```
 
 ### BasicObject

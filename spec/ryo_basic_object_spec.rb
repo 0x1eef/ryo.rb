@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "setup"
+require "ostruct"
 
 RSpec.describe Ryo::BasicObject do
   describe "Ryo::BasicObject()" do
@@ -8,6 +9,17 @@ RSpec.describe Ryo::BasicObject do
       subject { [point.x, point.y] }
       let(:point) { Ryo::BasicObject(x: 0, y: 0) }
       it { is_expected.to eq([0, 0]) }
+    end
+
+    context "when given an OpenStruct" do
+      subject { [point.x, point.y] }
+      let(:point) { Ryo::BasicObject(OpenStruct.new(x: 0, y: 0)) }
+      it { is_expected.to eq([0, 0]) }
+
+      context "when verifying the object is a Ryo object" do
+        subject { Ryo === point }
+        it { is_expected.to be(true) }
+      end
     end
   end
 

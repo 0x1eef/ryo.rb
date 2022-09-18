@@ -27,8 +27,7 @@ RSpec/EmptyLineAfterHook:
 RSpec/EmptyLineAfterSubject:
   Enabled: false
 RSpec/DescribedClass:
-  Exclude:
-    - spec/ryo_spec.rb
+  Enabled: false
 RSpec/MultipleExpectations:
   Enabled: false
 RSpec/EmptyLineAfterFinalLet:
