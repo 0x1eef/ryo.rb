@@ -52,8 +52,8 @@ module Ryo::Builder
     elsif !props.respond_to?(:each_key)
       arr = []
       props.each do
-        el = _1.respond_to?(:each_key) ? recursive_build(buildee, _1, prototype) : _1
-        arr.push(el)
+        noop = Ryo === _1 || !_1.respond_to?(:each_key)
+        arr.push(noop ? _1 : recursive_build(buildee, _1, prototype))
       end
       arr
     else
