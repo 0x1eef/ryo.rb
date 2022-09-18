@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # The {Ryo::Enumerable Ryo::Enumerable} module implements methods
 # for iterating through, and performing operations on Ryo objects.

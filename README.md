@@ -12,7 +12,7 @@ that means *any* object that implements `#each`.
 
 ## Examples
 
-The examples cover quite a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
+The examples cover a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
 is available as a complete reference, and covers parts of the interface not
 covered by the examples.
 
