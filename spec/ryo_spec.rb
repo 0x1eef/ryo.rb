@@ -139,7 +139,7 @@ RSpec.describe Ryo do
         it { is_expected.to eq([1, 2]) }
       end
 
-      context "when given an object that implements #each but not #each_key" do
+      context "when given an object that implements #each but not #each_pair" do
         subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.point.x.int : _1 } }
         let(:each_obj) do
           Class.new {
@@ -153,9 +153,9 @@ RSpec.describe Ryo do
       end
     end
 
-    context "when given an object that does implement #each / #each_key" do
+    context "when given an object that does implement #each / #each_pair" do
       subject(:from) { Ryo.from(Object.new) }
-      it { expect { from }.to raise_error(TypeError, %r{does not implement #each / #each_key}) }
+      it { expect { from }.to raise_error(TypeError, %r{does not implement #each / #each_pair}) }
     end
   end
 
