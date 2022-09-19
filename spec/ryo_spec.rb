@@ -102,7 +102,7 @@ RSpec.describe Ryo do
   end
 
   describe ".from" do
-    context "when given a set of nested Hash objects" do
+    context "when given nested Hash objects" do
       subject { coords.points.point.x.int }
       let(:coords) { Ryo.from(points: {point: {x: {int: 4}}}) }
       it { is_expected.to eq(4) }
@@ -121,7 +121,7 @@ RSpec.describe Ryo do
         it { is_expected.to eq([4, 3]) }
       end
 
-      context "when given a mix of Hash objects and other objects" do
+      context "when given a mix of Hash objects, and other objects" do
         subject { coords.map { Ryo === _1 ? _1.point.x.int : _1 } }
         let(:coords) { Ryo.from([{point: {x: {int: 4}}}, "foo"]) }
         it { is_expected.to eq([4, "foo"]) }
@@ -162,28 +162,28 @@ RSpec.describe Ryo do
     context "when the clone is mutated" do
       before { clone.x = 5 }
 
-      context "when confirmimg the source wasn't mutated" do
+      context "when verifying the source wasn't mutated" do
         subject { point.x }
         it { is_expected.to eq(1) }
       end
 
-      context "when confirming the clone was mutated" do
+      context "when verifying the clone was mutated" do
         subject { clone.x }
         it { is_expected.to eq(5) }
       end
     end
 
-    context "when confirming the source and clone are distinct objects" do
+    context "when verifying the source and clone are distinct objects" do
       subject { Ryo.module_method(:equal?).bind_call(point, clone) }
       it { is_expected.to eq(false) }
     end
 
-    context "when confirming the source and clone are equal" do
+    context "when verifying the source and clone are eql?" do
       subject { point == clone }
       it { is_expected.to be(true) }
     end
 
-    context "when confirming the prototypes of the source and clone are equal" do
+    context "when verifying the prototypes of the source and clone are eql?" do
       subject { Ryo.prototype_chain_of(point) == Ryo.prototype_chain_of(clone) }
       it { is_expected.to eq(true) }
     end

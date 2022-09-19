@@ -30,7 +30,7 @@ RSpec.describe Ryo::BasicObject do
       it { is_expected.to eq(4) }
     end
 
-    context "when given nested Hash objects in an Array" do
+    context "when given an Array that contains nested Hash objects" do
       subject { coords.points[0].x.int }
       let(:coords) { Ryo::BasicObject.from(points: [{x: {int: 4}}]) }
       it { is_expected.to eq(4) }
@@ -45,7 +45,7 @@ RSpec.describe Ryo::BasicObject do
         it { is_expected.to eq(0) }
       end
 
-      context "when verifying a nested Hash object didn't inherit the prototype" do
+      context "when verifying a nested Hash doesn't inherit the prototype" do
         subject { point.y.x }
         it { is_expected.to eq(nil) }
       end
