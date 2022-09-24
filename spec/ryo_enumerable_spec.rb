@@ -21,7 +21,7 @@ RSpec.describe Ryo::Enumerable do
     end
 
     context "when veriying map returns a new Ryo object" do
-      subject { Ryo.module_method(:equal?).bind_call(point, m_point) }
+      subject { Ryo.kernel(:equal?).bind_call(point, m_point) }
       it { is_expected.to be(false) }
     end
   end

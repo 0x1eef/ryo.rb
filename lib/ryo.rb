@@ -53,7 +53,7 @@ module Ryo
   #  Returns a duplicated Ryo object.
   def self.dup(ryo)
     duplicate = extend!(
-      module_method(:dup).bind_call(ryo),
+      kernel(:dup).bind_call(ryo),
       self
     )
     proto = prototype_of(duplicate)

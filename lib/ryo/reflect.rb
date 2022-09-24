@@ -24,7 +24,7 @@ module Ryo::Reflect
   # @return [Ryo, nil]
   #  Returns the prototype of the *ryo* object.
   def prototype_of(ryo)
-    module_method(:instance_variable_get)
+    kernel(:instance_variable_get)
       .bind_call(ryo, :@_proto)
   end
 
@@ -39,7 +39,7 @@ module Ryo::Reflect
   #
   # @return [nil]
   def set_prototype_of(ryo, prototype)
-    module_method(:instance_variable_set)
+    kernel(:instance_variable_set)
       .bind_call(ryo, :@_proto, prototype)
     nil
   end
@@ -155,7 +155,7 @@ module Ryo::Reflect
   # @return [Hash]
   #  Returns the table used by a Ryo object.
   def table_of(ryo)
-    module_method(:instance_variable_get)
+    kernel(:instance_variable_get)
       .bind_call(ryo, :@_table)
   end
 
@@ -170,7 +170,7 @@ module Ryo::Reflect
   #
   # @return [nil]
   def set_table_of(ryo, table)
-    module_method(:instance_variable_set)
+    kernel(:instance_variable_set)
       .bind_call(ryo, :@_table, table)
     nil
   end
@@ -191,7 +191,7 @@ module Ryo::Reflect
   # @return [::Object, ::BasicObject]
   #  Returns the return value of the method call.
   def call_method(ryo, method, *args, &b)
-    module_method(:__send__)
+    kernel(:__send__)
       .bind_call(ryo, method, *args, &b)
   end
 
@@ -203,7 +203,7 @@ module Ryo::Reflect
   # @return [Class]
   #  Returns the class of a Ryo object.
   def class_of(ryo)
-    module_method(:class).bind_call(ryo)
+    kernel(:class).bind_call(ryo)
   end
 
   ##
@@ -244,7 +244,7 @@ module Ryo::Reflect
   #
   # @private
   def define_method!(ryo, method, &b)
-    module_method(:define_singleton_method)
+    kernel(:define_singleton_method)
       .bind_call(ryo, method, &b)
   end
 
@@ -261,7 +261,7 @@ module Ryo::Reflect
   #
   # @private
   def getter_defined?(ryo, property)
-    module_method(:method)
+    kernel(:method)
       .bind_call(ryo, property)
       .source_location
       &.dig(0) == __FILE__
@@ -304,7 +304,7 @@ module Ryo::Reflect
 
   ##
   # @private
-  def module_method(name)
+  def kernel(name)
     Module.instance_method(name)
   end
   # @endgroup
