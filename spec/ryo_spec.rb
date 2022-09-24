@@ -32,16 +32,6 @@ RSpec.describe Ryo do
     end
   end
 
-  describe ".each" do
-    context "when iterating over properties in the prototype chain" do
-      subject { Ryo.each(point).map { [_1, _2] } }
-      let(:point_x) { Ryo(x: 0) }
-      let(:point_y) { Ryo({y: 5}, point_x) }
-      let(:point) { Ryo({}, point_y) }
-      it { is_expected.to eq([["y", 5], ["x", 0]]) }
-    end
-  end
-
   describe ".assign" do
     let(:point_1) { Ryo(x: 0, y: 0) }
     let(:point_2) { Ryo(y: 10) }
@@ -153,38 +143,38 @@ RSpec.describe Ryo do
     end
   end
 
-  describe "clone" do
-    subject(:clone) { Ryo.clone(point) }
+  describe "dup" do
+    subject(:dup) { Ryo.dup(point) }
     let(:point_x) { Ryo::BasicObject(x: 1) }
     let(:point_y) { Ryo::BasicObject({y: 2}, point_x) }
     let(:point) { Ryo::BasicObject({}, point_y) }
 
-    context "when the clone is mutated" do
-      before { clone.x = 5 }
+    context "when the dup is mutated" do
+      before { dup.x = 5 }
 
       context "when verifying the source wasn't mutated" do
         subject { point.x }
         it { is_expected.to eq(1) }
       end
 
-      context "when verifying the clone was mutated" do
-        subject { clone.x }
+      context "when verifying the dup was mutated" do
+        subject { dup.x }
         it { is_expected.to eq(5) }
       end
     end
 
-    context "when verifying the source and clone are distinct objects" do
-      subject { Ryo.module_method(:equal?).bind_call(point, clone) }
+    context "when verifying the source and dup are distinct objects" do
+      subject { Ryo.module_method(:equal?).bind_call(point, dup) }
       it { is_expected.to eq(false) }
     end
 
-    context "when verifying the source and clone are eql?" do
-      subject { point == clone }
+    context "when verifying the source and dup are eql?" do
+      subject { point == dup }
       it { is_expected.to be(true) }
     end
 
-    context "when verifying the prototypes of the source and clone are eql?" do
-      subject { Ryo.prototype_chain_of(point) == Ryo.prototype_chain_of(clone) }
+    context "when verifying the prototypes of the source and dup are eql?" do
+      subject { Ryo.prototype_chain_of(point) == Ryo.prototype_chain_of(dup) }
       it { is_expected.to eq(true) }
     end
   end

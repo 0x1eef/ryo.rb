@@ -37,7 +37,7 @@ module Ryo::Enumerable
   #
   # @return (see #map!)
   def map(ryo, &b)
-    map!(Ryo.clone(ryo), &b)
+    map!(Ryo.dup(ryo), &b)
   end
 
   ##

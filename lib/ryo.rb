@@ -44,21 +44,23 @@ module Ryo
   end
 
   ##
-  # Clones a Ryo object, and its prototype(s).
+  # Duplicates a Ryo object, and its prototype(s).
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  #  Returns a cloned Ryo object.
-  def self.clone(ryo)
-    clone = module_method(:clone).bind_call(ryo)
-    set_table_of(clone, table_of(ryo).dup)
-    proto = prototype_of(clone)
+  #  Returns a duplicated Ryo object.
+  def self.dup(ryo)
+    duplicate = Ryo.extend!(
+      module_method(:dup).bind_call(ryo),
+      self
+    )
+    proto = prototype_of(duplicate)
     if proto
-      set_prototype_of(clone, clone(proto))
+      set_prototype_of(duplicate, dup(proto))
     end
-    clone
+    duplicate
   end
 
   ##

@@ -28,6 +28,19 @@ class Ryo::BasicObject < BasicObject
   def self.from(props, prototype = nil)
     ::Ryo::Builder.recursive_build(self, props, prototype)
   end
+
+  ##
+  # Duplicates the internals of a Ryo object.
+  #
+  # @param [Ryo::BasicObject]
+  #  A Ryo object.
+  #
+  # @return [Ryo::BasicObject]
+  #  Returns a Ryo object.
+  def initialize_dup(ryo)
+    ::Ryo.set_table_of(self, ::Ryo.table_of(ryo).dup)
+    ::Ryo.extend!(self, ::Ryo)
+  end
 end
 
 ##
