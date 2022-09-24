@@ -44,6 +44,8 @@ Layout/MultilineMethodCallIndentation:
   Enabled: false
 Style/LambdaCall:
   Enabled: false
+Lint/AssignmentInCondition:
+  Enabled: false
 
 AllCops:
   TargetRubyVersion: 2.7

@@ -38,9 +38,7 @@ module Ryo
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object extended by **mod**.
   def self.extend!(ryo, mod)
-    Module
-      .instance_method(:extend)
-      .bind_call(ryo, mod)
+    kernel(:extend).bind_call(ryo, mod)
   end
 
   ##
@@ -56,8 +54,7 @@ module Ryo
       kernel(:dup).bind_call(ryo),
       self
     )
-    proto = prototype_of(duplicate)
-    if proto
+    if proto = prototype_of(duplicate)
       set_prototype_of(duplicate, dup(proto))
     end
     duplicate
