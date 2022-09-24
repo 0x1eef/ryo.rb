@@ -52,7 +52,7 @@ module Ryo
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a duplicated Ryo object.
   def self.dup(ryo)
-    duplicate = Ryo.extend!(
+    duplicate = extend!(
       module_method(:dup).bind_call(ryo),
       self
     )
