@@ -3,7 +3,8 @@
 Ryo is a Ruby library that implements prototype-based inheritance - with
 the implementation taking a lot of inspiration from JavaScript. Ryo can be
 used for creating Ruby objects from Hash objects, for implementing configuration
-objects, and for other use cases where prototype-based inheritance can be useful.
+objects, for implementing tree-like data structures, and for other use cases where
+prototype-based inheritance can be useful.
 
 For the sake of simplicity, the objects Ryo works with are described as Hash objects,
 and Array objects. Technically Ryo is duck-typed. When a Hash is mentioned that means
@@ -191,7 +192,7 @@ p coords[2].point_y.y.int
 
 #### Ryo.from with an OpenStruct
 
-All methods that can create Ryo objects support coercing an OpenStruct object into a Ryo object. The 
+All methods that can create Ryo objects support coercing an OpenStruct object into a Ryo object. The
 following example demonstrates how [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
 can recursively coerce an OpenStruct object into Ryo objects. The example also assigns a prototype to the
 Ryo object created from the OpenStruct object:
