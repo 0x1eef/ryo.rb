@@ -1,15 +1,11 @@
 ## About
 
 Ryo is a Ruby library that implements prototype-based inheritance - with
-the implementation taking a lot of inspiration from JavaScript. Ryo can be
-used for creating Ruby objects from Hash objects, for implementing configuration
-objects, for implementing tree-like data structures, and for other use cases where
-prototype-based inheritance can be useful.
+the implementation taking a lot of inspiration from JavaScript.
 
-For the sake of simplicity, the objects Ryo works with are described as Hash objects,
-and Array objects. Technically Ryo is duck-typed. When a Hash is mentioned that means
-*any* object that implements `#each_pair` - while when an Array is mentioned that means
-*any* object that implements `#each`.
+Ryo can be used for creating Ruby objects from Hash objects, 
+for implementing configuration objects and tree-like data structures, 
+and for other scenarios where prototype-based inheritance can be a good fit.
 
 ## Examples
 
@@ -22,9 +18,9 @@ covered by the examples.
 #### Point object
 
 The following example demonstrates prototype-based inheritance in the simplest
-terms I could imagine so far. It introduces three objects to form a single
-point object with the properties, "x" and "y". The [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method used by
-the example returns an instance of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
+terms I could imagine. It introduces three objects to form a single
+point object with the properties, "x" and "y". The [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method
+seen in the example returns an instance of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
 
 ```ruby
 require "ryo"
@@ -273,6 +269,14 @@ ryo = Ryo::Object(then: 12)
 p ryo.then # => 12
 p ryo.then { 34 } # => 34
 ```
+
+### Beyond Hash objects 
+
+#### Ryo is duck-typed
+
+To keep the documentation simple, the objects Ryo works with have been
+described as Hash objects, and Array objects. Technically Ryo is duck-typed. 
+When a Hash is mentioned that means *any* object that implements `#each_pair` - while when an Array is mentioned that means *any* object that implements `#each`.
 
 ## Resources
 
