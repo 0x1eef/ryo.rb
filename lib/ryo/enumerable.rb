@@ -83,9 +83,9 @@ module Ryo::Enumerable
   #
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def map!(ryo)
-    proto_chain = [ryo, *Ryo.prototype_chain_of(ryo)]
+    proto_chain = [ryo, *prototype_chain_of(ryo)]
     each(ryo) do |key, value|
-      ryo = proto_chain.find { |ryo| Ryo.property?(ryo, key) }
+      ryo = proto_chain.find { |ryo| property?(ryo, key) }
       ryo[key] = yield(key, value)
     end
     ryo
