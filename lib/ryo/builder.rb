@@ -78,7 +78,7 @@ module Ryo::Builder
   private_class_method :recursive_build!
 
   ##
-  # @api private
+  # @private
   def self.map(obj)
     ary = []
     obj.each { ary.push(yield(_1)) }
