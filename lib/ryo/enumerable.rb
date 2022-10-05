@@ -2,7 +2,7 @@
 
 ##
 # The {Ryo::Enumerable Ryo::Enumerable} module implements methods
-# for iterating through, and performing operations on Ryo objects.
+# for iterating through and performing operations on Ryo objects.
 # The methods implemented by this module are available as singleton
 # methods on the {Ryo} module.
 module Ryo::Enumerable
@@ -10,19 +10,21 @@ module Ryo::Enumerable
   include Ryo::Reflect
 
   ##
-  # Iterates over a Ryo object, and yields a key-value pair.
-  # When a block is not given, an Enumerator is returned.
+  # The {#each} methods iterates a Ryo object, and yields a key / value pair.
+  # When a block is not given, {#each} returns an Enumerator.
   #
   # @example
-  #  Ryo(foo: 1, bar: 2).each.map { _2 * 2 }
-  #  # => [2, 4]
+  #  point_a = Ryo(x: 1, y: 2)
+  #  point_b = Ryo(y: 1)
+  #  Ryo.each(point_b) { p [_1, _2] }
+  #  # ["y", 1]
+  #  # ["x", 1]
   #
   # @param [Ryo::Object, Ryo::BasicObject] ryo
   #  A Ryo object.
   #
   # @return [<Enumerator, Array>]
-  #  Returns an Enumerator when a block is not given,
-  #  otherwise returns an Array.
+  #  Returns an Enumerator when a block is not given, otherwise returns an Array.
   def each(ryo)
     return enum_for(:each, ryo) unless block_given?
     props = [
@@ -58,8 +60,8 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of map that performs a map operation
-  # and returns a *new* Ryo object.
+  # The {#map} method creates a copy of a Ryo object, and then performs a map operation
+  # on the copy and its prototypes.
   #
   # @param (see #map!)
   #
@@ -69,14 +71,13 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of map that performs a map operation
-  # that mutates a Ryo object.
+  # The {#map!} method performs an in-place map operation on a Ryo object, and its prototypes.
   #
   # @example
-  #   point = Ryo.from(x: 2, y: 4)
-  #   Ryo.map!(point) { _2 * 2 }
-  #   ryo.x # => 4
-  #   ryo.y # => 8
+  #  point = Ryo(x: 2, y: 4)
+  #  Ryo.map!(point) { _2 * 2 }
+  #  [point.x, point.y]
+  #  # => [4, 8]
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
@@ -89,8 +90,8 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of select that performs a filter operation
-  # and returns a *new* Ryo object.
+  # The {#select} method creates a copy of a Ryo object, and then performs a filter operation
+  # on the copy and its prototypes.
   #
   # @param (see #select!)
   #
@@ -100,14 +101,15 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of select that performs a filter operation
-  # that mutates a Ryo object.
+  # The {#select!} method performs an in-place filter operation on a Ryo object, and
+  # its prototypes.
   #
   # @example
-  #  point = Ryo(x: 5, y: 5, z: 10)
-  #  point = Ryo({z: 20}, point)
-  #  Ryo.select!(point) { |key, value| %w(x y).include?(key) }
-  #  [point.x, point.y, point.z] # => [5, 5, nil]
+  #  point_a = Ryo(x: 1, y: 2, z: 3)
+  #  point_b = Ryo({z: 4}, point_a)
+  #  Ryo.select!(point_b) { |key, value| %w(x y).include?(key) }
+  #  [point_b.x, point_b.y, point_b.z]
+  #  # => [1, 2, nil]
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
@@ -120,8 +122,8 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of reject that performs a filter operation
-  # and returns a *new* Ryo object.
+  # The {#reject} method creates a copy of a Ryo object, and then performs a filter operation
+  # on the copy and its prototypes.
   #
   # @param (see #reject!)
   #
@@ -131,14 +133,15 @@ module Ryo::Enumerable
   end
 
   ##
-  # A specialized implementation of reject that performs a filter operation
-  # that mutates a Ryo object.
+  # The {#reject!} method performs an in-place filter operation on a Ryo object, and
+  # its prototypes.
   #
   # @example
-  #  point = Ryo(x: 1, y: 2, z: 10)
-  #  point = Ryo({z: 5}, point)
-  #  Ryo.reject!(ryo) { |key, value| value > 2 }
-  #  [point.x, point.y, point.z] # => [1, 2, nil]
+  #  point_a = Ryo(x: 1, y: 2, z: 3)
+  #  point_b = Ryo({z: 4}, point_a)
+  #  Ryo.reject!(point_b) { |key, value| value > 2 }
+  #  [point_b.x, point_b.y, point_b.z]
+  #  # => [1, 2, nil]
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
