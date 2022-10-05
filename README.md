@@ -1,16 +1,15 @@
 ## About
 
 Ryo is a Ruby library that implements prototype-based inheritance - with
-the implementation taking a lot of inspiration from JavaScript. Ryo can be 
-useful for creating Ruby objects from Hash objects, for implementing configuration 
-objects and tree-like data structures, and for other scenarios where prototype-based inheritance 
-can be a good fit.
+the implementation taking a lot of inspiration from JavaScript. Ryo can be
+useful for creating Ruby objects from Hash objects, for implementing configuration
+objects and for other use cases where prototype-based inheritance can be a good fit.
 
 ## Examples
 
 The examples cover a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
-is available as a complete reference, and covers parts of the interface not
-covered by the examples.
+is available as a complete reference, and covers parts of Ryo not covered by the
+examples.
 
 ### Prototypes
 
@@ -163,7 +162,7 @@ p [coords.point_x.x.int, coords.point_y.y.int]
 
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method can
 walk an Array object, and create Ryo objects from Hash objects that it finds along the way.
-An object that can't be coerced into a Ryo object is left as-is. The following
+An object that can't be transformed into a Ryo object is left as-is. The following
 example demonstrates how that works in practice:
 
 ``` ruby
@@ -185,12 +184,13 @@ p coords[2].point_y.y.int
 # 4
 ```
 
-#### Ryo.from with an OpenStruct
+#### Ryo.from with Struct / OpenStruct
 
-All methods that can create Ryo objects support coercing an OpenStruct object into a Ryo object. The
-following example demonstrates how [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
-can recursively coerce an OpenStruct object into Ryo objects. The example also assigns a prototype to the
-Ryo object created from the OpenStruct object:
+All methods that can create Ryo objects support transforming a Struct, or OpenStruct object
+into a Ryo object. The following example demonstrates how
+[`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
+can recursively transform an OpenStruct object into Ryo objects. The example also assigns
+a prototype to the Ryo object created from the OpenStruct object:
 
 ``` ruby
 require "ryo"
@@ -269,13 +269,42 @@ p ryo.then # => 12
 p ryo.then { 34 } # => 34
 ```
 
-### Beyond Hash objects 
+### Beyond Hash objects
 
-#### Ryo is duck-typed
+#### Duck typing
 
 To keep the documentation simple, the objects Ryo works with have been
-described as Hash objects, and Array objects. Technically Ryo is duck-typed. 
-When a Hash is mentioned that means *any* object that implements `#each_pair` - while when an Array is mentioned that means *any* object that implements `#each`.
+described as Hash objects, and Array objects. Technically Ryo makes use of 
+duck typing. When a Hash is mentioned that means *any* object that implements 
+`#each_pair` - while when an Array is mentioned that means *any* object that 
+implements `#each`. The only methods that support Array / `#each` objects are
+[Ryo.from](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method),
+[Ryo::Object.from](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html#from-class_method)
+and
+[Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method).
+
+The following example demonstrates how to transform an imaginary object that
+implements `#each_pair` into a Ryo object:
+
+``` ruby
+require "ryo"
+
+class Option
+  def initialize
+    @name = "option"
+    @value = 123
+  end
+
+  def each_pair
+    yield("name", @name)
+    yield("value", @value)
+  end
+end
+
+option = Ryo(Option.new)
+p option.name  # "option"
+p option.value # 123
+```
 
 ## Resources
 
