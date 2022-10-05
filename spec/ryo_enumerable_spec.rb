@@ -27,4 +27,21 @@ RSpec.describe Ryo::Enumerable do
       it { is_expected.to be(false) }
     end
   end
+
+  describe "select" do
+    context "with prototype chain traversal" do
+      subject { Ryo.select(point) { _1 == "y" and _2 == 4 } }
+      let(:base) { Ryo::BasicObject(x: 1, y: 2) }
+      let(:point) { Ryo::BasicObject({x: 3, y: 4}, base) }
+
+      context "when verifying the filter" do
+        it { is_expected.to eq(y: 4) }
+      end
+
+      context "when verifying the filter on the prototype" do
+        subject { super().then { base.y } }
+        it { is_expected.to eq(nil) }
+      end
+    end
+  end
 end
