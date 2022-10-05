@@ -44,4 +44,22 @@ RSpec.describe Ryo::Enumerable do
       end
     end
   end
+
+  describe "reject" do
+    context "with prototype chain traversal" do
+      subject { Ryo.reject(point) { _1 == "x" || _2 == 2 } }
+      let(:base) { Ryo::BasicObject(x: 1, y: 2) }
+      let(:point) { Ryo::BasicObject({x: 3, y: 4}, base) }
+
+      context "when verifying the filter" do
+        it { is_expected.to eq(y: 4) }
+      end
+
+      context "when verifying the filter on the prototype" do
+        subject { super().then { base.y } }
+        it { is_expected.to eq(nil) }
+      end
+    end
+  end
+
 end
