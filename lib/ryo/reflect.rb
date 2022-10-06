@@ -122,7 +122,7 @@ module Ryo::Reflect
   #  Returns the modified target object.
   def assign(target, *sources)
     sources.each do |source|
-      coerce_to_hash(source).each { target[_1.to_s] = _2 }
+      to_hash(source).each { target[_1.to_s] = _2 }
     end
     target
   end
@@ -243,7 +243,7 @@ module Ryo::Reflect
   #  The method's body.
   #
   # @private
-  def define_method!(ryo, method, &b)
+  private def define_method!(ryo, method, &b)
     kernel(:define_singleton_method)
       .bind_call(ryo, method, &b)
   end
@@ -260,7 +260,7 @@ module Ryo::Reflect
   #  defined with a getter method.
   #
   # @private
-  def getter_defined?(ryo, property)
+  private def getter_defined?(ryo, property)
     kernel(:method)
       .bind_call(ryo, property)
       .source_location
@@ -280,21 +280,21 @@ module Ryo::Reflect
   #  defined with a setter method.
   #
   # @private
-  def setter_defined?(ryo, property)
+  private def setter_defined?(ryo, property)
     getter_defined?(ryo, "#{property}=")
   end
 
   ##
   # @private
-  def merge!(obj1, obj2)
-    obj1, obj2 = coerce_to_hash(obj1), coerce_to_hash(obj2)
+  private def merge!(obj1, obj2)
+    obj1, obj2 = to_hash(obj1), to_hash(obj2)
     obj2.each { obj1[_1.to_s] = _2 }
     obj1
   end
 
   ##
   # @private
-  def coerce_to_hash(obj)
+  private def to_hash(obj)
     if Ryo === obj
       table_of(obj)
     else
