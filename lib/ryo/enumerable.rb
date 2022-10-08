@@ -167,6 +167,19 @@ module Ryo::Enumerable
   end
 
   ##
+  # The {#all?} method iterates through a Ryo object, and its prototypes - yielding a
+  # key / value pair to a block. If the block ever returns a falsey value, {#all?} will
+  # break from the iteration and return false - otherwise true will be returned.
+  #
+  # @return [Boolean]
+  def all?(ryo)
+    each_ryo(ryo) do |_, key, value|
+      return false unless yield(key, value)
+    end
+    true
+  end
+
+  ##
   # The {#find} method iterates through a Ryo object, and its prototypes - yielding a
   # key / value pair to a block. If the block ever returns a truthy value, {#find} will
   # break from the iteration and return a Ryo object - otherwise nil will be returned.

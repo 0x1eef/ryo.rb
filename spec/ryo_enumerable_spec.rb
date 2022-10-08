@@ -77,6 +77,22 @@ RSpec.describe Ryo::Enumerable do
     end
   end
 
+  describe ".all?" do
+    let(:point_a) { Ryo::BasicObject(y: 10) }
+    let(:point_b) { Ryo::BasicObject({x: 5}, point_a) }
+    let(:point_c) { Ryo::BasicObject({z: 0}, point_b) }
+
+    context "when every iteration returns a truthy value" do
+      subject { Ryo.all?(point_c) { _2 < 11 } }
+      it { is_expected.to be(true) }
+    end
+
+    context "when an iteration fails to return a truthy value" do
+      subject { Ryo.all?(point_c) { _2 < 5 } }
+      it { is_expected.to be(false) }
+    end
+  end
+
   describe ".find" do
     let(:point_a) { Ryo::BasicObject(x: 5) }
     let(:point_b) { Ryo::BasicObject({y: 10}, point_a) }
