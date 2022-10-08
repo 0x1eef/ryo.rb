@@ -77,16 +77,17 @@ config.print.call("option (from 'default')", config.option)
 
 #### Ryo.each
 
-The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can iterate through the properties of a Ryo object. Since Ryo takes every effort
+The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can iterate through the properties of a Ryo object. Ryo makes every effort
 to not mix its implementation with the objects it creates,
-[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) is not implemented directly
-on a Ryo object.
+and that is why [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) 
+is not implemented directly on a Ryo object.
 
 When a block is not given, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 returns an Enumerator that provides access to the methods of Enumerable. Methods on Enumerable won't
 return a Ryo object, but often arrays.  Ryo addresses that with its own specialized Enumerable methods
-that are covered just below. For now - a demonstration of
-[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
+that are covered below. 
+
+A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
 require "ryo"
@@ -103,13 +104,13 @@ end
 
 #### Ryo.map
 
-[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) provides
-specialized implementations of Enumerable methods that can return a new copy of a Ryo
-object and its prototypes, or mutate a Ryo object and its prototypes in-place.
+A number of [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods 
+can return a new copy of a Ryo object and its prototypes, or mutate a Ryo object and its prototypes 
+in-place. 
 
-The following example demonstrates a mutating map operation of a Ryo object with
+The following example demonstrates an in-place map operation on a Ryo object with
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
-The non-mutating counterpart of
+The counterpart of
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method) is
 [`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method), and
 it returns a new copy of a Ryo object and its prototypes.
@@ -128,6 +129,33 @@ p [point_x.x, point_y.y]
 ##
 # [4, 8]
 # [4, 8]
+```
+
+#### Depth
+
+[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods
+support an optional `depth` argument.
+
+The `depth` argument can be used to control how far down the prototype chain an
+Enumerable method should go. A depth of 0 covers a Ryo object, and none of its
+prototypes. A depth of 1 covers a Ryo object, and one prototype - and so on.
+By default the entire prototype chain is traversed.
+
+The following example uses
+[`Ryo.find`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#find-class_method)
+to demonstrate how that works in practice:
+
+```ruby
+require "ryo"
+
+point_a = Ryo(x: 5)
+point_b = Ryo({y: 10}, point_a)
+point_c = Ryo({z: 15}, point_b)
+
+p Ryo.find(point_c, depth: 0) { |k,v| v == 5 } # => nil
+p Ryo.find(point_c, depth: 1) { |k,v| v == 5 } # => nil
+p Ryo.find(point_c, depth: 2) { |k,v| v == 5 } # => point_a
+p Ryo.find(point_c){ |k,v| v == 5 } # => point_a
 ```
 
 ### Recursion
