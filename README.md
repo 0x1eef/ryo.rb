@@ -77,15 +77,18 @@ config.print.call("option (from 'default')", config.option)
 
 #### Ryo.each
 
-The following example demonstrates [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) - a method that can iterate through the properties of a Ryo object. Ryo makes every effort
-to not mix its implementation with the objects it creates,
-and that is why [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) 
+The following example demonstrates
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) -
+a method that can iterate through the properties of a Ryo object, and
+its prototype(s). Ryo makes every effort to not mix its implementation
+with the objects it creates -  that's why [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 is not implemented directly on a Ryo object.
 
-When a block is not given, [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
-returns an Enumerator that provides access to the methods of Enumerable. Methods on Enumerable won't
-return a Ryo object, but often arrays.  Ryo addresses that with its own specialized Enumerable methods
-that are covered below. 
+When a block is not given,
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
+returns an Enumerator that provides access to the methods of Ruby's Enumerable.
+Methods on Enumerable won't return a Ryo object, but often arrays. Ryo addresses
+that with [`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html).
 
 A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
@@ -102,18 +105,18 @@ end
 # ["y", 20]
 ```
 
-#### Ryo.map
+#### Ryo.map!
 
-A number of [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods 
-can return a new copy of a Ryo object and its prototypes, or mutate a Ryo object and its prototypes 
-in-place. 
-
-The following example demonstrates an in-place map operation on a Ryo object with
+A number of [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods
+can return a new copy of a Ryo object and its prototypes, or mutate a Ryo object and its prototypes
+in-place. The following example demonstrates an in-place map operation on a Ryo object with
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
 The counterpart of
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method) is
 [`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method), and
 it returns a new copy of a Ryo object and its prototypes.
+
+A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
 
 ```ruby
 require "ryo"
@@ -136,10 +139,11 @@ p [point_x.x, point_y.y]
 [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods
 support an optional `depth` argument.
 
-The `depth` argument can be used to control how far down the prototype chain an
-Enumerable method should go. A depth of 0 covers a Ryo object, and none of its
-prototypes. A depth of 1 covers a Ryo object, and one prototype - and so on.
-By default the entire prototype chain is traversed.
+The `depth` argument can be used to control how far down the prototype chain a
+[`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) method
+should go. A depth of 0 covers a Ryo object, and none of its prototypes. A depth
+of 1 covers a Ryo object, and one prototype - and so on. By default the entire
+prototype chain is iterated through.
 
 The following example uses
 [`Ryo.find`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#find-class_method)
@@ -212,13 +216,13 @@ p coords[2].point_y.y.int
 # 4
 ```
 
-#### Ryo.from with Struct / OpenStruct
+#### Ryo.from with OpenStruct
 
 All methods that can create Ryo objects support transforming a Struct, or OpenStruct object
 into a Ryo object. The following example demonstrates how
 [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
 can recursively transform an OpenStruct object into Ryo objects. The example also assigns
-a prototype to the Ryo object created from the OpenStruct object:
+a prototype to the Ryo object created from the OpenStruct:
 
 ``` ruby
 require "ryo"
@@ -302,9 +306,9 @@ p ryo.then { 34 } # => 34
 #### Duck typing
 
 To keep the documentation simple, the objects Ryo works with have been
-described as Hash objects, and Array objects. Technically Ryo makes use of 
-duck typing. When a Hash is mentioned that means *any* object that implements 
-`#each_pair` - while when an Array is mentioned that means *any* object that 
+described as Hash objects, and Array objects. Technically Ryo makes use of
+duck typing. When a Hash is mentioned that means *any* object that implements
+`#each_pair` - while when an Array is mentioned that means *any* object that
 implements `#each`. The only methods that support Array / `#each` objects are
 [Ryo.from](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method),
 [Ryo::Object.from](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html#from-class_method)
