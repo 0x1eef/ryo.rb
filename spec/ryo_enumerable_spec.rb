@@ -76,4 +76,30 @@ RSpec.describe Ryo::Enumerable do
       it { is_expected.to be(false) }
     end
   end
+
+  describe ".find" do
+    let(:point_a) { Ryo::BasicObject(x: 5) }
+    let(:point_b) { Ryo::BasicObject({y: 10}, point_a) }
+    let(:point_c) { Ryo::BasicObject({z: 15}, point_b) }
+
+    context "when an iteration yields true on point_a" do
+      subject { Ryo.find(point_c) { _2 == 5 } }
+      it { is_expected.to eq(point_a) }
+    end
+
+    context "when an iteration yields true on point_b" do
+      subject { Ryo.find(point_c) { _2 == 10 } }
+      it { is_expected.to eq(point_b) }
+    end
+
+    context "when an iteration yields true on point_c" do
+      subject { Ryo.find(point_c) { _2 == 15 } }
+      it { is_expected.to eq(point_c) }
+    end
+
+    context "when an iteration never yields true" do
+      subject { Ryo.find(point_c) { _2 == 20 } }
+      it { is_expected.to eq(nil) }
+    end
+  end
 end
