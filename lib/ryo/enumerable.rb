@@ -165,4 +165,24 @@ module Ryo::Enumerable
     end
     false
   end
+
+  ##
+  # The {#find} method iterates through a Ryo object, and its prototypes - yielding a
+  # key / value pair to a block. If the block ever returns a truthy value, {#find} will
+  # break from the iteration and return a Ryo object - otherwise nil will be returned.
+  #
+  # @example
+  #  point_a = Ryo(x: 5)
+  #  point_b = Ryo({y: 10}, point_a)
+  #  point_c = Ryo({z: 15}, point_b)
+  #  ryo = Ryo.find(point_c) { |key, value| value == 5 }
+  #  ryo == point_a # => true
+  #
+  # @return [<Ryo::Object, Ryo::BasicObject>, nil]
+  def find(ryo)
+    each_ryo(ryo) do |ryo, key, value|
+      return ryo if yield(key, value)
+    end
+    nil
+  end
 end
