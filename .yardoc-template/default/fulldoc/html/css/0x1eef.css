@@ -1,4 +1,4 @@
-#main #content #filecontents p, .discussion p {
+#main #content #filecontents p, .discussion p, ul.param li {
   max-width: 768px;
 }
 
