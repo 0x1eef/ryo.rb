@@ -33,6 +33,31 @@ module Ryo::Enumerable
   end
 
   ##
+  # The {#each_ryo} method iterates through a Ryo object, and its prototypes.
+  # {#each_ryo} yields three arguments: a Ryo object, a key, and a value.
+  #
+  # @example
+  #  point_a = Ryo(x: 1, y: 2)
+  #  point_b = Ryo({y: 3}, point_a)
+  #  Ryo.each_ryo(point_b) { |ryo, key, value| p [ryo, key, value] }
+  #  # [point_b, "y", 3]
+  #  # [point_a, "x", 1]
+  #  # [point_a, "y", 2]
+  #
+  # @param [<Ryo::BasicObject, Ryo::Object>] ryo
+  #  A Ryo object.
+  #
+  # @return [<Ryo::BasicObject, Ryo::Object>]
+  def each_ryo(ryo)
+    [ryo, *prototype_chain_of(ryo)].each do |ryo|
+      properties_of(ryo).each do |key|
+        yield(ryo, key, ryo[key])
+      end
+    end
+    ryo
+  end
+
+  ##
   # A specialized implementation of map that performs a map operation
   # and returns a *new* Ryo object.
   #
@@ -129,13 +154,15 @@ module Ryo::Enumerable
   end
 
   ##
-  # @private
-  def each_ryo(ryo)
-    [ryo, *prototype_chain_of(ryo)].each do |ryo|
-      properties_of(ryo).each do |key|
-        yield(ryo, key, ryo[key])
-      end
+  # The {#any?} method iterates through a Ryo object, and its prototypes - yielding a
+  # key / value pair to a block. If the block ever returns a truthy value, {#any?} will
+  # break from the iteration and return true - otherwise false will be returned.
+  #
+  # @return [Boolean]
+  def any?(ryo)
+    each_ryo(ryo) do |_, key, value|
+      return true if yield(key, value)
     end
-    ryo
+    false
   end
 end
