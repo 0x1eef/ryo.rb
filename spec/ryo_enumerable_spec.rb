@@ -62,4 +62,18 @@ RSpec.describe Ryo::Enumerable do
     end
   end
 
+  describe ".any?" do
+    let(:base) { Ryo::BasicObject(y: 10) }
+    let(:point) { Ryo::BasicObject({x: 5}, base) }
+
+    context "when an iteration returns a truthy value" do
+      subject { Ryo.any?(point) { _2 > 5} }
+      it { is_expected.to be(true) }
+    end
+
+    context "when an iteration fails to return a truthy value" do
+      subject { Ryo.any?(point) { _2 > 20 } }
+      it { is_expected.to be(false) }
+    end
+  end
 end
