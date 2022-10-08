@@ -18,25 +18,26 @@ module Ryo::Enumerable
   #  point_b = Ryo(y: 1)
   #  Ryo.each(point_b) { p [_1, _2] }
   #  # ["y", 1]
+  #  # ["y", 2]
   #  # ["x", 1]
   #
   # @param [Ryo::Object, Ryo::BasicObject] ryo
   #  A Ryo object.
   #
+  # @param depth (see #each_ryo)
+  #
   # @return [<Enumerator, Array>]
   #  Returns an Enumerator when a block is not given, otherwise returns an Array.
-  def each(ryo)
+  def each(ryo, depth: nil)
     return enum_for(:each, ryo) unless block_given?
-    props = [
-      *properties_of(ryo),
-      *prototype_chain_of(ryo).flat_map { properties_of(_1) }
-    ].uniq
-    props.each { yield(_1, ryo[_1]) }
+    each_ryo(ryo, depth: depth) do |_, key, value|
+      yield(key, value)
+    end
   end
 
   ##
   # The {#each_ryo} method iterates through a Ryo object, and its prototypes.
-  # {#each_ryo} yields three arguments: a Ryo object, a key, and a value.
+  # {#each_ryo} yields three parameters: a Ryo object, a key, and a value.
   #
   # @example
   #  point_a = Ryo(x: 1, y: 2)
@@ -49,9 +50,18 @@ module Ryo::Enumerable
   # @param [<Ryo::BasicObject, Ryo::Object>] ryo
   #  A Ryo object.
   #
+  # @param [Integer] depth
+  #  The `depth` parameter can be used to control how far down the prototype chain a
+  #  [`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) method
+  #  should go. A depth of 0 covers a Ryo object, and none of its prototypes. A depth
+  #  of 1 covers a Ryo object, and one prototype - and so on. By default the entire
+  #  prototype chain is iterated through.
+  #
   # @return [<Ryo::BasicObject, Ryo::Object>]
-  def each_ryo(ryo)
-    [ryo, *prototype_chain_of(ryo)].each do |ryo|
+  def each_ryo(ryo, depth: nil)
+    proto_chain = [ryo, *prototype_chain_of(ryo)]
+    depth ||= -1
+    proto_chain[0..depth].each do |ryo|
       properties_of(ryo).each do |key|
         yield(ryo, key, ryo[key])
       end
@@ -64,10 +74,9 @@ module Ryo::Enumerable
   # on the copy and its prototypes.
   #
   # @param (see #map!)
-  #
   # @return (see #map!)
-  def map(ryo, &b)
-    map!(Ryo.dup(ryo), &b)
+  def map(ryo, depth: nil, &b)
+    map!(Ryo.dup(ryo), depth: depth, &b)
   end
 
   ##
@@ -82,9 +91,11 @@ module Ryo::Enumerable
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
+  # @param depth (see #each_ryo)
+  #
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  def map!(ryo)
-    each_ryo(ryo) do |ryo, key, value|
+  def map!(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |ryo, key, value|
       ryo[key] = yield(key, value)
     end
   end
@@ -94,10 +105,9 @@ module Ryo::Enumerable
   # on the copy and its prototypes.
   #
   # @param (see #select!)
-  #
   # @return (see #select!)
-  def select(ryo,  &b)
-    select!(Ryo.dup(ryo), &b)
+  def select(ryo,  depth: nil, &b)
+    select!(Ryo.dup(ryo), depth: depth, &b)
   end
 
   ##
@@ -114,9 +124,11 @@ module Ryo::Enumerable
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
+  # @param depth (see #each_ryo)
+  #
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  def select!(ryo)
-    each_ryo(ryo) do |ryo, key, value|
+  def select!(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |ryo, key, value|
       delete(ryo, key) unless yield(key, value)
     end
   end
@@ -126,10 +138,9 @@ module Ryo::Enumerable
   # on the copy and its prototypes.
   #
   # @param (see #reject!)
-  #
   # @return (see #reject!)
-  def reject(ryo, &b)
-    reject!(Ryo.dup(ryo), &b)
+  def reject(ryo, depth: nil, &b)
+    reject!(Ryo.dup(ryo), depth: depth, &b)
   end
 
   ##
@@ -146,9 +157,11 @@ module Ryo::Enumerable
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
+  # @param depth (see #each_ryo)
+  #
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  def reject!(ryo)
-    each_ryo(ryo) do |ryo, key, value|
+  def reject!(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |ryo, key, value|
       delete(ryo, key) if yield(key, value)
     end
   end
@@ -158,9 +171,10 @@ module Ryo::Enumerable
   # key / value pair to a block. If the block ever returns a truthy value, {#any?} will
   # break from the iteration and return true - otherwise false will be returned.
   #
+  # @param depth (see #each_ryo)
   # @return [Boolean]
-  def any?(ryo)
-    each_ryo(ryo) do |_, key, value|
+  def any?(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |_, key, value|
       return true if yield(key, value)
     end
     false
@@ -171,9 +185,10 @@ module Ryo::Enumerable
   # key / value pair to a block. If the block ever returns a falsey value, {#all?} will
   # break from the iteration and return false - otherwise true will be returned.
   #
+  # @param depth (see #each_ryo)
   # @return [Boolean]
-  def all?(ryo)
-    each_ryo(ryo) do |_, key, value|
+  def all?(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |_, key, value|
       return false unless yield(key, value)
     end
     true
@@ -191,9 +206,10 @@ module Ryo::Enumerable
   #  ryo = Ryo.find(point_c) { |key, value| value == 5 }
   #  ryo == point_a # => true
   #
+  # @param depth (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>, nil]
-  def find(ryo)
-    each_ryo(ryo) do |ryo, key, value|
+  def find(ryo, depth: nil)
+    each_ryo(ryo, depth: depth) do |ryo, key, value|
       return ryo if yield(key, value)
     end
     nil
