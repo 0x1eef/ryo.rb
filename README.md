@@ -1,6 +1,6 @@
 ## About
 
-Ryo is a Ruby library that implements prototype-based inheritance - with
+Ryo is a library that implements prototype-based inheritance - with
 the implementation taking a lot of inspiration from JavaScript. Ryo can be
 useful for creating Ruby objects from Hash objects, for implementing configuration
 objects, for establishing relationships between objects and for other use cases
