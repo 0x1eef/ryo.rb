@@ -3,13 +3,10 @@
 Ryo is a Ruby library that implements prototype-based inheritance - with
 the implementation taking a lot of inspiration from JavaScript. Ryo can be
 useful for creating Ruby objects from Hash objects, for implementing configuration
-objects and for other use cases where prototype-based inheritance can be a good fit.
+objects, for establishing relationships between objects and for other use cases
+where prototype-based inheritance can be a good fit.
 
 ## Examples
-
-The examples cover a lot - but not everything. The [API documentation](https://0x1eef.github.io/x/ryo.rb/)
-is available as a complete reference, and covers parts of Ryo not covered by the
-examples.
 
 ### Prototypes
 
@@ -338,10 +335,16 @@ p option.name  # "option"
 p option.value # 123
 ```
 
-## Resources
+## API
+
+The examples covered a lot - but not everything. <br> 
+The [API documentation](https://0x1eef.github.io/x/ryo.rb/) is available as a 
+complete reference.
+
+## Sources
 
 * [Source code (GitHub)](https://github.com/0x1eef/ryo.rb#readme)
-* [Documentation](https://0x1eef.github.io/x/ryo.rb/)
+* [Source code (GitLab)](https://gitlab.com/0x1eef/ryo-rb#about)
 
 ## Install
 
