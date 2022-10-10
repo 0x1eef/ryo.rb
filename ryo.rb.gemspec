@@ -4,7 +4,7 @@ require "./lib/ryo/version"
 Gem::Specification.new do |gem|
   gem.name = "ryo.rb"
   gem.authors = ["0x1eef"]
-  gem.email = ["0x1eef@ryonmail.com"]
+  gem.email = ["0x1eef@protonmail.com"]
   gem.homepage = "https://github.com/0x1eef/ryo.rb#readme"
   gem.version = Ryo::VERSION
   gem.licenses = ["MIT"]
