@@ -12,10 +12,13 @@ where prototype-based inheritance can be a good fit.
 
 #### Point object
 
-The following example demonstrates prototype-based inheritance in the simplest
-terms I could imagine. It introduces three objects to form a single
-point object with the properties, "x" and "y". The [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method) method
-seen in the example returns an instance of [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
+The following example demonstrates prototype-based inheritance in simple
+terms. The example introduces three objects to form a single point object with
+the properties, "x" and "y".
+The
+[Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
+method seen in the example returns an instance of
+[Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
 
 ```ruby
 require "ryo"
@@ -337,8 +340,8 @@ p option.value # 123
 
 ## API
 
-The examples covered a lot - but not everything. <br> 
-The [API documentation](https://0x1eef.github.io/x/ryo.rb/) is available as a 
+The examples covered a lot - but not everything. <br>
+The [API documentation](https://0x1eef.github.io/x/ryo.rb/) is available as a
 complete reference.
 
 ## Sources
