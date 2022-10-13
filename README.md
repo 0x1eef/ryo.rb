@@ -8,6 +8,13 @@ where prototype-based inheritance can be a good fit.
 
 ## Examples
 
+### Introduction
+
+The examples provide a high-level overview, and cover a lot - but not
+everything. <br>
+The  [API documentation](https://0x1eef.github.io/x/ryo.rb) is available
+as a complete reference.
+
 ### Prototypes
 
 #### Point object
@@ -337,12 +344,6 @@ option = Ryo(Option.new)
 p option.name  # "option"
 p option.value # 123
 ```
-
-## API
-
-The examples covered a lot - but not everything. <br>
-The [API documentation](https://0x1eef.github.io/x/ryo.rb/) is available as a
-complete reference.
 
 ## Sources
 
