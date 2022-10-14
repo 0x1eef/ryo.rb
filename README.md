@@ -141,20 +141,22 @@ p [point_x.x, point_y.y]
 # [4, 8]
 ```
 
-#### Depth
+#### Ancestors
 
-[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods
-support an optional `depth` argument.
+All [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html)
+methods support an optional `ancestors` option.
 
-The `depth` argument can be used to control how far down the prototype chain a
-[`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) method
-should go. A depth of 0 covers a Ryo object, and none of its prototypes. A depth
-of 1 covers a Ryo object, and one prototype - and so on. By default the entire
-prototype chain is iterated through.
+`ancestors` is an integer that determines how far up the prototype chain a
+[`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html)
+method can go. 0 covers a Ryo object, and none of the prototypes in its
+prototype chain. 1 covers a Ryo object, and one of the prototypes in its
+prototype chain - and so on.
 
-The following example uses
-[`Ryo.find`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#find-class_method)
-to demonstrate how that works in practice:
+When the `ancestors` option is not provided, the default behavior of
+[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html)
+methods is to traverse the entire prototype chain. The following example
+demonstrates using the `ancestors` option with
+[`Ryo.find`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#find-class_method):
 
 ```ruby
 require "ryo"
@@ -163,9 +165,9 @@ point_a = Ryo(x: 5)
 point_b = Ryo({y: 10}, point_a)
 point_c = Ryo({z: 15}, point_b)
 
-p Ryo.find(point_c, depth: 0) { |k,v| v == 5 } # => nil
-p Ryo.find(point_c, depth: 1) { |k,v| v == 5 } # => nil
-p Ryo.find(point_c, depth: 2) { |k,v| v == 5 } # => point_a
+p Ryo.find(point_c, ancestors: 0) { |k,v| v == 5 } # => nil
+p Ryo.find(point_c, ancestors: 1) { |k,v| v == 5 } # => nil
+p Ryo.find(point_c, ancestors: 2) { |k,v| v == 5 } # => point_a
 p Ryo.find(point_c){ |k,v| v == 5 } # => point_a
 ```
 

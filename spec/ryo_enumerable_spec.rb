@@ -126,70 +126,70 @@ RSpec.describe Ryo::Enumerable do
       it { is_expected.to eq(nil) }
     end
 
-    context "with a depth of zero" do
+    context "when ancestors is set to zero" do
       context "when the condition matches for point_a" do
-        subject { Ryo.find(point_c, depth: 0) { _2 == 5 } }
+        subject { Ryo.find(point_c, ancestors: 0) { _2 == 5 } }
         it { is_expected.to be_nil}
       end
 
       context "when the condition matches for point_b" do
-        subject { Ryo.find(point_c, depth: 0) { _2 == 10 } }
+        subject { Ryo.find(point_c, ancestors: 0) { _2 == 10 } }
         it { is_expected.to be_nil }
       end
 
       context "when the condition matches for point_c" do
-        subject { Ryo.find(point_c, depth: 0) { _2 == 15 } }
+        subject { Ryo.find(point_c, ancestors: 0) { _2 == 15 } }
         it { is_expected.to be(point_c) }
       end
     end
 
-    context "with a depth of one" do
+    context "when ancestors is set to one" do
       context "when the condition matches for point_a" do
-        subject { Ryo.find(point_c, depth: 1) { _2 == 5 } }
+        subject { Ryo.find(point_c, ancestors: 1) { _2 == 5 } }
         it { is_expected.to be_nil}
       end
 
       context "when the condition matches for point_b" do
-        subject { Ryo.find(point_c, depth: 1) { _2 == 10 } }
+        subject { Ryo.find(point_c, ancestors: 1) { _2 == 10 } }
         it { is_expected.to be(point_b) }
       end
 
       context "when the condition matches for point_c" do
-        subject { Ryo.find(point_c, depth: 1) { _2 == 15 } }
+        subject { Ryo.find(point_c, ancestors: 1) { _2 == 15 } }
         it { is_expected.to be(point_c) }
       end
     end
 
-    context "with a depth of two" do
+    context "when ancestors is set to two" do
       context "when the condition matches for point_a" do
-        subject { Ryo.find(point_c, depth: 2) { _2 == 5 } }
+        subject { Ryo.find(point_c, ancestors: 2) { _2 == 5 } }
         it { is_expected.to be(point_a) }
       end
 
       context "when the condition matches for point_b" do
-        subject { Ryo.find(point_c, depth: 2) { _2 == 10 } }
+        subject { Ryo.find(point_c, ancestors: 2) { _2 == 10 } }
         it { is_expected.to be(point_b) }
       end
 
       context "when the condition matches for point_c" do
-        subject { Ryo.find(point_c, depth: 2) { _2 == 15 } }
+        subject { Ryo.find(point_c, ancestors: 2) { _2 == 15 } }
         it { is_expected.to be(point_c) }
       end
     end
 
-    context "with a depth of three (or higher)" do
+    context "when ancestors is set to three (or higher)" do
       context "when the condition matches for point_a" do
-        subject { Ryo.find(point_c, depth: 3) { _2 == 5 } }
+        subject { Ryo.find(point_c, ancestors: 3) { _2 == 5 } }
         it { is_expected.to be(point_a) }
       end
 
       context "when the condition matches for point_b" do
-        subject { Ryo.find(point_c, depth: 3) { _2 == 10 } }
+        subject { Ryo.find(point_c, ancestors: 3) { _2 == 10 } }
         it { is_expected.to be(point_b) }
       end
 
       context "when the condition matches for point_c" do
-        subject { Ryo.find(point_c, depth: 3) { _2 == 15 } }
+        subject { Ryo.find(point_c, ancestors: 3) { _2 == 15 } }
         it { is_expected.to be(point_c) }
       end
     end
