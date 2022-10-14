@@ -106,7 +106,7 @@ module Ryo::Enumerable
   #
   # @param (see #select!)
   # @return (see #select!)
-  def select(ryo,  ancestors: nil, &b)
+  def select(ryo, ancestors: nil, &b)
     select!(Ryo.dup(ryo), ancestors: ancestors, &b)
   end
 

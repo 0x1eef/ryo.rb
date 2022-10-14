@@ -14,9 +14,9 @@ RSpec.describe Ryo::Enumerable do
   end
 
   describe ".map" do
+    subject(:point_c) { Ryo.map(point_b) { _2 * 2 } }
     let(:point_a) { Ryo::BasicObject(x: 4, y: 4) }
     let(:point_b) { Ryo::BasicObject({x: 2, y: 2}, point_a) }
-    subject(:point_c) { Ryo.map(point_b) { _2 * 2 } }
 
     context "when verifying the map operation" do
       it { is_expected.to eq({x: 4, y: 4}) }
@@ -75,7 +75,7 @@ RSpec.describe Ryo::Enumerable do
     let(:point_b) { Ryo::BasicObject({x: 5}, point_a) }
 
     context "when an iteration returns a truthy value" do
-      subject { Ryo.any?(point_b) { _2 > 5} }
+      subject { Ryo.any?(point_b) { _2 > 5 } }
       it { is_expected.to be(true) }
     end
 
@@ -129,7 +129,7 @@ RSpec.describe Ryo::Enumerable do
     context "when ancestors is set to zero" do
       context "when the condition matches for point_a" do
         subject { Ryo.find(point_c, ancestors: 0) { _2 == 5 } }
-        it { is_expected.to be_nil}
+        it { is_expected.to be_nil }
       end
 
       context "when the condition matches for point_b" do
@@ -146,7 +146,7 @@ RSpec.describe Ryo::Enumerable do
     context "when ancestors is set to one" do
       context "when the condition matches for point_a" do
         subject { Ryo.find(point_c, ancestors: 1) { _2 == 5 } }
-        it { is_expected.to be_nil}
+        it { is_expected.to be_nil }
       end
 
       context "when the condition matches for point_b" do
