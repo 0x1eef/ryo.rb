@@ -5,11 +5,10 @@ require "ryo"
 require "ostruct"
 
 point = Ryo.from(
-  OpenStruct.new(x: {int: 5}),
-  Ryo.from(y: {int: 10})
+  OpenStruct.new(x: {to_i: 5}),
+  Ryo.from(y: {to_i: 10})
 )
-
-p [point.x.int, point.y.int]
+p [point.x.to_i, point.y.to_i]
 
 ##
 # [5, 10]

@@ -3,15 +3,15 @@
 require_relative "setup"
 require "ryo"
 
-coords = Ryo.from([
-  {point_x: {x: {int: 2}}},
+points = Ryo.from([
+  {x: {to_i: 2}},
   "foobar",
-  {point_y: {y: {int: 4}}}
+  {y: {to_i: 4}}
 ])
 
-p coords[0].point_x.x.int
-p coords[1]
-p coords[2].point_y.y.int
+p points[0].x.to_i
+p points[1]
+p points[2].y.to_i
 
 ##
 # 2

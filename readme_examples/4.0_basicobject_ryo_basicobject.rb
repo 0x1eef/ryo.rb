@@ -3,10 +3,10 @@
 require_relative "setup"
 require "ryo"
 
-x_point = Ryo::BasicObject(x: 0)
-y_point = Ryo::BasicObject({y: 0}, x_point)
-point = Ryo::BasicObject({}, y_point)
-p [point.x, point.y]
+point_a = Ryo::BasicObject(x: 0)
+point_b = Ryo::BasicObject({y: 0}, point_a)
+point_c = Ryo::BasicObject({}, point_b)
+p [point_c.x, point_c.y]
 
 ##
 # [0, 0]

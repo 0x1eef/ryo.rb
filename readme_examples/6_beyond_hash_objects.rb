@@ -1,18 +1,18 @@
 require_relative "setup"
 require "ryo"
 
-class Option
+class Point
   def initialize
-    @name = "option"
-    @value = 123
+    @x = 5
+    @y = 10
   end
 
   def each_pair
-    yield("name", @name)
-    yield("value", @value)
+    yield("x", @x)
+    yield("y", @y)
   end
 end
 
-option = Ryo(Option.new)
-p option.name  # "option"
-p option.value # 123
+option = Ryo(Point.new)
+p option.x # => 5
+p option.y # => 10

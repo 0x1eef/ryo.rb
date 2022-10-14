@@ -1,10 +1,13 @@
 ## About
 
-Ryo is a library that implements prototype-based inheritance - with
-the implementation taking a lot of inspiration from JavaScript. Ryo can be
-useful for creating Ruby objects from Hash objects, for implementing configuration
-objects, for establishing relationships between objects and for other use cases
-where prototype-based inheritance can be a good fit.
+Ryo implements prototype-based inheritance, in Ruby.
+
+Ryo can be suitable for establishing relationships between objects,
+for acting as a drop-in OpenStruct replacement, and for a number of
+other use cases where prototype-based inheritance makes sense.
+
+JavaScript's implementation of prototype-based inheritance was a source
+of inspiration and served as a reference point for Ryo's implementation.
 
 ## Examples
 
@@ -19,10 +22,9 @@ as a complete reference.
 
 #### Point object
 
-The following example demonstrates prototype-based inheritance in simple
-terms. The example introduces three objects to form a single point object with
-the properties, "x" and "y".
-The
+The following example demonstrates how prototype-based inheritance works
+in Ryo. The example introduces three objects to form a single point object
+with the properties, "x" and "y". The
 [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method seen in the example returns an instance of
 [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
@@ -30,54 +32,34 @@ method seen in the example returns an instance of
 ```ruby
 require "ryo"
 
-point_x = Ryo(x: 0)
-point_y = Ryo({y: 0}, point_x)
-point = Ryo({}, point_y)
-
-p [point.x, point.y]
+point_a = Ryo(x: 5)
+point_b = Ryo({y: 10}, point_a)
+point_c = Ryo({}, point_b)
+p [point_c.x, point_c.y]
 
 ##
-# [0, 0]
+# [5, 10]
 ```
 
-#### Configuration object
+#### Ryo.fn
 
-The following example demonstrates prototype-based inheritance by implementing a common pattern -
-a configuration object that inherits its defaults from another object. The example tries to be
-somewhat simple while capturing a number of advanced features (such as [`Ryo.fn`](https://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html#function-instance_method)):
+The following example builds upon the previous example by introducing a Ryo function.
+[`Ryo.fn`](https://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html#function-instance_method)
+will bind its `self` to the Ryo object it is assigned to. When the function is called it
+will have access to the properties available through the prototype chain of the Ryo object:
 
 ```ruby
 require "ryo"
 
-default = Ryo(option: "foo", padding: 24)
-config = Ryo({
-  print: Ryo.fn { |source, config_option|
-    print source.ljust(padding), config_option, "\n"
-  }
-}, default)
+point_a = Ryo(x: 5)
+point_b = Ryo({y: 10}, point_a)
+point_c = Ryo({
+  inspect: Ryo.fn { |m| [x * m, y * m] }
+}, point_b)
+p point_c.inspect.call(2)
 
 ##
-# Traverse to 'default'
-config.print.call("option (from 'default')", config.option)
-
-##
-# Read directly from 'config'
-print("assign config.option", "\n")
-config.option = "bar"
-config.print.call("option (from 'config')", config.option)
-
-##
-# Traverse to 'default'
-print("delete config.option", "\n")
-Ryo.delete(config, "option")
-config.print.call("option (from 'default')", config.option)
-
-##
-# option (from 'default') foo
-# assign config.option
-# option (from 'config')  bar
-# delete config.option
-# option (from 'default') foo
+# [10, 20]
 ```
 
 ### Iteration
@@ -128,13 +110,13 @@ A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.
 ```ruby
 require "ryo"
 
-point_x = Ryo(x: 2)
-point_y = Ryo({y: 4}, point_x)
-point = Ryo({}, point_y)
+point_a = Ryo(x: 2)
+point_b = Ryo({y: 4}, point_a)
+point_c = Ryo({}, point_b)
 
 Ryo.map!(point) { |key, value| value * 2 }
-p [point.x, point.y]
-p [point_x.x, point_y.y]
+p [point_c.x, point_c.y]
+p [point_a.x, point_b.y]
 
 ##
 # [4, 8]
@@ -189,11 +171,11 @@ The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.r
 ```ruby
 require "ryo"
 
-coords = Ryo.from({
-  point_x: {x: {int: 0}},
-  point_y: {y: {int: 10}}
+point = Ryo.from({
+  x: {to_i: 0},
+  y: {to_i: 10}
 })
-p [coords.point_x.x.int, coords.point_y.y.int]
+p [point.x.to_i, point.y.to_i]
 
 ##
 # [0, 10]
@@ -203,21 +185,21 @@ p [coords.point_x.x.int, coords.point_y.y.int]
 
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method can
 walk an Array object, and create Ryo objects from Hash objects that it finds along the way.
-An object that can't be transformed into a Ryo object is left as-is. The following
+An object that can't be turned into a Ryo object is left as-is. The following
 example demonstrates how that works in practice:
 
 ``` ruby
 require "ryo"
 
-coords = Ryo.from([
-  {point_x: {x: {int: 2}}},
+points = Ryo.from([
+  {x: {to_i: 2}},
   "foobar",
-  {point_y: {y: {int: 4}}}
+  {y: {to_i: 4}}
 ])
 
-p coords[0].point_x.x.int
-p coords[1]
-p coords[2].point_y.y.int
+p points[0].x.to_i
+p points[1]
+p points[2].y.to_i
 
 ##
 # 2
@@ -227,7 +209,7 @@ p coords[2].point_y.y.int
 
 #### Ryo.from with OpenStruct
 
-All methods that can create Ryo objects support transforming a Struct, or OpenStruct object
+All methods that can create Ryo objects support turning a Struct, or OpenStruct object
 into a Ryo object. The following example demonstrates how
 [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
 can recursively transform an OpenStruct object into Ryo objects. The example also assigns
@@ -238,11 +220,10 @@ require "ryo"
 require "ostruct"
 
 point = Ryo.from(
-  OpenStruct.new(x: {int: 5}),
-  Ryo.from(y: {int: 10})
+  OpenStruct.new(x: {to_i: 5}),
+  Ryo.from(y: {to_i: 10})
 )
-
-p [point.x.int, point.y.int]
+p [point.x.to_i, point.y.to_i]
 
 ##
 # [5, 10]
@@ -262,10 +243,10 @@ how to create an instance of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.r
 ```ruby
 require "ryo"
 
-x_point = Ryo::BasicObject(x: 0)
-y_point = Ryo::BasicObject({y: 0}, x_point)
-point = Ryo::BasicObject({}, y_point)
-p [point.x, point.y]
+point_a = Ryo::BasicObject(x: 0)
+point_b = Ryo::BasicObject({y: 0}, point_a)
+point_c = Ryo::BasicObject({}, point_b)
+p [point_c.x, point_c.y]
 
 ##
 # [0, 0]
@@ -281,11 +262,11 @@ instead:
 ```ruby
 require "ryo"
 
-coords = Ryo::BasicObject.from({
-  point_x: {x: {int: 2}},
-  point_y: {y: {int: 4}}
+point = Ryo::BasicObject.from({
+  x: {to_i: 2},
+  y: {to_i: 4}
 })
-p [coords.point_x.x.int, coords.point_y.y.int]
+p [point.x.to_i, point.y.to_i]
 
 ##
 # [2, 4]
@@ -324,27 +305,27 @@ implements `#each`. The only methods that support Array / `#each` objects are
 and
 [Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method).
 
-The following example demonstrates how to transform an imaginary object that
-implements `#each_pair` into a Ryo object:
+The following example demonstrates how to transform a custom object that implements 
+`#each_pair` into a Ryo object:
 
 ``` ruby
 require "ryo"
 
-class Option
+class Point
   def initialize
-    @name = "option"
-    @value = 123
+    @x = 5
+    @y = 10
   end
 
   def each_pair
-    yield("name", @name)
-    yield("value", @value)
+    yield("x", @x)
+    yield("y", @y)
   end
 end
 
-option = Ryo(Option.new)
-p option.name  # "option"
-p option.value # 123
+option = Ryo(Point.new)
+p option.x # => 5
+p option.y # => 10
 ```
 
 ## Sources

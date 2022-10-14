@@ -3,11 +3,11 @@
 require_relative "setup"
 require "ryo"
 
-coords = Ryo::BasicObject.from({
-  point_x: {x: {int: 2}},
-  point_y: {y: {int: 4}}
+point = Ryo::BasicObject.from({
+  x: {to_i: 2},
+  y: {to_i: 4}
 })
-p [coords.point_x.x.int, coords.point_y.y.int]
+p [point.x.to_i, point.y.to_i]
 
 ##
 # [2, 4]

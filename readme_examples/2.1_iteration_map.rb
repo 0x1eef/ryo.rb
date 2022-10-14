@@ -3,13 +3,13 @@
 require_relative "setup"
 require "ryo"
 
-point_x = Ryo(x: 2)
-point_y = Ryo({y: 4}, point_x)
-point = Ryo({}, point_y)
+point_a = Ryo(x: 2)
+point_b = Ryo({y: 4}, point_a)
+point_c = Ryo({}, point_b)
 
 Ryo.map!(point) { |key, value| value * 2 }
-p [point.x, point.y]
-p [point_x.x, point_y.y]
+p [point_c.x, point_c.y]
+p [point_a.x, point_b.y]
 
 ##
 # [4, 8]
