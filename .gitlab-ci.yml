@@ -1,0 +1,13 @@
+stages:          
+  - build
+  - test
+
+build-job:
+  stage: build
+  script:
+    - bundle install
+
+test-job:   
+  stage: test
+  script:
+    - bundle exec rspec spec/
