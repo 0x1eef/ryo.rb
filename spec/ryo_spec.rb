@@ -122,19 +122,32 @@ RSpec.describe Ryo do
         let(:ary) { Ryo.from([{x: 1}, Ryo::BasicObject(x: 2)]) }
         it { is_expected.to eq([1, 2]) }
       end
+    end
 
-      context "when given an object that implements #each" do
-        subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.x.to_i : _1 } }
-        let(:each_obj) do
-          Class.new {
-            def each
-              arr = [{x: {to_i: 4}}, "foo"]
-              arr.each { yield(_1) }
-            end
-          }
-        end
-        it { is_expected.to eq([4, "foo"]) }
+    context "when given an object that implements #each" do
+      subject { ary.map { Ryo === _1 ? _1.x.to_i : _1 } }
+      let(:ary) do
+        Ryo.from Class.new {
+          def each
+            arr = [{x: {to_i: 4}}, "foo"]
+            arr.each { yield(_1) }
+          end
+        }.new
       end
+      it { is_expected.to eq([4, "foo"]) }
+    end
+
+    context "when given an object that implements #each_pair" do
+      subject { [point.x, point.y] }
+      let(:point) do
+        Ryo.from Class.new {
+          def each_pair
+            yield("x", 5)
+            yield("y", 10)
+          end
+        }.new
+      end
+      it { is_expected.to eq([5, 10]) }
     end
 
     context "when given an object that doesn't implement #each or #each_pair" do
