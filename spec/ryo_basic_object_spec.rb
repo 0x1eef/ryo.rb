@@ -25,28 +25,28 @@ RSpec.describe Ryo::BasicObject do
 
   describe ".from" do
     context "when given nested Hash objects" do
-      subject { coords.point.x.int }
-      let(:coords) { Ryo::BasicObject.from(point: {x: {int: 4}}) }
+      subject { point.x.to_i }
+      let(:point) { Ryo::BasicObject.from({x: {to_i: 4}}) }
       it { is_expected.to eq(4) }
     end
 
     context "when given an Array that contains nested Hash objects" do
-      subject { coords.points[0].x.int }
-      let(:coords) { Ryo::BasicObject.from(points: [{x: {int: 4}}]) }
+      subject { points[0].x.to_i }
+      let(:points) { Ryo::BasicObject.from([{x: {to_i: 4}}]) }
       it { is_expected.to eq(4) }
     end
 
     context "with a prototype" do
-      let(:point_x) { Ryo::BasicObject.from(x: {int: 0}) }
-      let(:point) { Ryo::BasicObject.from({y: {int: 2}}, point_x) }
+      let(:point_a) { Ryo::BasicObject.from(x: {to_i: 0}) }
+      let(:point_b) { Ryo::BasicObject.from({y: {to_i: 2}}, point_a) }
 
-      context "when traversing to the prototype" do
-        subject { point.x.int }
+      context "when traversing to the prototype (point_a)" do
+        subject { point_b.x.to_i }
         it { is_expected.to eq(0) }
       end
 
-      context "when verifying a nested Hash doesn't inherit the prototype" do
-        subject { point.y.x }
+      context "when verifying a nested Hash doesn't inherit the prototype (point_a)" do
+        subject { point_b.y.x }
         it { is_expected.to eq(nil) }
       end
     end

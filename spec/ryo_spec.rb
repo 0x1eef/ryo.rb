@@ -4,13 +4,13 @@ require_relative "setup"
 
 RSpec.describe Ryo do
   describe ".set_prototype_of" do
-    context "when the prototype of point is changed to point_2" do
-      subject { point.y }
-      let(:point_1) { Ryo(x: 0, y: 0) }
-      let(:point_2) { Ryo(y: 5) }
-      let(:point) { Ryo({}, point_1) }
+    context "when the prototype of point is changed to point_b" do
+      subject { point_c.y }
+      let(:point_a) { Ryo(x: 0, y: 0) }
+      let(:point_b) { Ryo(y: 5) }
+      let(:point_c) { Ryo({}, point_a) }
 
-      before { Ryo.set_prototype_of(point, point_2) }
+      before { Ryo.set_prototype_of(point_c, point_b) }
       it { is_expected.to eq(5) }
     end
   end
@@ -33,17 +33,17 @@ RSpec.describe Ryo do
   end
 
   describe ".assign" do
-    let(:point_1) { Ryo(x: 0, y: 0) }
-    let(:point_2) { Ryo(y: 10) }
+    let(:point_a) { Ryo(x: 0, y: 0) }
+    let(:point_b) { Ryo(y: 10) }
 
-    context "when point_2 is assigned to point_1" do
-      subject { Ryo.assign(point_1, point_2) }
+    context "when point_b is assigned to point_a" do
+      subject { Ryo.assign(point_a, point_b) }
       it { is_expected.to eq("x" => 0, "y" => 10) }
       it { is_expected.to be_instance_of(Ryo::Object) }
     end
 
-    context "when a Ryo object and Hash object are assigned to point_1" do
-      subject { Ryo.assign(point_1, point_2, {move: fn}) }
+    context "when a Ryo object and Hash object are assigned to point_a" do
+      subject { Ryo.assign(point_a, point_b, {move: fn}) }
       let(:fn) { Ryo.fn {} }
       it { is_expected.to eq("x" => 0, "y" => 10, "move" => fn) }
       it { is_expected.to be_instance_of(Ryo::Object) }
@@ -51,10 +51,10 @@ RSpec.describe Ryo do
   end
 
   describe ".properties_of" do
-    context "when requesting the properties of an object with a prototype" do
-      subject { Ryo.properties_of(point) }
-      let(:point_x) { Ryo(x: 0) }
-      let(:point) { Ryo({y: 0}, point_x) }
+    context "when verifying properties of the prototype (point_a) aren't included" do
+      subject { Ryo.properties_of(point_b) }
+      let(:point_a) { Ryo(x: 0) }
+      let(:point_b) { Ryo({y: 0}, point_a) }
       it { is_expected.to eq(["y"]) }
     end
   end
@@ -92,43 +92,43 @@ RSpec.describe Ryo do
   end
 
   describe ".from" do
-    context "when given nested Hash objects" do
-      subject { coords.points.point.x.int }
-      let(:coords) { Ryo.from(points: {point: {x: {int: 4}}}) }
+    context "when given a nested Hash object" do
+      subject { point.x.to_i }
+      let(:point) { Ryo.from({x: {to_i: 4}}) }
       it { is_expected.to eq(4) }
     end
 
     context "when given an Array that contains Hash objects" do
       context "when given one Hash object" do
-        subject { coords[0].point.x.int }
-        let(:coords) { Ryo.from([{point: {x: {int: 4}}}]) }
+        subject { ary[0].x.to_i }
+        let(:ary) { Ryo.from([{x: {to_i: 4}}]) }
         it { is_expected.to eq(4) }
       end
 
       context "when given two Hash objects" do
-        subject { coords.map { _1.point.x.int } }
-        let(:coords) { Ryo.from([{point: {x: {int: 4}}}, {point: {x: {int: 3}}}]) }
+        subject { ary.map { _1.x.to_i } }
+        let(:ary) { Ryo.from([{x: {to_i: 4}}, {x: {to_i: 3}}]) }
         it { is_expected.to eq([4, 3]) }
       end
 
       context "when given a mix of Hash objects, and other objects" do
-        subject { coords.map { Ryo === _1 ? _1.point.x.int : _1 } }
-        let(:coords) { Ryo.from([{point: {x: {int: 4}}}, "foo"]) }
+        subject { ary.map { Ryo === _1 ? _1.x.to_i : _1 } }
+        let(:ary) { Ryo.from([{x: {to_i: 4}}, "foo"]) }
         it { is_expected.to eq([4, "foo"]) }
       end
 
       context "when given a mix of Hash objects, and Ryo objects" do
-        subject { coords.map(&:x) }
-        let(:coords) { Ryo.from([{x: 1}, Ryo::BasicObject(x: 2)]) }
+        subject { ary.map(&:x) }
+        let(:ary) { Ryo.from([{x: 1}, Ryo::BasicObject(x: 2)]) }
         it { is_expected.to eq([1, 2]) }
       end
 
-      context "when given an object that implements #each but not #each_pair" do
-        subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.point.x.int : _1 } }
+      context "when given an object that implements #each" do
+        subject { Ryo.from(each_obj.new).map { Ryo === _1 ? _1.x.to_i : _1 } }
         let(:each_obj) do
           Class.new {
             def each
-              arr = [{point: {x: {int: 4}}}, "foo"]
+              arr = [{x: {to_i: 4}}, "foo"]
               arr.each { yield(_1) }
             end
           }
@@ -137,23 +137,23 @@ RSpec.describe Ryo do
       end
     end
 
-    context "when given an object that does implement #each / #each_pair" do
+    context "when given an object that doesn't implement #each or #each_pair" do
       subject(:from) { Ryo.from(Object.new) }
       it { expect { from }.to raise_error(TypeError, %r{does not implement #each / #each_pair}) }
     end
   end
 
   describe "dup" do
-    subject(:dup) { Ryo.dup(point) }
-    let(:point_x) { Ryo::BasicObject(x: 1) }
-    let(:point_y) { Ryo::BasicObject({y: 2}, point_x) }
-    let(:point) { Ryo::BasicObject({}, point_y) }
+    subject(:dup) { Ryo.dup(point_c) }
+    let(:point_a) { Ryo::BasicObject(x: 1) }
+    let(:point_b) { Ryo::BasicObject({y: 2}, point_a) }
+    let(:point_c) { Ryo::BasicObject({}, point_b) }
 
-    context "when the dup is mutated" do
+    context "when the duplicate is mutated" do
       before { dup.x = 5 }
 
       context "when verifying the source wasn't mutated" do
-        subject { point.x }
+        subject { point_c.x }
         it { is_expected.to eq(1) }
       end
 
@@ -163,18 +163,18 @@ RSpec.describe Ryo do
       end
     end
 
-    context "when verifying the source and dup are distinct objects" do
-      subject { Ryo.kernel(:equal?).bind_call(point, dup) }
+    context "when verifying the source and duplicate are distinct objects" do
+      subject { Ryo.kernel(:equal?).bind_call(point_c, dup) }
       it { is_expected.to eq(false) }
     end
 
-    context "when verifying the source and dup are eql?" do
-      subject { point == dup }
+    context "when verifying the source and duplicate are eql?" do
+      subject { point_c == dup }
       it { is_expected.to be(true) }
     end
 
-    context "when verifying the prototypes of the source and dup are eql?" do
-      subject { Ryo.prototype_chain_of(point) == Ryo.prototype_chain_of(dup) }
+    context "when verifying the prototype chain of the source and duplicate are eql?" do
+      subject { Ryo.prototype_chain_of(point_c) == Ryo.prototype_chain_of(dup) }
       it { is_expected.to eq(true) }
     end
   end
