@@ -35,8 +35,8 @@ module Ryo::Keywords
   # @return [Boolean]
   #  Returns true when **property** is a member of **ryo**, or its prototype chain.
   def in?(ryo, property)
-    property?(ryo, property) ||
-      property?(prototype_of(ryo), property)
+    return false unless ryo
+    property?(ryo, property) || in?(prototype_of(ryo), property)
   end
 
   ##
