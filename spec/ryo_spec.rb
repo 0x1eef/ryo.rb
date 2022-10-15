@@ -3,62 +3,6 @@
 require_relative "setup"
 
 RSpec.describe Ryo do
-  describe ".set_prototype_of" do
-    context "when the prototype of point is changed to point_b" do
-      subject { point_c.y }
-      let(:point_a) { Ryo(x: 0, y: 0) }
-      let(:point_b) { Ryo(y: 5) }
-      let(:point_c) { Ryo({}, point_a) }
-
-      before { Ryo.set_prototype_of(point_c, point_b) }
-      it { is_expected.to eq(5) }
-    end
-  end
-
-  describe ".prototype_chain_of" do
-    context "when given the last node in a chain of prototypes" do
-      subject { Ryo.prototype_chain_of(node_3) }
-      let(:root) { Ryo({a: 1}) }
-      let(:node_1) { Ryo({b: 2}, root) }
-      let(:node_2) { Ryo({c: 3}, node_1) }
-      let(:node_3) { Ryo({d: 4}, node_2) }
-
-      it { is_expected.to eq([node_2, node_1, root]) }
-    end
-
-    context "when given an object without a prototype" do
-      subject { Ryo.prototype_chain_of(Ryo({})) }
-      it { is_expected.to eq([]) }
-    end
-  end
-
-  describe ".assign" do
-    let(:point_a) { Ryo(x: 0, y: 0) }
-    let(:point_b) { Ryo(y: 10) }
-
-    context "when point_b is assigned to point_a" do
-      subject { Ryo.assign(point_a, point_b) }
-      it { is_expected.to eq("x" => 0, "y" => 10) }
-      it { is_expected.to be_instance_of(Ryo::Object) }
-    end
-
-    context "when a Ryo object and Hash object are assigned to point_a" do
-      subject { Ryo.assign(point_a, point_b, {move: fn}) }
-      let(:fn) { Ryo.fn {} }
-      it { is_expected.to eq("x" => 0, "y" => 10, "move" => fn) }
-      it { is_expected.to be_instance_of(Ryo::Object) }
-    end
-  end
-
-  describe ".properties_of" do
-    context "when verifying properties of the prototype (point_a) aren't included" do
-      subject { Ryo.properties_of(point_b) }
-      let(:point_a) { Ryo(x: 0) }
-      let(:point_b) { Ryo({y: 0}, point_a) }
-      it { is_expected.to eq(["y"]) }
-    end
-  end
-
   describe ".delete" do
     let(:point) { Ryo(x: 0) }
 
@@ -189,30 +133,6 @@ RSpec.describe Ryo do
     context "when verifying the prototype chain of the source and duplicate are eql?" do
       subject { Ryo.prototype_chain_of(point_c) == Ryo.prototype_chain_of(dup) }
       it { is_expected.to eq(true) }
-    end
-  end
-
-  describe ".ryo?" do
-    subject { Ryo.ryo?(object) }
-
-    context "when given an instance of Ryo::BasicObject" do
-      let(:object) { Ryo::BasicObject(x: 1, y: 1) }
-      it { is_expected.to be(true) }
-    end
-
-    context "when given an instance of Ryo::Object" do
-      let(:object) { Ryo::Object(x: 2, y: 2) }
-      it { is_expected.to be(true) }
-    end
-
-    context "when given an instance of Object" do
-      let(:object) { Object.new }
-      it { is_expected.to be(false) }
-    end
-
-    context "when given an instance of Hash" do
-      let(:object) { {} }
-      it { is_expected.to be(false) }
     end
   end
 end

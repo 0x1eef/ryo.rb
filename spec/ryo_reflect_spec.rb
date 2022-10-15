@@ -1,0 +1,84 @@
+require_relative "setup"
+
+RSpec.describe Ryo::Reflect do
+  describe ".ryo?" do
+    subject { Ryo.ryo?(object) }
+
+    context "when given an instance of Ryo::BasicObject" do
+      let(:object) { Ryo::BasicObject(x: 1, y: 1) }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given an instance of Ryo::Object" do
+      let(:object) { Ryo::Object(x: 2, y: 2) }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given an instance of Object" do
+      let(:object) { Object.new }
+      it { is_expected.to be(false) }
+    end
+
+    context "when given an instance of Hash" do
+      let(:object) { {} }
+      it { is_expected.to be(false) }
+    end
+  end
+
+  describe ".properties_of" do
+    context "when verifying the properties of the prototype aren't included" do
+      subject { Ryo.properties_of(point_b) }
+      let(:point_a) { Ryo(x: 0) }
+      let(:point_b) { Ryo({y: 0}, point_a) }
+      it { is_expected.to eq(["y"]) }
+    end
+  end
+
+  describe ".set_prototype_of" do
+    context "when the prototype of point_c is changed to point_b" do
+      subject { point_c.y }
+      let(:point_a) { Ryo(x: 0, y: 0) }
+      let(:point_b) { Ryo(y: 5) }
+      let(:point_c) { Ryo({}, point_a) }
+
+      before { Ryo.set_prototype_of(point_c, point_b) }
+      it { is_expected.to eq(5) }
+    end
+  end
+
+  describe ".prototype_chain_of" do
+    context "when given the last prototype (point_c)" do
+      subject { Ryo.prototype_chain_of(point_c) }
+      let(:root) { Ryo({a: 1}) }
+      let(:point_a) { Ryo({b: 2}, root) }
+      let(:point_b) { Ryo({c: 3}, point_a) }
+      let(:point_c) { Ryo({d: 4}, point_b) }
+
+      it { is_expected.to eq([point_b, point_a, root]) }
+    end
+
+    context "when given an object without a prototype" do
+      subject { Ryo.prototype_chain_of(Ryo({})) }
+      it { is_expected.to eq([]) }
+    end
+  end
+
+  describe ".assign" do
+    let(:point_a) { Ryo(x: 0, y: 0) }
+    let(:point_b) { Ryo(y: 10) }
+
+    context "when point_b is assigned to point_a" do
+      subject { Ryo.assign(point_a, point_b) }
+      it { is_expected.to eq("x" => 0, "y" => 10) }
+      it { is_expected.to be_instance_of(Ryo::Object) }
+    end
+
+    context "when a Ryo object and Hash object are assigned to point_a" do
+      subject { Ryo.assign(point_a, point_b, {move: fn}) }
+      let(:fn) { Ryo.fn {} }
+      it { is_expected.to eq("x" => 0, "y" => 10, "move" => fn) }
+      it { is_expected.to be_instance_of(Ryo::Object) }
+      it { is_expected.to be(point_a) }
+    end
+  end
+end
