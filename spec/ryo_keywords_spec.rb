@@ -55,4 +55,30 @@ RSpec.describe Ryo::Keywords do
       end
     end
   end
+
+  describe ".in?" do
+    let(:point_a) { Ryo(x: 0) }
+    let(:point_b) { Ryo({y: 1}, point_a) }
+    let(:point_c) { Ryo({z: 2}, point_b) }
+
+    context "when given 'x' as a property name" do
+      subject { Ryo.in?(point_c, "x") }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given 'y' as a property name" do
+      subject { Ryo.in?(point_c, "y") }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given 'z' as a property name" do
+      subject { Ryo.in?(point_c, "z") }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given 'w' as a property name" do
+      subject { Ryo.in?(point_c, "w") }
+      it { is_expected.to be(false) }
+    end
+  end
 end
