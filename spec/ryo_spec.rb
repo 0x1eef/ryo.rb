@@ -156,7 +156,7 @@ RSpec.describe Ryo do
     end
   end
 
-  describe "dup" do
+  describe ".dup" do
     subject(:dup) { Ryo.dup(point_c) }
     let(:point_a) { Ryo::BasicObject(x: 1) }
     let(:point_b) { Ryo::BasicObject({y: 2}, point_a) }
@@ -170,7 +170,7 @@ RSpec.describe Ryo do
         it { is_expected.to eq(1) }
       end
 
-      context "when verifying the dup was mutated" do
+      context "when verifying the duplicate was mutated" do
         subject { dup.x }
         it { is_expected.to eq(5) }
       end
