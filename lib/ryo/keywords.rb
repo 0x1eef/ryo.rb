@@ -6,8 +6,6 @@
 # operators. The instance methods of this module are available as singleton
 # methods on the {Ryo} module.
 module Ryo::Keywords
-  extend self
-
   ##
   # @example
   #   point = Ryo(x: 0, y: 0, print: Ryo.fn { print x, y, "\n" })
@@ -25,6 +23,7 @@ module Ryo::Keywords
   end
   alias_method :function, :fn
 
+  ##
   # Equivalent to JavaScript's **in** operator.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
@@ -36,8 +35,8 @@ module Ryo::Keywords
   # @return [Boolean]
   #  Returns true when **property** is a member of **ryo**, or its prototype chain.
   def in?(ryo, property)
-    Ryo::Reflect.property?(ryo, property) ||
-      Ryo::Reflect.property?(Ryo::Reflect.prototype_of(ryo), property)
+    property?(ryo, property) ||
+      property?(prototype_of(ryo), property)
   end
 
   ##
@@ -53,11 +52,11 @@ module Ryo::Keywords
   #  Returns the value of the deleted property.
   def delete(ryo, property)
     property = property.to_s
-    if Ryo::Reflect.property?(ryo, property)
-      Ryo::Reflect.table_of(ryo).delete(property)
+    if property?(ryo, property)
+      table_of(ryo).delete(property)
     else
-      return if Ryo::Reflect.getter_defined?(ryo, property)
-      Ryo::Reflect.define_method!(ryo, property) { ryo[property] }
+      return if getter_defined?(ryo, property)
+      define_method!(ryo, property) { ryo[property] }
     end
   end
 end

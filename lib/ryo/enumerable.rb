@@ -6,9 +6,6 @@
 # The methods implemented by this module are available as singleton
 # methods on the {Ryo} module.
 module Ryo::Enumerable
-  include Ryo::Keywords
-  include Ryo::Reflect
-
   ##
   # The {#each} methods iterates a Ryo object, and yields a key / value pair.
   # When a block is not given, {#each} returns an Enumerator.
