@@ -122,7 +122,7 @@ module Ryo
   # @return [Boolean]
   #  Returns true **other** is equal to self.
   def ==(other)
-    if Ryo === other
+    if Ryo.ryo?(other)
       @_table == Ryo.table_of(other)
     else
       other = Hash.try_convert(other)

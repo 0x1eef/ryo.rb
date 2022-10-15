@@ -178,4 +178,28 @@ RSpec.describe Ryo do
       it { is_expected.to eq(true) }
     end
   end
+
+  describe ".ryo?" do
+    subject { Ryo.ryo?(object) }
+
+    context "when given an instance of Ryo::BasicObject" do
+      let(:object) { Ryo::BasicObject(x: 1, y: 1) }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given an instance of Ryo::Object" do
+      let(:object) { Ryo::Object(x: 2, y: 2) }
+      it { is_expected.to be(true) }
+    end
+
+    context "when given an instance of Object" do
+      let(:object) { Object.new }
+      it { is_expected.to be(false) }
+    end
+
+    context "when given an instance of Hash" do
+      let(:object) { {} }
+      it { is_expected.to be(false) }
+    end
+  end
 end

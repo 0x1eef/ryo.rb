@@ -51,7 +51,7 @@ module Ryo::Builder
       raise TypeError, "The provided object does not implement #each / #each_pair"
     elsif !props.respond_to?(:each_pair)
       map(props) do
-        noop = Ryo === _1 || !_1.respond_to?(:each_pair)
+        noop = Ryo.ryo?(_1) || !_1.respond_to?(:each_pair)
         noop ? _1 : recursive_build(buildee, _1, prototype)
       end
     else

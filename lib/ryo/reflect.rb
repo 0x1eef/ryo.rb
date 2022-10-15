@@ -153,14 +153,14 @@ module Ryo::Reflect
   #  A Ryo object.
   #
   # @return [Hash]
-  #  Returns the table used by a Ryo object.
+  #  Returns the table of a Ryo object.
   def table_of(ryo)
     kernel(:instance_variable_get)
       .bind_call(ryo, :@_table)
   end
 
   ##
-  # Sets the table used by a Ryo object.
+  # Sets the table of a Ryo object.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
@@ -196,7 +196,6 @@ module Ryo::Reflect
   end
 
   ##
-  #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
@@ -214,6 +213,21 @@ module Ryo::Reflect
   #  Returns true when the given object is a Ryo function.
   def function?(obj)
     Ryo::Function === obj
+  end
+
+  ##
+  # @example
+  #  Ryo.ryo?(Ryo::Object(x: 5, y: 12))       # => true
+  #  Ryo.ryo?(Ryo::BasicObject(x: 10, y: 20)) # => true
+  #  Ryo.ryo?(Object.new) # => false
+  #
+  # @param [Object, BasicObject] obj
+  #  An object.
+  #
+  # @return [Boolean]
+  #  Returns true when the given object is a Ryo object.
+  def ryo?(obj)
+    Ryo === obj
   end
 
   ##
@@ -295,7 +309,7 @@ module Ryo::Reflect
   ##
   # @private
   private def to_hash(obj)
-    if Ryo === obj
+    if ryo?(obj)
       table_of(obj)
     else
       Hash.try_convert(obj)
