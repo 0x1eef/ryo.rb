@@ -3,38 +3,6 @@
 require_relative "setup"
 
 RSpec.describe Ryo do
-  describe ".delete" do
-    let(:point) { Ryo(x: 0) }
-
-    context "when a property is deleted" do
-      subject { point.x }
-      before { Ryo.delete(point, "x") }
-      it { is_expected.to be_nil }
-    end
-  end
-
-  describe ".function" do
-    let(:point) { Ryo(move: Ryo.fn { |x, y| [x, y] }) }
-
-    context "when the function requires argument(s)" do
-      context "when the required argument is not given" do
-        subject { point.move.() }
-        it { expect { is_expected }.to raise_error(ArgumentError) }
-      end
-
-      context "when the required argument is given" do
-        subject { point.move.(30, 50) }
-        it { is_expected.to eq([30, 50]) }
-      end
-    end
-
-    context "when the function receives a block" do
-      subject { point.move.() { "block" } }
-      let(:point) { Ryo(move: Ryo.fn { |&b| b.() }) }
-      it { is_expected.to eq("block") }
-    end
-  end
-
   describe ".from" do
     context "when given a nested Hash object" do
       subject { point.x.to_i }
