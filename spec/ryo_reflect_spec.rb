@@ -25,8 +25,24 @@ RSpec.describe Ryo::Reflect do
     end
   end
 
+  describe ".property?" do
+    subject { Ryo.property?(point_b, property) }
+    let(:point_a) { Ryo(x: 0) }
+    let(:point_b) { Ryo({y: 0}, point_a) }
+
+    context "when given a property belonging to a prototype" do
+      let(:property) { "x" }
+      it { is_expected.to be(false) }
+    end
+
+    context "when given a property belonging to self" do
+      let(:property) { "y" }
+      it { is_expected.to be(true) }
+    end
+  end
+
   describe ".properties_of" do
-    context "when verifying the properties of the prototype aren't included" do
+    context "when properties of a prototype are excluded" do
       subject { Ryo.properties_of(point_b) }
       let(:point_a) { Ryo(x: 0) }
       let(:point_b) { Ryo({y: 0}, point_a) }
