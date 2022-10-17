@@ -62,6 +62,21 @@ RSpec.describe Ryo::Reflect do
     end
   end
 
+  describe ".prototype_of" do
+    let(:point_a) { Ryo(x: 0, y: 0) }
+    let(:point_b) { Ryo({y: 5}, point_a) }
+
+    context "when given an object with a prototype" do
+      subject { Ryo.prototype_of(point_b) }
+      it { is_expected.to be(point_a) }
+    end
+
+    context "when given an object without a prototype" do
+      subject { Ryo.prototype_of(point_a) }
+      it { is_expected.to be(nil) }
+    end
+  end
+
   describe ".prototype_chain_of" do
     context "when given the last prototype (point_c)" do
       subject { Ryo.prototype_chain_of(point_c) }
