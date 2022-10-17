@@ -212,7 +212,7 @@ p points[2].y.to_i
 All methods that can create Ryo objects support turning a Struct, or OpenStruct object
 into a Ryo object. The following example demonstrates how
 [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
-can recursively transform an OpenStruct object into Ryo objects. The example also assigns
+can recursively turn an OpenStruct object into Ryo objects. The example also assigns
 a prototype to the Ryo object created from the OpenStruct:
 
 ``` ruby
@@ -305,7 +305,7 @@ implements `#each`. The only methods that support Array / `#each` objects are
 and
 [Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method).
 
-The following example demonstrates how to transform a custom object that implements 
+The following example demonstrates how to turn a custom object that implements
 `#each_pair` into a Ryo object:
 
 ``` ruby
