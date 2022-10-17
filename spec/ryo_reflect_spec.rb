@@ -79,6 +79,18 @@ RSpec.describe Ryo::Reflect do
     end
   end
 
+  describe ".class_of" do
+    context "when given an instance of Ryo::BasicObject" do
+      subject { Ryo.class_of Ryo::BasicObject({}) }
+      it { is_expected.to eq(Ryo::BasicObject) }
+    end
+
+    context "when given an instance of Ryo::Object" do
+      subject { Ryo.class_of Ryo::Object({}) }
+      it { is_expected.to eq(Ryo::Object) }
+    end
+  end
+
   describe ".assign" do
     let(:point_a) { Ryo(x: 0, y: 0) }
     let(:point_b) { Ryo(y: 10) }
