@@ -40,16 +40,21 @@ module Ryo::Keywords
   end
 
   ##
-  # More or less equivalent to JavaScript's **delete** operator.
+  # The {#delete} method deletes a property from a Ryo object.
+  # More or less equivalent to JavaScript's "delete" operator.
+  #
+  # @note
+  #  This method does not delete properties from the prototype(s)
+  #  of a Ryo object. <br>
+  #  For that - see {Ryo::Reflect#delete! Ryo::Reflect#delete!}.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
   # @param [<String, #to_s>] property
-  #  The property to delete.
+  #  A property name.
   #
-  # @return [::Object, ::BasicObject]
-  #  Returns the value of the deleted property.
+  # @return [void]
   def delete(ryo, property)
     property = property.to_s
     if property?(ryo, property)

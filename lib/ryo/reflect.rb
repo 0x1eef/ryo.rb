@@ -132,6 +132,25 @@ module Ryo::Reflect
   # @group Ryo-specific
 
   ##
+  # The {#delete!} method deletes a property from a Ryo object,
+  # and from the prototypes in its prototype chain.
+  #
+  # @see Ryo::Keywords#delete
+  #
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
+  #  A Ryo object.
+  #
+  # @param [<String, #to_s>] property
+  #  A property name.
+  #
+  # @return [void]
+  def delete!(ryo, property)
+    [ryo, *prototype_chain_of(ryo)].each do
+      Ryo.delete(_1, property.to_s)
+    end
+  end
+
+  ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
