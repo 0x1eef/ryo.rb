@@ -99,7 +99,7 @@ module Ryo::Reflect
   #  A Ryo object.
   #
   # @param [<String, #to_s>] property
-  #  The property.
+  #  A property name.
   #
   # @return [Boolean]
   #  Returns true when **property** is a member of a Ryo object.

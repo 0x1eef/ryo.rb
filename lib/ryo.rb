@@ -82,7 +82,7 @@ module Ryo
 
   ##
   # @param [String] property
-  #  The property.
+  #  A property name.
   #
   # @return [<Object, BasicObject>, nil]
   #  Returns the value at **property**, or nil.
@@ -105,7 +105,7 @@ module Ryo
   # Assigns a property to self.
   #
   # @param [String] property
-  #  The property.
+  #  A property name.
   #
   # @param [<Object,BasicObject>] value
   #  The value.

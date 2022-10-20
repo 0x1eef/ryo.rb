@@ -30,7 +30,7 @@ module Ryo::Keywords
   #  A Ryo object.
   #
   # @param [<String, #to_s>] property
-  #  The property name.
+  #  A property name.
   #
   # @return [Boolean]
   #  Returns true when **property** is a member of **ryo**, or its prototype chain.
