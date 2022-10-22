@@ -10,6 +10,12 @@ RSpec.describe Ryo do
       it { is_expected.to eq(4) }
     end
 
+    context "when given { key => Array<String> }" do
+      subject { Ryo.from(key: %w(foo bar baz)) }
+      it { is_expected.to be_instance_of(Ryo::Object) }
+      it { is_expected.to eq("key" => %w(foo bar baz)) }
+    end
+
     context "when given an Array that contains Hash objects" do
       context "when given one Hash object" do
         subject { ary[0].x.to_i }

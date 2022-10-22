@@ -52,30 +52,28 @@ module Ryo::Builder
     elsif !props.respond_to?(:each_pair)
       map(props) do
         noop = Ryo.ryo?(_1) || !_1.respond_to?(:each_pair)
-        noop ? _1 : recursive_build(buildee, _1, prototype)
+        noop ? _1 : recursive_build(buildee, _1)
       end
     else
-      recursive_build!(buildee, props, prototype)
+      visited = {}
+      props.each_pair { visited[_1] = map_value(buildee, _2) }
+      obj = build(buildee, visited, prototype)
+      Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
     end
   end
 
   ##
-  # @api private
-  def self.recursive_build!(buildee, props, prototype)
-    visited = {}
-    props.each_pair do |key, value|
-      visited[key] = if value.respond_to?(:each_pair)
-        recursive_build(buildee, value)
-      elsif value.respond_to?(:each)
-        map(value) { recursive_build(buildee, _1) }
-      else
-        value
-      end
+  # @private
+  def self.map_value(buildee, value)
+    if value.respond_to?(:each_pair)
+      recursive_build(buildee, value)
+    elsif value.respond_to?(:each)
+      map(value) { map_value(buildee, _1) }
+    else
+      value
     end
-    obj = build(buildee, visited, prototype)
-    Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
   end
-  private_class_method :recursive_build!
+  private_class_method :map_value
 
   ##
   # @private
