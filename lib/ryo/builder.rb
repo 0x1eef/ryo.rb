@@ -57,8 +57,7 @@ module Ryo::Builder
     else
       visited = {}
       props.each_pair { visited[_1] = map_value(buildee, _2) }
-      obj = build(buildee, visited, prototype)
-      Object === obj ? obj : Ryo.extend!(obj, Ryo::Tap)
+      build(buildee, visited, prototype)
     end
   end
 

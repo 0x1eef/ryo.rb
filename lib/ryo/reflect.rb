@@ -58,8 +58,9 @@ module Ryo::Reflect
   #
   # @return [void]
   def define_property(ryo, property, value)
-    table = table_of(ryo)
-    table[property] = value.tap { _1.bind!(ryo) if function?(_1) }
+    table, property = table_of(ryo), property.to_s
+    kernel(:tap).bind_call(value) { _1.bind!(ryo) if function?(_1) }
+    table[property] = value
     # Define setter
     if !setter_defined?(ryo, property) && property[-1] != "?"
       define_method!(ryo, "#{property}=") { ryo[property] = _1 }

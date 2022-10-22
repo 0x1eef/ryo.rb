@@ -21,7 +21,6 @@ module Ryo
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
   require_relative "ryo/function"
-  require_relative "ryo/tap"
   require_relative "ryo/enumerable"
 
   extend Ryo::Reflect
