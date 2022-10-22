@@ -108,6 +108,21 @@ RSpec.describe Ryo::Reflect do
     end
   end
 
+  describe ".equal?" do
+    let(:point_a) { Ryo::BasicObject(x: 5, y: 5) }
+    let(:point_b) { Ryo::BasicObject(x: 5, y: 5) }
+
+    context "when two objects are the same object" do
+      subject { Ryo.equal?(point_a, point_a) }
+      it { is_expected.to be(true) }
+    end
+
+    context "when two objects are distinct objects" do
+      subject { Ryo.equal?(point_a, point_b) }
+      it { is_expected.to be(false) }
+    end
+  end
+
   describe ".assign" do
     let(:point_a) { Ryo(x: 0, y: 0) }
     let(:point_b) { Ryo(y: 10) }

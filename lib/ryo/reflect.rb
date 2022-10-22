@@ -250,6 +250,19 @@ module Ryo::Reflect
   end
 
   ##
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo1
+  #  A Ryo object.
+  #
+  # @param [<Ryo::Object, Ryo::BasicObject>] ryo2
+  #  A Ryo object.
+  #
+  # @return [Boolean]
+  #  Returns true when two Ryo objects are the same object.
+  def equal?(ryo1, ryo2)
+    kernel(:equal?).bind_call(ryo1, ryo2)
+  end
+
+  ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
