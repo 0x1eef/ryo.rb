@@ -73,12 +73,6 @@ its prototype(s). Ryo makes every effort to not mix its implementation
 with the objects it creates -  that's why [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 is not implemented directly on a Ryo object.
 
-When a block is not given,
-[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
-returns an Enumerator that provides access to the methods of Ruby's Enumerable.
-Methods on Enumerable won't return a Ryo object, but often arrays. Ryo addresses
-that with [`Ryo::Enumerable`](https://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html).
-
 A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
