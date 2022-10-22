@@ -47,7 +47,7 @@ module Ryo::Builder
   #
   # @return (see Ryo::Builder.build)
   def self.recursive_build(buildee, props, prototype = nil)
-    if !props.respond_to?(:each) && !props.respond_to?(:each_pair)
+    if eachless?(props)
       raise TypeError, "The provided object does not implement #each / #each_pair"
     elsif !props.respond_to?(:each_pair)
       map(props) do
@@ -65,15 +65,22 @@ module Ryo::Builder
   ##
   # @private
   def self.map_value(buildee, value)
-    if value.respond_to?(:each_pair)
+    if Ryo.ryo?(value) || eachless?(value)
+      value
+    elsif value.respond_to?(:each_pair)
       recursive_build(buildee, value)
     elsif value.respond_to?(:each)
       map(value) { map_value(buildee, _1) }
-    else
-      value
     end
   end
   private_class_method :map_value
+
+  ##
+  # @private
+  def self.eachless?(value)
+    !value.respond_to?(:each) && !value.respond_to?(:each_pair)
+  end
+  private_class_method :eachless?
 
   ##
   # @private

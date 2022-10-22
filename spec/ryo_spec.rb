@@ -4,16 +4,28 @@ require_relative "setup"
 
 RSpec.describe Ryo do
   describe ".from" do
-    context "when given a nested Hash object" do
+    context "when given { key => Hash<Symbol, Integer> }" do
       subject { point.x.to_i }
       let(:point) { Ryo.from({x: {to_i: 4}}) }
       it { is_expected.to eq(4) }
     end
 
     context "when given { key => Array<String> }" do
-      subject { Ryo.from(key: %w(foo bar baz)) }
+      subject { Ryo.from(key: %w[foo bar baz]) }
       it { is_expected.to be_instance_of(Ryo::Object) }
-      it { is_expected.to eq("key" => %w(foo bar baz)) }
+      it { is_expected.to eq("key" => %w[foo bar baz]) }
+    end
+
+    context "when given { key => Array<String, Ryo::BasicObject> }" do
+      subject { Ryo.from(key: ["foo", point]) }
+      let(:point) { Ryo::BasicObject(x: 0, y: 0) }
+      it { is_expected.to be_instance_of(Ryo::Object) }
+      it { is_expected.to eq("key" => ["foo", point]) }
+
+      context "with equal?" do
+        subject { super().key[-1] }
+        it { is_expected.to be(point) }
+      end
     end
 
     context "when given an Array that contains Hash objects" do
