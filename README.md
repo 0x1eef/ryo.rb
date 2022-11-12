@@ -325,7 +325,7 @@ p option.y # => 10
 ## Sources
 
 * [Source code (GitHub)](https://github.com/0x1eef/ryo.rb#readme)
-* [Source code (GitLab)](https://gitlab.com/0x1eef/ryo-rb#about)
+* [Source code (GitLab)](https://gitlab.com/0x1eef/ryo.rb#about)
 
 ## Install
 
