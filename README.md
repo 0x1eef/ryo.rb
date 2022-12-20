@@ -12,6 +12,8 @@ The  [API documentation](https://0x1eef.github.io/x/ryo.rb) is available
 as a complete reference. Ryo is distributed as a RubyGem through its git
 repositories. See [INSTALL](#install) for details.
 
+## Examples
+
 ### Prototypes
 
 #### Point object
@@ -331,7 +333,7 @@ are available as sources.
 
 ### Gemfile
 
-```
+```ruby
 gem "ryo.rb", git: "https://github.com/0x1eef/ryo.rb.git", tag: "v0.3.0"
 ```
 
