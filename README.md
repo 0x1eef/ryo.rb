@@ -65,7 +65,7 @@ p point_c.inspect.call(2)
 The
 [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 method can iterate through the properties of a Ryo object, and
-its prototype(s). Ryo makes a concentrated to not mix its implementation
+its prototype(s). Ryo makes a concentrated effort to not mix its implementation
 with the objects it creates -  that's why
 [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 is not implemented directly on a Ryo object.
