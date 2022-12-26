@@ -62,11 +62,12 @@ p point_c.inspect.call(2)
 
 #### Ryo.each
 
-The following example demonstrates
-[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method) -
-a method that can iterate through the properties of a Ryo object, and
-its prototype(s). Ryo makes every effort to not mix its implementation
-with the objects it creates -  that's why [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
+The
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
+method can iterate through the properties of a Ryo object, and
+its prototype(s). Ryo makes a concentrated to not mix its implementation
+with the objects it creates -  that's why
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 is not implemented directly on a Ryo object.
 
 A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
