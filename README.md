@@ -332,10 +332,10 @@ and
 [GitLab](https://gitlab.com/0x1eef/ryo.rb)
 are available as sources.
 
-### Gemfile
+**Gemfile**
 
 ```ruby
-gem "ryo.rb", git: "https://github.com/0x1eef/ryo.rb.git", tag: "v0.3.0"
+gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.3.0"
 ```
 
 ## Thanks
