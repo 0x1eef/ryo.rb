@@ -8,10 +8,6 @@ other scenarios where prototype-based inheritance can be useful. JavaScript's
 implementation of prototype-based inheritance was a source of inspiration
 and served as a reference point for Ryo's implementation.
 
-The  [API documentation](https://0x1eef.github.io/x/ryo.rb) is available
-as a complete reference. Ryo is distributed as a RubyGem through its git
-repositories. See [INSTALL](#install) for details.
-
 ## Examples
 
 ### Prototypes
