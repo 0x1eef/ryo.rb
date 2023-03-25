@@ -15,9 +15,9 @@ implementation.
 
 #### Point object
 
-The following example demonstrates how prototype-based inheritance works
-in Ryo. The example introduces three objects to form a single point object
-with the properties, "x" and "y". The
+The following example demonstrates how prototype-based inheritance is
+implemented in Ryo. The example introduces three objects to form a
+single point object with the properties, "x" and "y". The
 [Ryo()](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method seen in the example returns an instance of
 [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
@@ -36,10 +36,10 @@ p [point_c.x, point_c.y]
 
 #### Ryo.fn
 
-The following example builds upon the previous example by introducing a Ryo function.
+The following example demonstrates a Ryo function.
 [`Ryo.fn`](https://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html#function-instance_method)
-will bind its `self` to the Ryo object it is assigned to. When the function is called it
-will have access to the properties available through the prototype chain of the Ryo object:
+will bind its `self` to the Ryo object it is assigned to. When the function is
+called it has access to the properties of the Ryo object it has been assigned to:
 
 ```ruby
 require "ryo"
@@ -47,9 +47,9 @@ require "ryo"
 point_a = Ryo(x: 5)
 point_b = Ryo({y: 10}, point_a)
 point_c = Ryo({
-  inspect: Ryo.fn { |m| [x * m, y * m] }
+  multiply: Ryo.fn { |m| [x * m, y * m] }
 }, point_b)
-p point_c.inspect.call(2)
+p point_c.multiply.call(2)
 
 ##
 # [10, 20]
@@ -62,7 +62,7 @@ p point_c.inspect.call(2)
 The
 [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 method can iterate through the properties of a Ryo object, and
-its prototype(s). Ryo makes a concentrated effort to not mix its implementation
+its prototype(s). Ryo is designed to not mix its implementation
 with the objects it creates -  that's why
 [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
 is not implemented directly on a Ryo object.
@@ -84,14 +84,16 @@ end
 
 #### Ryo.map!
 
-A number of [`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html) methods
-can return a new copy of a Ryo object and its prototypes, or mutate a Ryo object and its prototypes
-in-place. The following example demonstrates an in-place map operation on a Ryo object with
+[`Ryo::Enumerable`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html)
+methods can return a new copy of a Ryo object and its prototypes, or mutate
+a Ryo object and its prototypes in-place. The following example demonstrates
+an in-place map operation on a Ryo object with
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method).
 The counterpart of
-[`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method) is
-[`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method), and
-it returns a new copy of a Ryo object and its prototypes.
+[`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method)
+is
+[`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method),
+and it returns a new copy of a Ryo object and its prototypes.
 
 A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
 
@@ -283,18 +285,18 @@ p ryo.then { 34 } # => 34
 
 #### Duck typing
 
-To keep the documentation simple, the objects Ryo works with have been
-described as Hash objects, and Array objects. Technically Ryo makes use of
-duck typing. When a Hash is mentioned that means *any* object that implements
-`#each_pair` - while when an Array is mentioned that means *any* object that
-implements `#each`. The only methods that support Array / `#each` objects are
+The documentation has used simple terms to describe the objects that Ryo works
+with: Hash and Array objects. But actually, Ryo uses duck typing, so any object
+that implements `#each_pair` can be treated as a Hash object, and any object that
+implements `#each` can be treated as an Array object. Note that only
 [Ryo.from](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method),
 [Ryo::Object.from](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html#from-class_method)
 and
-[Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method).
+[Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
+can handle Array/#each objects.
 
-The following example demonstrates how to turn a custom object that implements
-`#each_pair` into a Ryo object:
+Here's an example of how to turn your own custom object, which implements
+`#each_pair`, into a Ryo object:
 
 ``` ruby
 require "ryo"
@@ -337,8 +339,9 @@ gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.3.0"
 
 ## Thanks
 
-Thanks to [@awfulcooking (mooff)](https://github.com/awfulcooking) for the helpful
-discussions and advice that they provided on IRC regarding Ryo.
+Thanks to
+[@awfulcooking (mooff)](https://github.com/awfulcooking)
+for the helpful discussions and advice.
 
 ## License
 
