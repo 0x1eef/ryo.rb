@@ -42,7 +42,7 @@ RSpec.describe Ryo do
       end
 
       context "when given a mix of Hash objects, and other objects" do
-        subject { ary.map { Ryo === _1 ? _1.x.to_i : _1 } }
+        subject { ary.map { (Ryo === _1) ? _1.x.to_i : _1 } }
         let(:ary) { Ryo.from([{x: {to_i: 4}}, "foo"]) }
         it { is_expected.to eq([4, "foo"]) }
       end
@@ -55,7 +55,7 @@ RSpec.describe Ryo do
     end
 
     context "when given an object that implements #each" do
-      subject { ary.map { Ryo === _1 ? _1.x.to_i : _1 } }
+      subject { ary.map { (Ryo === _1) ? _1.x.to_i : _1 } }
       let(:ary) do
         Ryo.from Class.new {
           def each

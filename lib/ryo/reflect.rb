@@ -68,7 +68,7 @@ module Ryo::Reflect
     # Define getter
     return if getter_defined?(ryo, property)
     define_method!(ryo, property) { |*args, &b|
-      args.empty? && b.nil? ? ryo[property] :
+      (args.empty? && b.nil?) ? ryo[property] :
                               super(*args, &b)
     }
     nil

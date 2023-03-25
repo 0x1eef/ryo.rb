@@ -10,12 +10,21 @@ inherit_gem:
   standard: config/base.yml
 
 ##
-# Extra cops
+# Enabled cops
 Style/FrozenStringLiteralComment:
   Enabled: true
 
 ##
-# Disabled cops (rspec-specific)
+# Disabled cops
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Style/LambdaCall:
+  Enabled: false
+Lint/AssignmentInCondition:
+  Enabled: false
+
+##
+# Disabled cops (rspec)
 RSpec/FilePath:
   Enabled: false
 RSpec/NestedGroups:
@@ -38,14 +47,10 @@ Style/NilComparison:
 RSpec/DescribeClass:
   Enabled: false
 
-##
-# Disabled cops (lib-specific)
-Layout/MultilineMethodCallIndentation:
-  Enabled: false
-Style/LambdaCall:
-  Enabled: false
-Lint/AssignmentInCondition:
-  Enabled: false
-
 AllCops:
-  TargetRubyVersion: 2.7
+  Include:
+    - 'lib/*.rb'
+    - 'lib/**/*.rb'
+    - 'spec/*.rb'
+    - 'spec/**/*.rb'
+  TargetRubyVersion: 3.2
