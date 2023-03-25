@@ -104,7 +104,7 @@ point_a = Ryo(x: 2)
 point_b = Ryo({y: 4}, point_a)
 point_c = Ryo({}, point_b)
 
-Ryo.map!(point) { |key, value| value * 2 }
+Ryo.map!(point_c) { |key, value| value * 2 }
 p [point_c.x, point_c.y]
 p [point_a.x, point_b.y]
 
@@ -137,10 +137,10 @@ point_a = Ryo(x: 5)
 point_b = Ryo({y: 10}, point_a)
 point_c = Ryo({z: 15}, point_b)
 
-p Ryo.find(point_c, ancestors: 0) { |k,v| v == 5 } # => nil
-p Ryo.find(point_c, ancestors: 1) { |k,v| v == 5 } # => nil
-p Ryo.find(point_c, ancestors: 2) { |k,v| v == 5 } # => point_a
-p Ryo.find(point_c){ |k,v| v == 5 } # => point_a
+p Ryo.find(point_c, ancestors: 0) { |k,v| v == 5 }   # => nil
+p Ryo.find(point_c, ancestors: 1) { |k,v| v == 5 }   # => nil
+p Ryo.find(point_c, ancestors: 2) { |k,v| v == 5 }.x # => point_a.x
+p Ryo.find(point_c) { |k,v| v == 5 }.x # => point_a.x
 ```
 
 ### Recursion
