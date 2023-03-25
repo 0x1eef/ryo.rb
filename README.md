@@ -39,7 +39,7 @@ p [point_c.x, point_c.y]
 The following example demonstrates a Ryo function.
 [`Ryo.fn`](https://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html#function-instance_method)
 will bind its `self` to the Ryo object it is assigned to. When the function is
-called it has access to the properties of the Ryo object it has been assigned to:
+called it has access to the properties of the Ryo object:
 
 ```ruby
 require "ryo"
