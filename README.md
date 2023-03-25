@@ -2,12 +2,12 @@
 
 Ryo implements prototype-based inheritance, in Ruby.
 
-Ryo can be helpful for establishing relationships between objects,
-for acting as a _recursive_ OpenStruct replacement, for building
-configuration objects, and for a number of other scenarios where
-prototype-based inheritance can prove useful. JavaScript's implementation
-of prototype-based inheritance served as a reference point for Ryo's
-implementation.
+Ryo's implementation of prototype-based inheritance offers
+a flexible approach for establishing object relationships,
+building configuration objects and it can be used as a
+recursive OpenStruct alternative. JavaScript's implementation of
+prototype-based inheritance served as a reference point
+for Ryo's implementation.
 
 ## Examples
 
@@ -38,8 +38,8 @@ p [point_c.x, point_c.y]
 
 The following example demonstrates a Ryo function.
 [`Ryo.fn`](https://0x1eef.github.io/x/ryo.rb/Ryo/Keywords.html#function-instance_method)
-will bind its `self` to the Ryo object it is assigned to. When the function is
-called it has access to the properties of the Ryo object:
+will bind its `self` to the Ryo object it is assigned to, and when the function
+is called it will have access to the properties of the Ryo object:
 
 ```ruby
 require "ryo"
@@ -150,11 +150,9 @@ p Ryo.find(point_c) { |k,v| v == 5 }.x # => point_a.x
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
 the same interface as the [`Ryo`](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
-from any nested Hash objects that it finds along the way.
-
-The reason recursion is not default behavior is that it has the potential to
-be a slow operation when given a complex Hash object that's potentially very large -
-otherwise there shouldn't be a noticeable performance impact.
+from other Hash objects found along the way. Recursion is not the default behavior
+because it has the potential to be slow when given a complex Hash object that's
+very large - otherwise there shouldn't be a noticeable performance impact.
 
 The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
@@ -174,7 +172,7 @@ p [point.x.to_i, point.y.to_i]
 #### Ryo.from with an Array
 
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method can
-walk an Array object, and create Ryo objects from Hash objects that it finds along the way.
+walk an Array object, and create Ryo objects from Hash objects found along the way.
 An object that can't be turned into a Ryo object is left as-is. The following
 example demonstrates how that works in practice:
 
@@ -227,7 +225,7 @@ All of the previous examples have been working with instances of
 [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html),
 a subclass of Ruby's Object class. In comparison, [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html) -
 a subclass of Ruby's BasicObject class, provides an object
-with very few methods. The following example demonstrates
+with fewer methods. The following example demonstrates
 how to create an instance of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html):
 
 ```ruby
