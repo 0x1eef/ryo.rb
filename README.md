@@ -4,7 +4,7 @@ Ryo implements prototype-based inheritance, in Ruby.
 
 Ryo's implementation of prototype-based inheritance offers
 a flexible approach for establishing object relationships,
-building configuration objects and it can be used as a
+and building configuration objects. Ryo can also act as a
 recursive OpenStruct alternative. JavaScript's implementation of
 prototype-based inheritance served as a reference point
 for Ryo's implementation.
