@@ -71,4 +71,9 @@ RSpec.describe "README.md examples" do
     let(:file) { "6_beyond_hash_objects.rb" }
     it { is_expected.to eq("5\n10") }
   end
+
+  context "when given 7_ryo_lazy.rb" do
+    let(:file) { "7_ryo_lazy.rb" }
+    it { is_expected.to eq("point.x = 5\npoint.y = 10\npoint.sum = 15")}
+  end
 end
