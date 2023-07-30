@@ -236,6 +236,17 @@ module Ryo::Reflect
   end
 
   ##
+  # @param [Ryo::Function, Object, BasicObject] obj
+  #  An object.
+  #
+  # @return [Boolean]
+  #  Returns true when the given object is an instance
+  #  of {Ryo::Lazy Ryo::Lazy}.
+  def lazy?(obj)
+    Ryo::Lazy === obj
+  end
+
+  ##
   # @example
   #  Ryo.ryo?(Ryo::Object(x: 5, y: 12))       # => true
   #  Ryo.ryo?(Ryo::BasicObject(x: 10, y: 20)) # => true

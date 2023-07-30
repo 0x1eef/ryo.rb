@@ -21,6 +21,7 @@ module Ryo
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
   require_relative "ryo/function"
+  require_relative "ryo/lazy"
   require_relative "ryo/enumerable"
 
   extend Ryo::Reflect
@@ -60,6 +61,18 @@ module Ryo
   end
 
   ##
+  # Creates a lazy Ryo value.
+  #
+  # @param [Proc] &b
+  #  A proc that is evaluated when a property is first accessed.
+  #
+  # @return [Ryo::Lazy]
+  #  Returns an instance of {Ryo::Lazy Ryo::Lazy}.
+  def self.lazy(&b)
+    Ryo::Lazy.new(&b)
+  end
+
+  ##
   # Creates a Ryo object by recursively walking a Hash object.
   #
   # @param props (see Ryo::Builder.build)
@@ -93,7 +106,8 @@ module Ryo
   def [](property)
     property = property.to_s
     if Ryo.property?(self, property)
-      @_table[property]
+      v = @_table[property]
+      Ryo.lazy?(v) ? self[property] = v.call : v
     else
       return unless @_proto
       Ryo.call_method(@_proto, property)
