@@ -12,21 +12,29 @@ module Ryo::Builder
   # @param [<Ryo::Object, Ryo::BasicObject>] buildee
   #  The class of the object to build.
   #
-  # @param [<Hash, #each_pair>] props
-  #  A Hash object, or an object that implements "#each_pair" and yields a key-value pair.
+  # @param [<Hash, Ryo::Object, Ryo::BasicObject, #each_pair>] props
+  #  A Hash object, an object that implements "#each_pair", or a Ryo object.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>, nil] prototype
   #  The prototype, or nil for none.
   #
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object.
+  #
+  # @note
+  #  When "props" is given as a Ryo object, a duplicate Ryo object is
+  #  returned in its place.
   def self.build(buildee, props, prototype = nil)
-    ryo = buildee.new
-    Ryo.set_prototype_of(ryo, prototype)
-    Ryo.set_table_of(ryo, {})
-    Ryo.extend!(ryo, Ryo)
-    props.each_pair { ryo[_1] = _2 }
-    ryo
+    if Ryo.ryo?(props)
+      build(builedee, Ryo.table_of(props), Ryo.prototype_of(props))
+    else
+      ryo = buildee.new
+      Ryo.set_prototype_of(ryo, prototype)
+      Ryo.set_table_of(ryo, {})
+      Ryo.extend!(ryo, Ryo)
+      props.each_pair { ryo[_1] = _2 }
+      ryo
+    end
   end
 
   ##
@@ -40,14 +48,20 @@ module Ryo::Builder
   #
   # @param buildee (see Ryo::Builder.build)
   #
-  # @param [<Hash, #each<Hash, #each_pair>, #each_pair>] props
-  #   An object that implements "#each_pair", or an array of objects that implement "#each_pair".
+  # @param [<Hash, Ryo::Object, Ryo::BasicObject, Array, #each_pair, #each> ] props
+  #   A Hash object, a Ryo object, or an array composed of either Hash / Ryo objects.
   #
   # @param prototype (see Ryo::Builder.build)
   #
   # @return (see Ryo::Builder.build)
+  #
+  # @note
+  #  When "props" is given as a Ryo object, a duplicate Ryo object is
+  #  returned in its place.
   def self.recursive_build(buildee, props, prototype = nil)
-    if eachless?(props)
+    if Ryo.ryo?(props)
+      recursive_build(buildee, Ryo.table_of(props), Ryo.prototype_of(props))
+    elsif eachless?(props)
       raise TypeError, "The provided object does not implement #each / #each_pair"
     elsif !props.respond_to?(:each_pair)
       map(props) do

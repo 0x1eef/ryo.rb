@@ -4,6 +4,12 @@ require_relative "setup"
 
 RSpec.describe Ryo do
   describe ".from" do
+    context "when given an instance of Ryo::Object" do
+      subject { Ryo.from(point) }
+      let(:point) { Ryo(x: 5, y: 10) }
+      it { is_expected.to eq(point) }
+    end
+
     context "when given { key => Hash<Symbol, Integer> }" do
       subject { point.x.to_i }
       let(:point) { Ryo.from({x: {to_i: 4}}) }
