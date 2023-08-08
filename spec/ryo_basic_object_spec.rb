@@ -24,6 +24,12 @@ RSpec.describe Ryo::BasicObject do
   end
 
   describe ".from" do
+    context "when given an instance of Ryo::BasicObject" do
+      subject { Ryo.from(point) }
+      let(:point) { Ryo::BasicObject(x: 5, y: 10) }
+      it { is_expected.to eq(point) }
+    end
+
     context "when given nested Hash objects" do
       subject { point.x.to_i }
       let(:point) { Ryo::BasicObject.from({x: {to_i: 4}}) }
