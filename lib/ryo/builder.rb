@@ -26,7 +26,7 @@ module Ryo::Builder
   #  returned in its place.
   def self.build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
-      build(builedee, Ryo.table_of(props), Ryo.prototype_of(props))
+      build(builedee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
     else
       ryo = buildee.new
       Ryo.set_prototype_of(ryo, prototype)
@@ -60,7 +60,7 @@ module Ryo::Builder
   #  returned in its place.
   def self.recursive_build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
-      recursive_build(buildee, Ryo.table_of(props), Ryo.prototype_of(props))
+      recursive_build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
     elsif eachless?(props)
       raise TypeError, "The provided object does not implement #each / #each_pair"
     elsif !props.respond_to?(:each_pair)
