@@ -3,12 +3,12 @@
 require_relative "setup"
 require "ryo"
 
-point_a = Ryo(x: 5)
-point_b = Ryo({y: 10}, point_a)
-point_c = Ryo({
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({
   multiply: Ryo.fn { |m| [x * m, y * m] }
-}, point_b)
-p point_c.multiply.call(2)
+}, point_y)
+p point.multiply.call(2)
 
 ##
 # [10, 20]

@@ -25,10 +25,10 @@ method seen in the example returns an instance of
 ```ruby
 require "ryo"
 
-point_a = Ryo(x: 5)
-point_b = Ryo({y: 10}, point_a)
-point_c = Ryo({}, point_b)
-p [point_c.x, point_c.y]
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({}, point_y)
+p [point.x, point.y]
 
 ##
 # [5, 10]
@@ -44,12 +44,12 @@ is called it will have access to the properties of the Ryo object:
 ```ruby
 require "ryo"
 
-point_a = Ryo(x: 5)
-point_b = Ryo({y: 10}, point_a)
-point_c = Ryo({
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({
   multiply: Ryo.fn { |m| [x * m, y * m] }
-}, point_b)
-p point_c.multiply.call(2)
+}, point_y)
+p point.multiply.call(2)
 
 ##
 # [10, 20]
@@ -67,9 +67,9 @@ first time the lazy value is replaced by the evaluated value:
 ```ruby
 require "ryo"
 
-point_a = Ryo(x: Ryo.lazy { 5 })
-point_b = Ryo({y: Ryo.lazy { 10 }}, point_a)
-point = Ryo({sum: Ryo.lazy { x + y }}, point_b)
+point_x = Ryo(x: Ryo.lazy { 5 })
+point_y = Ryo({y: Ryo.lazy { 10 }}, point_x)
+point = Ryo({sum: Ryo.lazy { x + y }}, point_y)
 print "point.x = ", point.x, "\n"
 print "point.y = ", point.y, "\n"
 print "point.sum = ", point.sum, "\n"
@@ -126,13 +126,13 @@ A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.
 ```ruby
 require "ryo"
 
-point_a = Ryo(x: 2)
-point_b = Ryo({y: 4}, point_a)
-point_c = Ryo({}, point_b)
+point_x = Ryo(x: 2)
+point_y = Ryo({y: 4}, point_x)
+point = Ryo({}, point_y)
 
-Ryo.map!(point_c) { |key, value| value * 2 }
-p [point_c.x, point_c.y]
-p [point_a.x, point_b.y]
+Ryo.map!(point) { |key, value| value * 2 }
+p [point.x, point.y]
+p [point_x.x, point_y.y]
 
 ##
 # [4, 8]
@@ -159,14 +159,14 @@ demonstrates using the `ancestors` option with
 ```ruby
 require "ryo"
 
-point_a = Ryo(x: 5)
-point_b = Ryo({y: 10}, point_a)
-point_c = Ryo({z: 15}, point_b)
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({}, point_y)
 
-p Ryo.find(point_c, ancestors: 0) { |k,v| v == 5 }   # => nil
-p Ryo.find(point_c, ancestors: 1) { |k,v| v == 5 }   # => nil
-p Ryo.find(point_c, ancestors: 2) { |k,v| v == 5 }.x # => point_a.x
-p Ryo.find(point_c) { |k,v| v == 5 }.x # => point_a.x
+p Ryo.find(point, ancestors: 0) { |k,v| v == 5 }   # => nil
+p Ryo.find(point, ancestors: 1) { |k,v| v == 5 }   # => nil
+p Ryo.find(point, ancestors: 2) { |k,v| v == 5 }.x # => point_x.x
+p Ryo.find(point) { |k,v| v == 5 }.x # => point_x.x
 ```
 
 ### Recursion
@@ -257,10 +257,10 @@ how to create an instance of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.r
 ```ruby
 require "ryo"
 
-point_a = Ryo::BasicObject(x: 0)
-point_b = Ryo::BasicObject({y: 0}, point_a)
-point_c = Ryo::BasicObject({}, point_b)
-p [point_c.x, point_c.y]
+point_x = Ryo::BasicObject(x: 0)
+point_y = Ryo::BasicObject({y: 0}, point_x)
+point = Ryo::BasicObject({}, point_y)
+p [point.x, point.y]
 
 ##
 # [0, 0]
@@ -337,9 +337,9 @@ class Point
   end
 end
 
-option = Ryo(Point.new)
-p option.x # => 5
-p option.y # => 10
+point = Ryo(Point.new)
+p point.x # => 5
+p point.y # => 10
 ```
 
 ## Sources
