@@ -358,7 +358,7 @@ are available as sources.
 **Gemfile**
 
 ```ruby
-gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.3"
+gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.4"
 ```
 
 ## Thanks
