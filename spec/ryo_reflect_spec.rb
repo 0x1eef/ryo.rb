@@ -141,4 +141,27 @@ RSpec.describe Ryo::Reflect do
       it { is_expected.to be(point_a) }
     end
   end
+
+  describe ".table_of" do
+    subject(:table) { Ryo.table_of(ryo, recursive:) }
+
+    context "without recursion" do
+      let(:recursive) { false }
+      context "when given a Ryo object" do
+        let(:ryo) { Ryo(x: 1, y:1) }
+        it { is_expected.to be_instance_of(Hash) }
+        it { is_expected.to eq("x" => 1, "y" => 1) }
+      end
+    end
+
+    context "with recursion" do
+      let(:recursive) { true }
+      context "when a Ryo object nests another Ryo object" do
+        let(:ryo) { Ryo(point: Ryo(x: 1, y: 1)) }
+        it { expect(table).to be_instance_of(Hash) }
+        it { expect(table["point"]).to be_instance_of(Hash) }
+        it { is_expected.to eq("point" => {"x" => 1, "y" => 1}) }
+      end
+    end
+  end
 end
