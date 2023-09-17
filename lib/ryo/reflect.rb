@@ -168,15 +168,25 @@ module Ryo::Reflect
   end
 
   ##
-  #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object.
   #
+  # @param [Boolean] recursive
+  #  When true, nested Ryo objects are replaced by
+  #  their table as well.
+  #
   # @return [Hash]
   #  Returns the table of a Ryo object.
-  def table_of(ryo)
-    kernel(:instance_variable_get)
-      .bind_call(ryo, :@_table)
+  def table_of(ryo, recursive: false)
+    table = kernel(:instance_variable_get).bind_call(ryo, :@_table)
+    if recursive
+      table.each do |key, value|
+        if ryo?(value)
+          table[key] = table_of(value)
+        end
+      end
+    end
+    table
   end
 
   ##
