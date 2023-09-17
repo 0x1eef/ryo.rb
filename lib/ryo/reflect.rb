@@ -182,7 +182,7 @@ module Ryo::Reflect
     if recursive
       table.each do |key, value|
         if ryo?(value)
-          table[key] = table_of(value)
+          table[key] = table_of(value, recursive:)
         end
       end
     end

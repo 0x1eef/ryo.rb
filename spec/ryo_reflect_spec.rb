@@ -162,6 +162,14 @@ RSpec.describe Ryo::Reflect do
         it { expect(table["point"]).to be_instance_of(Hash) }
         it { is_expected.to eq("point" => {"x" => 1, "y" => 1}) }
       end
+
+      context "when a Ryo object has a nest depth of two" do
+        let(:ryo) { Ryo(point: Ryo(point: Ryo(x: 1, y: 1))) }
+        it { expect(table).to be_instance_of(Hash) }
+        it { expect(table["point"]).to be_instance_of(Hash) }
+        it { expect(table["point"]["point"]).to be_instance_of(Hash) }
+        it { is_expected.to eq("point" => {"point" => {"x" => 1, "y" => 1}}) }
+      end
     end
   end
 end
