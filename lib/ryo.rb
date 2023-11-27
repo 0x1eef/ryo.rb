@@ -63,7 +63,7 @@ module Ryo
   ##
   # Creates a lazy Ryo value.
   #
-  # @param [Proc] &b
+  # @param [Proc] b
   #  A proc that is evaluated when a property is first accessed.
   #
   # @return [Ryo::Lazy]

@@ -32,7 +32,7 @@ class Ryo::Object
   ##
   # Duplicates the internals of a Ryo object.
   #
-  # @param [Ryo::Object]
+  # @param [Ryo::Object] ryo
   #  A Ryo object.
   #
   # @return [Ryo::Object]

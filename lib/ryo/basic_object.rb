@@ -32,7 +32,7 @@ class Ryo::BasicObject < BasicObject
   ##
   # Duplicates the internals of a Ryo object.
   #
-  # @param [Ryo::BasicObject]
+  # @param [Ryo::BasicObject] ryo
   #  A Ryo object.
   #
   # @return [Ryo::BasicObject]
