@@ -349,11 +349,24 @@ p point.y # => 10
 
 ## <a id='install'>Install</a>
 
+**Git**
+
 Ryo is distributed as a RubyGem through its git repositories. <br>
 [GitHub](https://github.com/0x1eef/ryo.rb),
 and
 [GitLab](https://gitlab.com/0x1eef/ryo.rb)
 are available as sources.
+
+```ruby
+# Gemfile
+gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.5"
+```
+
+**Rubygems.org**
+
+Ryo can also be installed via rubygems.org.
+
+    gem install ryo.rb
 
 ## Thanks
 
