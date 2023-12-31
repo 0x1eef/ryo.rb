@@ -376,5 +376,7 @@ for the helpful discussions and advice.
 
 ## License
 
-This project is released under the terms of the MIT license. <br>
-See [./LICENSE.txt](./LICENSE.txt) for details.
+[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/).
+<br>
+See [LICENSE](./LICENSE).
+
