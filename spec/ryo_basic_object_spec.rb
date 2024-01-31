@@ -57,4 +57,12 @@ RSpec.describe Ryo::BasicObject do
       end
     end
   end
+
+  describe "#to_h" do
+    subject(:h) { car.to_h }
+    let(:car) { Ryo.from(name: "ford", wheels: {quantity: 4}) }
+    it { expect(h).to be_instance_of(Hash) }
+    it { expect(h["wheels"]).to be_instance_of(Hash) }
+    it { expect(h).to eq({"name" => "ford", "wheels" => {"quantity" => 4}}) }
+  end
 end

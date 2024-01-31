@@ -153,6 +153,13 @@ module Ryo
   end
 
   ##
+  # @return [Hash]
+  #  Returns the hash table used by a Ryo object.
+  def to_h
+    Ryo.table_of(self, recursive: true)
+  end
+
+  ##
   # @private
   def pretty_print(q)
     q.text(inspect)

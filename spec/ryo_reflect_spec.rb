@@ -148,7 +148,7 @@ RSpec.describe Ryo::Reflect do
     context "without recursion" do
       let(:recursive) { false }
       context "when given a Ryo object" do
-        let(:ryo) { Ryo(x: 1, y:1) }
+        let(:ryo) { Ryo(x: 1, y: 1) }
         it { is_expected.to be_instance_of(Hash) }
         it { is_expected.to eq("x" => 1, "y" => 1) }
       end
