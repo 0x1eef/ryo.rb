@@ -158,6 +158,7 @@ module Ryo
   def to_h
     Ryo.table_of(self, recursive: true)
   end
+  alias_method :to_hash, :to_h
 
   ##
   # @private

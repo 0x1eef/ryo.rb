@@ -64,5 +64,12 @@ RSpec.describe Ryo::BasicObject do
     it { expect(h).to be_instance_of(Hash) }
     it { expect(h["wheels"]).to be_instance_of(Hash) }
     it { expect(h).to eq({"name" => "ford", "wheels" => {"quantity" => 4}}) }
+
+    context "when given to Hash#merge" do
+      let(:car) { Ryo(name: "ford") }
+      subject { {}.merge(car) }
+      it { is_expected.to be_instance_of(Hash) }
+      it { is_expected.to eq({"name" => "ford"})}
+    end
   end
 end
