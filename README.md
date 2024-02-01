@@ -359,7 +359,7 @@ are available as sources.
 
 ```ruby
 # Gemfile
-gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.5"
+gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.6"
 ```
 
 **Rubygems.org**
