@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class Ryo::Lazy < Ryo::Function
+class Ryo::Memo < Ryo::Function
 end

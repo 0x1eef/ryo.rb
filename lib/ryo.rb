@@ -61,15 +61,18 @@ module Ryo
   end
 
   ##
-  # Creates a lazy Ryo value.
+  # Creates a memoized Ryo value.
   #
   # @param [Proc] b
-  #  A proc that is evaluated when a property is first accessed.
+  #  A Proc that is memoized after being accessed for the first time.
   #
-  # @return [Ryo::Lazy]
-  #  Returns an instance of {Ryo::Lazy Ryo::Lazy}.
-  def self.lazy(&b)
-    Ryo::Lazy.new(&b)
+  # @return [Ryo::Memo]
+  #  Returns an instance of {Ryo::Memo Ryo::Memo}.
+  def self.memo(&b)
+    Ryo::Memo.new(&b)
+  end
+  class << Ryo
+    alias_method :lazy, :memo
   end
 
   ##

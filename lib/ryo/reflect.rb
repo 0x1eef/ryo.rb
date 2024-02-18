@@ -251,10 +251,11 @@ module Ryo::Reflect
   #
   # @return [Boolean]
   #  Returns true when the given object is an instance
-  #  of {Ryo::Lazy Ryo::Lazy}.
-  def lazy?(obj)
-    Ryo::Lazy === obj
+  #  of {Ryo::Memo Ryo::Memo}.
+  def memo?(obj)
+    Ryo::Memo === obj
   end
+  alias_method :lazy?, :memo?
 
   ##
   # @example

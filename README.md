@@ -55,21 +55,19 @@ p point.multiply.call(2)
 # [10, 20]
 ```
 
-#### Ryo.lazy
+#### Ryo.memo
 
-The following example demonstrates a lazy Ryo value.
-[`Ryo.lazy`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#lazy-class_method)
-creates a lazy value that is not evaluated until a property is accessed
-for the first time. It is similar to a Ryo function but it does not require
-that the `#call` method be used, and after the property is accessed for the
-first time the lazy value is replaced by the evaluated value:
+The following example demonstrates
+[`Ryo.memo`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#memo-class_method).
+`Ryo.memo` returns a value that becomes memoized after a property is
+accessed for the first time. It is similar to a Ryo function:
 
 ```ruby
 require "ryo"
 
-point_x = Ryo(x: Ryo.lazy { 5 })
-point_y = Ryo({y: Ryo.lazy { 10 }}, point_x)
-point = Ryo({sum: Ryo.lazy { x + y }}, point_y)
+point_x = Ryo(x: Ryo.memo { 5 })
+point_y = Ryo({y: Ryo.memo { 10 }}, point_x)
+point = Ryo({sum: Ryo.memo { x + y }}, point_y)
 print "point.x = ", point.x, "\n"
 print "point.y = ", point.y, "\n"
 print "point.sum = ", point.sum, "\n"
