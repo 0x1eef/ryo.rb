@@ -127,4 +127,15 @@ RSpec.describe Ryo do
       it { is_expected.to eq(true) }
     end
   end
+
+  describe ".memo" do
+    let(:point) do
+      Ryo(x: Ryo.memo { "5".dup }, y: Ryo.memo { "10".dup })
+    end
+
+    it "memoizes" do
+      expect(point.x).to equal(point.x)
+      expect(point.y).to equal(point.y)
+    end
+  end
 end
