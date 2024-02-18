@@ -133,7 +133,12 @@ RSpec.describe Ryo do
       Ryo(x: Ryo.memo { "5".dup }, y: Ryo.memo { "10".dup })
     end
 
-    it "memoizes" do
+    it "returns a value" do
+      expect(point.x).to eq("5")
+      expect(point.y).to eq("10")
+    end
+
+    it "memoizes a value" do
       expect(point.x).to equal(point.x)
       expect(point.y).to equal(point.y)
     end
