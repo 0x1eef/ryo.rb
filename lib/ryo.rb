@@ -21,7 +21,7 @@ module Ryo
   require_relative "ryo/basic_object"
   require_relative "ryo/object"
   require_relative "ryo/function"
-  require_relative "ryo/lazy"
+  require_relative "ryo/memo"
   require_relative "ryo/enumerable"
 
   extend Ryo::Reflect
@@ -110,7 +110,7 @@ module Ryo
     property = property.to_s
     if Ryo.property?(self, property)
       v = @_table[property]
-      Ryo.lazy?(v) ? self[property] = v.call : v
+      Ryo.memo?(v) ? self[property] = v.call : v
     else
       return unless @_proto
       Ryo.call_method(@_proto, property)
