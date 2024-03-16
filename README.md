@@ -2,13 +2,6 @@
 
 Ryo implements prototype-based inheritance, in Ruby.
 
-Ryo's implementation of prototype-based inheritance offers
-a flexible approach for establishing object relationships,
-and building configuration objects. Ryo can also act as a
-recursive OpenStruct alternative. JavaScript's implementation of
-prototype-based inheritance served as a reference point
-for Ryo's implementation.
-
 ## Examples
 
 ### Prototypes
@@ -340,31 +333,18 @@ p point.x # => 5
 p point.y # => 10
 ```
 
-## Sources
-
-* [Source code (GitHub)](https://github.com/0x1eef/ryo.rb#readme)
-* [Source code (GitLab)](https://gitlab.com/0x1eef/ryo.rb#about)
-
 ## <a id='install'>Install</a>
-
-**Git**
-
-Ryo is distributed as a RubyGem through its git repositories. <br>
-[GitHub](https://github.com/0x1eef/ryo.rb),
-and
-[GitLab](https://gitlab.com/0x1eef/ryo.rb)
-are available as sources.
-
-```ruby
-# Gemfile
-gem "ryo.rb", github: "0x1eef/ryo.rb", tag: "v0.4.7"
-```
 
 **Rubygems.org**
 
-Ryo can also be installed via rubygems.org.
+Ryo can be installed via rubygems.org.
 
     gem install ryo.rb
+
+## Sources
+
+* [GitHub](https://github.com/0x1eef/ryo.rb#readme)
+* [GitLab](https://gitlab.com/0x1eef/ryo.rb#about)
 
 ## Thanks
 
