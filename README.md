@@ -333,11 +333,11 @@ p point.x # => 5
 p point.y # => 10
 ```
 
-## <a id='install'>Install</a>
+## Install
 
 **Rubygems.org**
 
-Ryo can be installed via rubygems.org.
+Ryo can be installed via rubygems.org:
 
     gem install ryo.rb
 
@@ -350,11 +350,10 @@ Ryo can be installed via rubygems.org.
 
 Thanks to
 [@awfulcooking (mooff)](https://github.com/awfulcooking)
-for the helpful discussions and advice.
+for the helpful discussions, ideas, and advice
 
 ## License
 
-[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/).
+[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/)
 <br>
-See [LICENSE](./LICENSE).
-
+See [LICENSE](./LICENSE)
