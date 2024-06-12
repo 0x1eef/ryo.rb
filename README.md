@@ -333,9 +333,12 @@ p point.x # => 5
 p point.y # => 10
 ```
 
-## Install
+## Documentation
 
-**Rubygems.org**
+A complete API reference is available at
+[0x1eef.github.io/x/ryo.rb](https://0x1eef.github.io/x/ryo.rb)
+
+## Install
 
 Ryo can be installed via rubygems.org:
 
