@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # The {Ryo::JSON Ryo::JSON} module provides a number of methods
 # for coercing JSON data into a Ryo object. It must be required

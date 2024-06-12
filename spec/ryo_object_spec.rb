@@ -5,6 +5,15 @@ require_relative "setup"
 RSpec.describe "Ryo objects" do
   let(:car) { Ryo(name: "Car") }
 
+  describe "Kernel#Ryo" do
+    context "when given a Ryo object" do
+      subject { Ryo(ryo) }
+      let(:ryo) { Ryo(name: "Car") }
+
+      it { is_expected.to be_instance_of(Ryo::Object) }
+    end
+  end
+
   describe "#respond_to?" do
     context "when a property is defined" do
       subject { car.respond_to?(:name) }

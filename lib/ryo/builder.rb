@@ -26,7 +26,7 @@ module Ryo::Builder
   #  returned in its place.
   def self.build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
-      build(builedee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
+      build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
     else
       ryo = buildee.new
       Ryo.set_prototype_of(ryo, prototype)
