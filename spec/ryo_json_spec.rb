@@ -6,7 +6,7 @@ require "fileutils"
 
 RSpec.describe Ryo::JSON do
   describe ".from_json_file" do
-    subject(:ryo) { described_class.from_json_file(path, object:) }
+    subject(:ryo) { described_class.from_json(path:, object:) }
     before { File.binwrite path, JSON.dump(x: 20, y: 40) }
     after { FileUtils.rm(path) }
     let(:path) { File.join(__dir__, "test.json") }
