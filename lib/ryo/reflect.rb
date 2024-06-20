@@ -220,9 +220,9 @@ module Ryo::Reflect
   #
   # @return [::Object, ::BasicObject]
   #  Returns the return value of the method call.
-  def call_method(ryo, method, *args, &b)
+  def call_method(ryo, method, *, &b)
     kernel(:__send__)
-      .bind_call(ryo, method, *args, &b)
+      .bind_call(ryo, method, *, &b)
   end
 
   ##
