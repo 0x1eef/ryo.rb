@@ -353,7 +353,7 @@ Ryo can be installed via rubygems.org:
 
 Thanks to
 [@awfulcooking (mooff)](https://github.com/awfulcooking)
-for the helpful discussions, ideas, and advice
+for the helpful discussions
 
 ## License
 
