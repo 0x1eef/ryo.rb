@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 require_relative "setup"
-require "ryo/json"
+require "ryo/yaml"
 require "fileutils"
 
-RSpec.describe Ryo::JSON do
-  describe ".from_json" do
+RSpec.describe Ryo::YAML do
+  describe ".from_yaml" do
     context "with a path" do
-      subject(:ryo) { described_class.from_json(path:, object:) }
-      before { File.binwrite path, JSON.dump(x: 20, y: 40) }
+      subject(:ryo) { described_class.from_yaml(path:, object:) }
+      before { File.binwrite path, YAML.dump(x: 20, y: 40) }
       after { FileUtils.rm(path) }
-      let(:path) { File.join(__dir__, "test.json") }
+      let(:path) { File.join(__dir__, "test.yaml") }
 
       context "with Ryo::Object" do
         let(:object) { Ryo::Object }
@@ -26,7 +26,7 @@ RSpec.describe Ryo::JSON do
     end
 
     context "with a string" do
-      subject(:ryo) { described_class.from_json(string: "{\"x\": 20, \"y\": 40}", object:) }
+      subject(:ryo) { described_class.from_yaml(string: "---\nx: 20\ny: 40\n", object:) }
 
       context "with Ryo::Object" do
         let(:object) { Ryo::Object }
