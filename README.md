@@ -301,17 +301,16 @@ p ryo.then { 34 } # => 34
 #### Duck typing
 
 The documentation has used simple terms to describe the objects that Ryo works
-with: Hash and Array objects. But in reality, Ryo uses duck typing, so any object
-that implements `#each_pair` can be treated as a Hash object, and any object that
-implements `#each` can be treated as an Array object. Note that only
+with: Hash and Array objects. But that doesn't quite capture the fact that Ryo
+uses duck typing: any object that implements `#each_pair` is similar to a Hash,
+and any object that implements `#each` is similar to an Array. Note that only
 [Ryo.from](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method),
 [Ryo::Object.from](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html#from-class_method)
 and
 [Ryo::BasicObject.from](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html#from-class_method)
-can handle Array/#each objects.
+can handle Array-like objects.
 
-Here's an example of how to turn your own custom object, which implements
-`#each_pair`, into a Ryo object:
+The following example implements `#each_pair`:
 
 ``` ruby
 require "ryo"
