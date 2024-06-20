@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.description = "Ryo implements prototype-based inheritance, in Ruby"
   gem.summary = gem.description
+  gem.required_ruby_version = ">= 3.2"
   gem.add_development_dependency "yard", "~> 0.9"
   gem.add_development_dependency "redcarpet", "~> 3.5"
   gem.add_development_dependency "rspec", "~> 3.10"

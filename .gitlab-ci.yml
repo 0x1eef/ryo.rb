@@ -1,9 +1,0 @@
-stages:
-  - test
-
-test-ruby32:
-  stage: test
-  image: ruby:3.2.1
-  script:
-    - bundle install
-    - bundle exec rspec spec/
