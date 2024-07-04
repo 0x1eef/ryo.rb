@@ -68,26 +68,27 @@ module Ryo::Builder
     end
   end
 
-  def self.map_value(buildee, value)
-    if Ryo.ryo?(value) || eachless?(value)
-      value
-    elsif value.respond_to?(:each_pair)
-      recursive_build(buildee, value)
-    elsif value.respond_to?(:each)
-      map(value) { map_value(buildee, _1) }
+  module Private
+    def map_value(buildee, value)
+      if Ryo.ryo?(value) || eachless?(value)
+        value
+      elsif value.respond_to?(:each_pair)
+        recursive_build(buildee, value)
+      elsif value.respond_to?(:each)
+        map(value) { map_value(buildee, _1) }
+      end
+    end
+
+    def respond_to_each?(value)
+      value.respond_to?(:each) && value.respond_to?(:each_pair)
+    end
+
+    def map(obj)
+      ary = []
+      obj.each { ary.push(yield(_1)) }
+      ary
     end
   end
-  private_class_method :map_value
-
-  def self.respond_to_each?(value)
-    value.respond_to?(:each) && value.respond_to?(:each_pair)
-  end
-  private_class_method :respond_to_each?
-
-  def self.map(obj)
-    ary = []
-    obj.each { ary.push(yield(_1)) }
-    ary
-  end
-  private_class_method :map
+  private_constant :Private
+  extend Private
 end
