@@ -10,19 +10,17 @@ class Ryo::Object
   ##
   # @param props (see Ryo::Builder.build)
   # @param prototype (see Ryo::Builder.build)
-  #
   # @return [Ryo::Object]
-  #  Returns an instance of {Ryo::Object Ryo::Object}.
+  #  Returns an instance of {Ryo::Object Ryo::Object}
   def self.create(props, prototype = nil)
     Ryo::Builder.build(self, props, prototype)
   end
 
   ##
-  # Creates a Ryo object by recursively walking a Hash object.
+  # Creates a Ryo object by recursively walking a Hash object
   #
   # @param props (see Ryo::Builder.recursive_build)
   # @param prototype (see Ryo::Builder.recursive_build)
-  #
   # @return [Ryo::Object]
   #  Returns an instance of {Ryo::Object Ryo::Object}.
   def self.from(props, prototype = nil)
@@ -30,13 +28,12 @@ class Ryo::Object
   end
 
   ##
-  # Duplicates the internals of a Ryo object.
+  # Duplicates the internals of a Ryo object
   #
   # @param [Ryo::Object] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [Ryo::Object]
-  #  Returns a Ryo object.
+  #  Returns a Ryo object
   def initialize_dup(ryo)
     Ryo.set_table_of(self, Ryo.table_of(ryo).dup)
     Ryo.extend!(self, Ryo)
@@ -50,9 +47,8 @@ end
 #
 # @param props (see Ryo::Builder.build)
 # @param prototype (see Ryo::Builder.build)
-#
 # @return [Ryo::Object]
-#   Returns an instance of {Ryo::Object Ryo::Object}.
+#   Returns an instance of {Ryo::Object Ryo::Object}
 def Ryo.Object(props, prototype = nil)
   Ryo::Object.create(props, prototype)
 end

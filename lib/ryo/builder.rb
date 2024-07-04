@@ -10,20 +10,16 @@
 module Ryo::Builder
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] buildee
-  #  The class of the object to build.
-  #
-  # @param [<Hash, Ryo::Object, Ryo::BasicObject, #each_pair>] props
-  #  A Hash object, an object that implements "#each_pair", or a Ryo object.
-  #
+  #  The class of the object to build
+  # @param [<#each_pair>] props
+  #  A Hash object, an object that implements `each_pair`, or a Ryo object
   # @param [<Ryo::Object, Ryo::BasicObject>, nil] prototype
-  #  The prototype, or nil for none.
-  #
+  #  The prototype, or nil for none
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  #  Returns a Ryo object.
-  #
+  #  Returns a Ryo object
   # @note
   #  When "props" is given as a Ryo object, a duplicate Ryo object is
-  #  returned in its place.
+  #  returned in its place
   def self.build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
       build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
@@ -38,7 +34,8 @@ module Ryo::Builder
   end
 
   ##
-  # Creates a Ryo object by recursively walking a Hash object, or an Array of Hash objects.
+  # Creates a Ryo object by recursively walking a Hash object, or
+  # an Array of Hash objects
   #
   # @example
   #   objects = Ryo.from([{x: 0, y: 0}, "foo", {point: {x: 0, y: 0}}])
@@ -47,21 +44,17 @@ module Ryo::Builder
   #   objects[2].point.x # => 0
   #
   # @param buildee (see Ryo::Builder.build)
-  #
-  # @param [<Hash, Ryo::Object, Ryo::BasicObject, Array, #each_pair, #each> ] props
-  #   A Hash object, a Ryo object, or an array composed of either Hash / Ryo objects.
-  #
+  # @param [<#each_pair, #each> ] props
+  #   A Hash object, a Ryo object, or an array composed of either Hash / Ryo objects
   # @param prototype (see Ryo::Builder.build)
-  #
   # @return (see Ryo::Builder.build)
-  #
   # @note
   #  When "props" is given as a Ryo object, a duplicate Ryo object is
-  #  returned in its place.
+  #  returned in its place
   def self.recursive_build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
       recursive_build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
-    elsif eachless?(props)
+    elsif !respond_to_each?(props)
       raise TypeError, "The provided object does not implement #each / #each_pair"
     elsif !props.respond_to?(:each_pair)
       map(props) do
@@ -75,8 +68,6 @@ module Ryo::Builder
     end
   end
 
-  ##
-  # @private
   def self.map_value(buildee, value)
     if Ryo.ryo?(value) || eachless?(value)
       value
@@ -88,15 +79,11 @@ module Ryo::Builder
   end
   private_class_method :map_value
 
-  ##
-  # @private
-  def self.eachless?(value)
-    !value.respond_to?(:each) && !value.respond_to?(:each_pair)
+  def self.respond_to_each?(value)
+    value.respond_to?(:each) && value.respond_to?(:each_pair)
   end
-  private_class_method :eachless?
+  private_class_method :respond_to_each?
 
-  ##
-  # @private
   def self.map(obj)
     ary = []
     obj.each { ary.push(yield(_1)) }

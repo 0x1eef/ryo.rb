@@ -16,7 +16,7 @@ module Ryo::Reflect
   # @group JavaScript equivalents (Reflect)
 
   ##
-  # Equivalent to JavaScript's `Reflect.getPrototypeOf`.
+  # Equivalent to JavaScript's `Reflect.getPrototypeOf`
   #
   # @param [Ryo] ryo
   #  A Ryo object.
@@ -29,7 +29,7 @@ module Ryo::Reflect
   end
 
   ##
-  # Equivalent to JavaScript's `Reflect.setPrototypeOf`.
+  # Equivalent to JavaScript's `Reflect.setPrototypeOf`
   #
   # @param [Ryo] ryo
   #  A Ryo object.
@@ -45,17 +45,14 @@ module Ryo::Reflect
   end
 
   ##
-  # Equivalent to JavaScript's `Reflect.defineProperty`.
+  # Equivalent to JavaScript's `Reflect.defineProperty`
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, #to_s>] property
-  #  The name of the property.
-  #
+  #  The name of a property
   # @param [Object, BasicObject] value
-  #  The value of the property.
-  #
+  #  The property's value
   # @return [void]
   def define_property(ryo, property, value)
     table, property = table_of(ryo), property.to_s
@@ -76,13 +73,12 @@ module Ryo::Reflect
 
   ##
   # Equivalent to JavaScript's `Reflect.ownKeys`, and
-  # JavaScript's `Object.keys`.
+  # JavaScript's `Object.keys`
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [Array<String>]
-  #  Returns the properties defined on a Ryo object.
+  #  Returns the properties defined on a Ryo object
   def properties_of(ryo)
     table_of(ryo).keys
   end
@@ -97,13 +93,11 @@ module Ryo::Reflect
   # and `Object.prototype.hasOwnProperty`.
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, #to_s>] property
-  #  A property name.
-  #
+  #  The name of a property
   # @return [Boolean]
-  #  Returns true when **property** is a member of a Ryo object.
+  #  Returns true when the property is a member of a Ryo object
   def property?(ryo, property)
     table_of(ryo).key?(property.to_s)
   end
@@ -111,14 +105,11 @@ module Ryo::Reflect
   ##
   # Equivalent to JavaScript's `Object.assign`.
   #
-  #
   # @param [Ryo, Hash, #to_hash] target
-  #  The target object.
-  #
+  #  The target object
   # @param [Ryo, Hash, #to_hash] sources
   #  A variable number of source objects that
-  #  will be merged into the target object.
-  #
+  #  will be merged with the target object
   # @return [Ryo]
   #  Returns the modified target object.
   def assign(target, *sources)
@@ -134,16 +125,13 @@ module Ryo::Reflect
 
   ##
   # The {#delete!} method deletes a property from a Ryo object,
-  # and from the prototypes in its prototype chain.
+  # and from the prototypes in its prototype chain
   #
   # @see Ryo::Keywords#delete
-  #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, #to_s>] property
-  #  A property name.
-  #
+  #  The name of a property
   # @return [void]
   def delete!(ryo, property)
     [ryo, *prototype_chain_of(ryo)].each do
@@ -153,10 +141,9 @@ module Ryo::Reflect
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [Array<Ryo::Object, Ryo::BasicObject>]
-  #  Returns the prototype chain of a Ryo object.
+  #  Returns the prototype chain of a Ryo object
   def prototype_chain_of(ryo)
     prototypes = []
     loop do
@@ -169,14 +156,12 @@ module Ryo::Reflect
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [Boolean] recursive
   #  When true, nested Ryo objects are replaced by
-  #  their table as well.
-  #
+  #  their table as well
   # @return [Hash]
-  #  Returns the table of a Ryo object.
+  #  Returns the table of a Ryo object
   def table_of(ryo, recursive: false)
     table = kernel(:instance_variable_get).bind_call(ryo, :@_table)
     if recursive
@@ -190,14 +175,12 @@ module Ryo::Reflect
   end
 
   ##
-  # Sets the table of a Ryo object.
+  # Sets the table of a Ryo object
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [Hash] table
-  #  The table to assign to a Ryo object.
-  #
+  #  The table
   # @return [nil]
   def set_table_of(ryo, table)
     kernel(:instance_variable_set)
@@ -207,51 +190,42 @@ module Ryo::Reflect
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, Symbol>] method
-  #  The name of a method.
-  #
+  #  The name of a method
   # @param [::Object, ::BasicObject] args
-  #  Zero or more arguments to call **method** with.
-  #
+  #  Zero or more method arguments
   # @param [Proc] b
-  #  An optional block to pass to **method**.
-  #
+  #  An optional block
   # @return [::Object, ::BasicObject]
-  #  Returns the return value of the method call.
-  def call_method(ryo, method, *, &b)
+  def call_method(ryo, method, *args, &b)
     kernel(:__send__)
-      .bind_call(ryo, method, *, &b)
+      .bind_call(ryo, method, *args, &b)
   end
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [Class]
-  #  Returns the class of a Ryo object.
+  #  Returns the class of a Ryo object
   def class_of(ryo)
     kernel(:class).bind_call(ryo)
   end
 
   ##
   # @param [Ryo::Function, Object, BasicObject] obj
-  #  An object.
-  #
+  #  An object
   # @return [Boolean]
-  #  Returns true when the given object is a Ryo function.
+  #  Returns true when given a Ryo function
   def function?(obj)
     Ryo::Function === obj
   end
 
   ##
   # @param [Ryo::Function, Object, BasicObject] obj
-  #  An object.
-  #
+  #  An object
   # @return [Boolean]
-  #  Returns true when the given object is an instance
-  #  of {Ryo::Memo Ryo::Memo}.
+  #  Returns true when given a Ryo memo
   def memo?(obj)
     Ryo::Memo === obj
   end
@@ -264,33 +238,29 @@ module Ryo::Reflect
   #  Ryo.ryo?(Object.new) # => false
   #
   # @param [Object, BasicObject] obj
-  #  An object.
-  #
+  #  An object
   # @return [Boolean]
-  #  Returns true when the given object is a Ryo object.
+  #  Returns true when given a Ryo object
   def ryo?(obj)
     Ryo === obj
   end
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo1
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo2
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [Boolean]
-  #  Returns true when two Ryo objects are the same object.
+  #  Returns true when the two Ryo objects are strictly equal
   def equal?(ryo1, ryo2)
     kernel(:equal?).bind_call(ryo1, ryo2)
   end
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [String]
-  #  Returns a String representation of a Ryo object.
+  #  Returns a String representation of a Ryo object
   def inspect_object(ryo)
     format(
       "#<Ryo object=%{object} proto=%{proto} table=%{table}>",
@@ -303,14 +273,11 @@ module Ryo::Reflect
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, Symbol>] method
-  #  The name of the method.
-  #
+  #  The name of a method
   # @param [Proc] b
-  #  The method's body.
-  #
+  #  The method's implementation
   # @private
   private def define_method!(ryo, method, &b)
     kernel(:define_singleton_method)
@@ -319,15 +286,12 @@ module Ryo::Reflect
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, #to_s>] property
-  #  The name of the property.
-  #
+  #  The name of a property
   # @return [Boolean]
   #  Returns true when the property has been
-  #  defined with a getter method.
-  #
+  #  defined with a getter method
   # @private
   private def getter_defined?(ryo, property)
     kernel(:method)
@@ -337,17 +301,13 @@ module Ryo::Reflect
   end
 
   ##
-  #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [<String, #to_s>] property
-  #  The name of the property.
-  #
+  #  The name of a property
   # @return [Boolean]
   #  Returns true when the property has been
-  #  defined with a setter method.
-  #
+  #  defined with a setter method
   # @private
   private def setter_defined?(ryo, property)
     getter_defined?(ryo, "#{property}=")

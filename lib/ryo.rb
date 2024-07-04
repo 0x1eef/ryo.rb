@@ -30,13 +30,11 @@ module Ryo
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [Module] mod
-  #  A module to extend a Ryo object with.
-  #
+  #  The module to extend a Ryo object with
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  #  Returns a Ryo object extended by **mod**.
+  #  Returns an extended Ryo object
   def self.extend!(ryo, mod)
     kernel(:extend).bind_call(ryo, mod)
   end
@@ -45,10 +43,9 @@ module Ryo
   # Duplicates a Ryo object, and its prototype(s).
   #
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @return [<Ryo::Object, Ryo::BasicObject>]
-  #  Returns a duplicated Ryo object.
+  #  Returns a duplicated Ryo object
   def self.dup(ryo)
     duplicate = extend!(
       kernel(:dup).bind_call(ryo),
@@ -61,13 +58,12 @@ module Ryo
   end
 
   ##
-  # Creates a memoized Ryo value.
+  # Creates a memoized Ryo value
   #
   # @param [Proc] b
-  #  A Proc that is memoized after being accessed for the first time.
-  #
+  #  A Proc that is memoized after being accessed for the first time
   # @return [Ryo::Memo]
-  #  Returns an instance of {Ryo::Memo Ryo::Memo}.
+  #  Returns an instance of {Ryo::Memo Ryo::Memo}
   def self.memo(&b)
     Ryo::Memo.new(&b)
   end
@@ -76,32 +72,28 @@ module Ryo
   end
 
   ##
-  # Creates a Ryo object by recursively walking a Hash object.
+  # Creates a Ryo object by recursively walking a Hash object
   #
   # @param props (see Ryo::Builder.build)
   # @param prototype (see Ryo::Builder.build)
-  #
   # @return [Ryo::Object]
-  #  Returns an instance of {Ryo::Object Ryo::Object}.
+  #  Returns an instance of {Ryo::Object Ryo::Object}
   def self.from(props, prototype = nil)
     Ryo::Object.from(props, prototype)
   end
 
   ##
-  # Returns the prototype of self, or "nil" if self has no prototype.
-  #
   # @return [<Ryo::Object, Ryo::BasicObject>, nil]
+  #   Returns the prototype of self, or nil if self has no prototype
   def __proto__
     @_proto
   end
 
   ##
   # @param [String] property
-  #  A property name.
-  #
+  #  The name of a property
   # @return [<Object, BasicObject>, nil]
-  #  Returns the value at **property**, or nil.
-  #
+  #  Returns the property's value, or nil
   # @note
   #  This method will first try to read **property** from self, and if
   #  it is not found on self the chain of prototypes will be traversed
@@ -118,14 +110,11 @@ module Ryo
   end
 
   ##
-  # Assigns a property to self.
+  # Assign a property
   #
   # @param [String] property
-  #  A property name.
-  #
+  #  The name of a property
   # @param [<Object,BasicObject>] value
-  #  The value.
-  #
   # @return [void]
   def []=(property, value)
     Ryo.define_property(self, property.to_s, value)
@@ -133,10 +122,8 @@ module Ryo
 
   ##
   # @param [<Ryo::Object, Ryo::BasicObject>, Hash, #to_h] other
-  #  An object to compare against.
-  #
   # @return [Boolean]
-  #  Returns true **other** is equal to self.
+  #  Returns true **other** is equal to self
   def ==(other)
     if Ryo.ryo?(other)
       @_table == Ryo.table_of(other)
@@ -150,14 +137,14 @@ module Ryo
 
   ##
   # @return [String]
-  #  Returns a String representation of a Ryo object.
+  #  Returns a String representation of a Ryo object
   def inspect
     Ryo.inspect_object(self)
   end
 
   ##
   # @return [Hash]
-  #  Returns the hash table used by a Ryo object.
+  #  Returns the lookup table of a Ryo object
   def to_h
     Ryo.table_of(self, recursive: true)
   end
@@ -200,9 +187,8 @@ end
 ##
 # @param props (see Ryo::Builder.build)
 # @param prototype (see Ryo::Builder.build)
-#
 # @return [Ryo::Object]
-#  Returns a Ryo object.
+#  Returns a Ryo object
 def Ryo(props, prototype = nil)
   Ryo::Object.create(props, prototype)
 end

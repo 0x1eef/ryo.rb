@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 ##
-# The {Ryo::Enumerable Ryo::Enumerable} module implements methods
-# for iterating through and performing operations on Ryo objects.
-# The methods implemented by this module are available as singleton
-# methods on the {Ryo} module.
+# The {Ryo::Enumerable Ryo::Enumerable} module provides methods
+# that are similar to Ruby's Enumerable module, and at the same
+# time - intentionally different. The methods implemented by this
+# module are available as singleton methods on the {Ryo Ryo} module.
 module Ryo::Enumerable
   ##
   # The {#each} methods iterates a Ryo object, and yields a key / value pair.
@@ -18,13 +18,8 @@ module Ryo::Enumerable
   #  # ["y", 2]
   #  # ["x", 1]
   #
-  # @param [Ryo::Object, Ryo::BasicObject] ryo
-  #  A Ryo object.
-  #
-  # @param ancestors (see #each_ryo)
-  #
+  # @param (see #each_ryo)
   # @return [<Enumerator, Array>]
-  #  Returns an Enumerator when a block is not given, otherwise returns an Array.
   def each(ryo, ancestors: nil)
     return enum_for(:each, ryo) unless block_given?
     each_ryo(ryo, ancestors: ancestors) do |_, key, value|
@@ -45,15 +40,14 @@ module Ryo::Enumerable
   #  # [point_a, "y", 2]
   #
   # @param [<Ryo::BasicObject, Ryo::Object>] ryo
-  #  A Ryo object.
-  #
+  #  A Ryo object
   # @param [Integer] ancestors
-  #   `ancestors` is an integer that determines how far up the prototype chain a
-  #   {Ryo::Enumerable Ryo::Enumerable}  method can go. 0 covers a Ryo object,
-  #   and none of the prototypes in its prototype chain. 1 covers a Ryo object,
-  #   and one of the prototypes in its prototype chain - and so on. The default
-  #   behavior is to traverse the entire prototype chain.
-  #
+  #  "ancestors" is an integer that defines the traversal depth
+  #  of a {Ryo::Enumerable Ryo::Enumerable} method. 0 covers a
+  #  Ryo object, and none of the prototypes in its prototype
+  #  chain. 1 covers a Ryo object, and one of the prototypes
+  #  in its prototype chain - and so on. The default covers
+  #  the entire prototype chain.
   # @return [<Ryo::BasicObject, Ryo::Object>]
   def each_ryo(ryo, ancestors: nil)
     proto_chain = [ryo, *prototype_chain_of(ryo)]
@@ -67,17 +61,19 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#map} method creates a copy of a Ryo object, and then performs a map operation
-  # on the copy and its prototypes.
+  # The {#map} method creates a copy of a Ryo object,
+  # and then performs a map operation on the copy and
+  # its prototypes
   #
-  # @param (see #map!)
-  # @return (see #map!)
+  # @param (see #each_ryo)
+  # @return [<Ryo::Object, Ryo::BasicObject>]
   def map(ryo, ancestors: nil, &b)
     map!(Ryo.dup(ryo), ancestors: ancestors, &b)
   end
 
   ##
-  # The {#map!} method performs an in-place map operation on a Ryo object, and its prototypes.
+  # The {#map!} method performs an in-place map operation
+  # on a Ryo object, and its prototypes
   #
   # @example
   #  point = Ryo(x: 2, y: 4)
@@ -85,11 +81,7 @@ module Ryo::Enumerable
   #  [point.x, point.y]
   #  # => [4, 8]
   #
-  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
-  # @param ancestors (see #each_ryo)
-  #
+  # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def map!(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
@@ -98,18 +90,19 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#select} method creates a copy of a Ryo object, and then performs a filter operation
-  # on the copy and its prototypes.
+  # The {#select} method creates a copy of a Ryo object, and
+  # then performs a filter operation on the copy and its
+  # prototypes
   #
-  # @param (see #select!)
-  # @return (see #select!)
+  # @param (see #each_ryo)
+  # @return [<Ryo::Object, Ryo::BasicObject>]
   def select(ryo, ancestors: nil, &b)
     select!(Ryo.dup(ryo), ancestors: ancestors, &b)
   end
 
   ##
-  # The {#select!} method performs an in-place filter operation on a Ryo object, and
-  # its prototypes.
+  # The {#select!} method performs an in-place filter operation
+  # on a Ryo object, and its prototypes
   #
   # @example
   #  point_a = Ryo(x: 1, y: 2, z: 3)
@@ -118,11 +111,7 @@ module Ryo::Enumerable
   #  [point_b.x, point_b.y, point_b.z]
   #  # => [1, 2, nil]
   #
-  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
-  # @param ancestors (see #each_ryo)
-  #
+  # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def select!(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
@@ -131,18 +120,18 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#reject} method creates a copy of a Ryo object, and then performs a filter operation
-  # on the copy and its prototypes.
+  # The {#reject} method creates a copy of a Ryo object, and then
+  # performs a filter operation on the copy and its prototypes
   #
-  # @param (see #reject!)
-  # @return (see #reject!)
+  # @param (see #each_ryo)
+  # @return [<Ryo::Object, Ryo::BasicObject>]
   def reject(ryo, ancestors: nil, &b)
     reject!(Ryo.dup(ryo), ancestors: ancestors, &b)
   end
 
   ##
-  # The {#reject!} method performs an in-place filter operation on a Ryo object, and
-  # its prototypes.
+  # The {#reject!} method performs an in-place filter operation
+  # on a Ryo object, and its prototypes
   #
   # @example
   #  point_a = Ryo(x: 1, y: 2, z: 3)
@@ -151,11 +140,7 @@ module Ryo::Enumerable
   #  [point_b.x, point_b.y, point_b.z]
   #  # => [1, 2, nil]
   #
-  # @param [<Ryo::Object, Ryo::BasicObject>] ryo
-  #  A Ryo object.
-  #
-  # @param ancestors (see #each_ryo)
-  #
+  # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def reject!(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
@@ -164,12 +149,10 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#any?} method iterates through a Ryo object, and its prototypes - yielding a
-  # key / value pair to a block. If the block ever returns a truthy value, {#any?} will
-  # break from the iteration and return true - otherwise false will be returned.
-  #
-  # @param ancestors (see #each_ryo)
+  # @param (see #each_ryo)
   # @return [Boolean]
+  #  Returns true when the given block evaluates to
+  #  a truthy value for at least one iteration
   def any?(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |_, key, value|
       return true if yield(key, value)
@@ -178,12 +161,10 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#all?} method iterates through a Ryo object, and its prototypes - yielding a
-  # key / value pair to a block. If the block ever returns a falsey value, {#all?} will
-  # break from the iteration and return false - otherwise true will be returned.
-  #
-  # @param ancestors (see #each_ryo)
+  # @param (see #each_ryo)
   # @return [Boolean]
+  #  Returns true when the given block evaluates to a
+  #  truthy value for every iteration
   def all?(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |_, key, value|
       return false unless yield(key, value)
@@ -192,10 +173,6 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#find} method iterates through a Ryo object, and its prototypes - yielding a
-  # key / value pair to a block. If the block ever returns a truthy value, {#find} will
-  # break from the iteration and return a Ryo object - otherwise nil will be returned.
-  #
   # @example
   #  point_a = Ryo(x: 5)
   #  point_b = Ryo({y: 10}, point_a)
@@ -203,8 +180,9 @@ module Ryo::Enumerable
   #  ryo = Ryo.find(point_c) { |key, value| value == 5 }
   #  ryo == point_a # => true
   #
-  # @param ancestors (see #each_ryo)
+  # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>, nil]
+  #  Returns a Ryo object, or nil
   def find(ryo, ancestors: nil)
     each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
       return ryo if yield(key, value)
