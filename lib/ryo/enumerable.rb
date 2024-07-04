@@ -7,8 +7,8 @@
 # module are available as singleton methods on the {Ryo Ryo} module.
 module Ryo::Enumerable
   ##
-  # The {#each} methods iterates a Ryo object, and yields a key / value pair.
-  # When a block is not given, {#each} returns an Enumerator.
+  # The {#each} method iterates through a Ryo object, and
+  # yields two parameters: a key, and a value
   #
   # @example
   #  point_a = Ryo(x: 1, y: 2)
@@ -28,8 +28,9 @@ module Ryo::Enumerable
   end
 
   ##
-  # The {#each_ryo} method iterates through a Ryo object, and its prototypes.
-  # {#each_ryo} yields three parameters: a Ryo object, a key, and a value.
+  # The {#each_ryo} method iterates through a Ryo object,
+  # and its prototypes. {#each_ryo} yields three parameters:
+  # a Ryo object, a key, and a value
   #
   # @example
   #  point_a = Ryo(x: 1, y: 2)
@@ -40,7 +41,6 @@ module Ryo::Enumerable
   #  # [point_a, "y", 2]
   #
   # @param [<Ryo::BasicObject, Ryo::Object>] ryo
-  #  A Ryo object
   # @param [Integer] ancestors
   #  "ancestors" is an integer that defines the traversal depth
   #  of a {Ryo::Enumerable Ryo::Enumerable} method. 0 covers a

@@ -5,10 +5,12 @@
 # interface when creating instances of {Ryo::Object Ryo::Object}, and
 # {Ryo::BasicObject Ryo::BasicObject}. This module is not intended to be
 # used directly.
-#
 # @api private
 module Ryo::Builder
   ##
+  # @note
+  #  When "props" is given as a Ryo object, a duplicate Ryo object is
+  #  returned in its place
   # @param [<Ryo::Object, Ryo::BasicObject>] buildee
   #  The class of the object to build
   # @param [<#each_pair>] props
@@ -17,9 +19,6 @@ module Ryo::Builder
   #  The prototype, or nil for none
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object
-  # @note
-  #  When "props" is given as a Ryo object, a duplicate Ryo object is
-  #  returned in its place
   def self.build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
       build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
@@ -43,14 +42,14 @@ module Ryo::Builder
   #   objects[1]         # => "foo"
   #   objects[2].point.x # => 0
   #
+  # @note
+  #  When "props" is given as a Ryo object, a duplicate Ryo object is
+  #  returned in its place
   # @param buildee (see Ryo::Builder.build)
   # @param [<#each_pair, #each> ] props
   #   A Hash object, a Ryo object, or an array composed of either Hash / Ryo objects
   # @param prototype (see Ryo::Builder.build)
   # @return (see Ryo::Builder.build)
-  # @note
-  #  When "props" is given as a Ryo object, a duplicate Ryo object is
-  #  returned in its place
   def self.recursive_build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)
       recursive_build(buildee, Ryo.table_of(props), prototype || Ryo.prototype_of(props))
