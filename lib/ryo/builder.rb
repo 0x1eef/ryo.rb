@@ -69,7 +69,7 @@ module Ryo::Builder
 
   module Private
     def map_value(buildee, value)
-      if Ryo.ryo?(value) || eachless?(value)
+      if Ryo.ryo?(value) || !respond_to_each?(value)
         value
       elsif value.respond_to?(:each_pair)
         recursive_build(buildee, value)
@@ -79,7 +79,7 @@ module Ryo::Builder
     end
 
     def respond_to_each?(value)
-      value.respond_to?(:each) && value.respond_to?(:each_pair)
+      value.respond_to?(:each) || value.respond_to?(:each_pair)
     end
 
     def map(obj)
