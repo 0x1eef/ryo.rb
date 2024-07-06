@@ -22,7 +22,7 @@ module Ryo::Enumerable
   # @return [<Enumerator, Array>]
   def each(ryo, ancestors: nil)
     return enum_for(:each, ryo) unless block_given?
-    each_ryo(ryo, ancestors: ancestors) do |_, key, value|
+    each_ryo(ryo, ancestors:) do |_, key, value|
       yield(key, value)
     end
   end
@@ -68,7 +68,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def map(ryo, ancestors: nil, &b)
-    map!(Ryo.dup(ryo), ancestors: ancestors, &b)
+    map!(Ryo.dup(ryo), ancestors:, &b)
   end
 
   ##
@@ -84,7 +84,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def map!(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
+    each_ryo(ryo, ancestors:) do |ryo, key, value|
       ryo[key] = yield(key, value)
     end
   end
@@ -97,7 +97,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def select(ryo, ancestors: nil, &b)
-    select!(Ryo.dup(ryo), ancestors: ancestors, &b)
+    select!(Ryo.dup(ryo), ancestors:, &b)
   end
 
   ##
@@ -114,7 +114,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def select!(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
+    each_ryo(ryo, ancestors:) do |ryo, key, value|
       delete(ryo, key) unless yield(key, value)
     end
   end
@@ -126,7 +126,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def reject(ryo, ancestors: nil, &b)
-    reject!(Ryo.dup(ryo), ancestors: ancestors, &b)
+    reject!(Ryo.dup(ryo), ancestors:, &b)
   end
 
   ##
@@ -143,7 +143,7 @@ module Ryo::Enumerable
   # @param (see #each_ryo)
   # @return [<Ryo::Object, Ryo::BasicObject>]
   def reject!(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
+    each_ryo(ryo, ancestors:) do |ryo, key, value|
       delete(ryo, key) if yield(key, value)
     end
   end
@@ -154,7 +154,7 @@ module Ryo::Enumerable
   #  Returns true when the given block evaluates to
   #  a truthy value for at least one iteration
   def any?(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |_, key, value|
+    each_ryo(ryo, ancestors:) do |_, key, value|
       return true if yield(key, value)
     end
     false
@@ -166,7 +166,7 @@ module Ryo::Enumerable
   #  Returns true when the given block evaluates to a
   #  truthy value for every iteration
   def all?(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |_, key, value|
+    each_ryo(ryo, ancestors:) do |_, key, value|
       return false unless yield(key, value)
     end
     true
@@ -184,7 +184,7 @@ module Ryo::Enumerable
   # @return [<Ryo::Object, Ryo::BasicObject>, nil]
   #  Returns a Ryo object, or nil
   def find(ryo, ancestors: nil)
-    each_ryo(ryo, ancestors: ancestors) do |ryo, key, value|
+    each_ryo(ryo, ancestors:) do |ryo, key, value|
       return ryo if yield(key, value)
     end
     nil
