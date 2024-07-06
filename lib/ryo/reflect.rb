@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 ##
-# The {Ryo::Reflect Ryo::Reflect} module implements equivalents
-# from JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
-# and equivalents for some of the static methods on JavaScript's
-# [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) constructor.
+# The {Ryo::Reflect Ryo::Reflect} module mirrors
+# JavaScript's [`Relfect` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect),
+# and some of the static methods on JavaScript's
+# [`Object`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+# as well.
 #
-# This module also implements Ryo-specific reflection features as well. The
-# instance methods of this module are available as singleton methods
-# on the {Ryo Ryo} module.
+# {Ryo::Reflect Ryo::Reflect} also implements Ryo-specific
+# reflection features. The instance methods of this module
+# are available as singleton methods on the {Ryo Ryo}
+# module.
 module Ryo::Reflect
   extend self
 

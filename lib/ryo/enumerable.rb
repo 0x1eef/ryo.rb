@@ -3,8 +3,13 @@
 ##
 # The {Ryo::Enumerable Ryo::Enumerable} module provides methods
 # that are similar to Ruby's Enumerable module, and at the same
-# time - intentionally different. The methods implemented by this
-# module are available as singleton methods on the {Ryo Ryo} module.
+# time - intentionally different.
+#
+# For example: {Ryo::Enumerable Ryo::Enumerable}
+# methods receive 'self' as an argument rather than from the
+# surrounding context. The methods implemented by this
+# module are available as singleton methods on the {Ryo Ryo}
+# module.
 module Ryo::Enumerable
   ##
   # The {#each} method iterates through a Ryo object, and

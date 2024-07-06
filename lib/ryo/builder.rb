@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 ##
-# {Ryo::Builder Ryo::Builder} is a module that's used underneath Ryo's public
-# interface when creating instances of {Ryo::Object Ryo::Object}, and
-# {Ryo::BasicObject Ryo::BasicObject}. This module is not intended to be
-# used directly.
+# The {Ryo::Builder Ryo::Builder} module is responsible for
+# the creation of instances of {Ryo::Object Ryo::Object},
+# and {Ryo::BasicObject Ryo::BasicObject}. This module is
+# not intended to be used directly.
 # @api private
 module Ryo::Builder
   ##
@@ -12,11 +12,8 @@ module Ryo::Builder
   #  When "props" is given as a Ryo object, a duplicate Ryo object is
   #  returned in its place
   # @param [<Ryo::Object, Ryo::BasicObject>] buildee
-  #  The class of the object to build
   # @param [<#each_pair>] props
-  #  A Hash object, an object that implements `each_pair`, or a Ryo object
   # @param [<Ryo::Object, Ryo::BasicObject>, nil] prototype
-  #  The prototype, or nil for none
   # @return [<Ryo::Object, Ryo::BasicObject>]
   #  Returns a Ryo object
   def self.build(buildee, props, prototype = nil)
@@ -42,13 +39,8 @@ module Ryo::Builder
   #   objects[1]         # => "foo"
   #   objects[2].point.x # => 0
   #
-  # @note
-  #  When "props" is given as a Ryo object, a duplicate Ryo object is
-  #  returned in its place
-  # @param buildee (see Ryo::Builder.build)
-  # @param [<#each_pair, #each> ] props
-  #   A Hash object, a Ryo object, or an array composed of either Hash / Ryo objects
-  # @param prototype (see Ryo::Builder.build)
+  # @note (see Ryo::Builder.build)
+  # @param (see Ryo::Builder.build)
   # @return (see Ryo::Builder.build)
   def self.recursive_build(buildee, props, prototype = nil)
     if Ryo.ryo?(props)

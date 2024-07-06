@@ -281,18 +281,20 @@ p [point.x.to_i, point.y.to_i]
 
 #### Resolution strategy
 
-When a property and method collide, Ryo tries to find the best resolution. Since Ryo properties
-don't accept arguments, and methods can - we are able to distinguish a property from a method in
-many cases.
-
-Consider this example, where a property collides with the `Kernel#then` method. This example
-would work the same for other methods that accept a block and/or arguments:
+When a property and method collide, Ryo tries to
+find the best resolution. Since Ryo properties don't
+accept arguments, and methods can - we are able to
+distinguish a method from a Ryo property by the presence
+or absence of an argument. Consider the following example,
+where a property collides with the `Kernel#then` method:
 
 ```ruby
 require "ryo"
 
 ryo = Ryo::Object(then: 12)
+# Resolves to Ryo property
 p ryo.then # => 12
+# Resolves to Kernel#then
 p ryo.then { 34 } # => 34
 ```
 
@@ -300,10 +302,12 @@ p ryo.then { 34 } # => 34
 
 #### Duck typing
 
-The documentation has used simple terms to describe the objects that Ryo works
-with: Hash and Array objects. But that doesn't quite capture the fact that Ryo
-uses duck typing: any object that implements `#each_pair` is similar to a Hash,
-and any object that implements `#each` is similar to an Array. Note that only
+The documentation has used simple terms to describe
+the objects that Ryo works with: Hash and Array objects.
+But that doesn't quite capture the fact that Ryo
+uses duck typing: any object that implements `#each_pair`
+is similar to a Hash, and any object that implements
+`#each` is similar to an Array. Note that only
 [Ryo.from](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method),
 [Ryo::Object.from](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html#from-class_method)
 and
