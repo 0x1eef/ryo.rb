@@ -85,20 +85,20 @@ module Ryo
 
   ##
   # @return [<Ryo::Object, Ryo::BasicObject>, nil]
-  #   Returns the prototype of self, or nil if self has no prototype
+  #  Returns the prototype of self, or nil if self has no prototype
   def __proto__
     @_proto
   end
 
   ##
+  # @note
+  #  This method will first query self for a property,
+  #  and if the property is not found the query is sent
+  #  to {Ryo#__proto__ Ryo#__proto__} instead
   # @param [String] property
   #  The name of a property
   # @return [<Object, BasicObject>, nil]
   #  Returns the property's value, or nil
-  # @note
-  #  This method will first try to read **property** from self, and if
-  #  it is not found on self the chain of prototypes will be traversed
-  #  through instead.
   def [](property)
     property = property.to_s
     if Ryo.property?(self, property)

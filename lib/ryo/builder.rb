@@ -60,6 +60,8 @@ module Ryo::Builder
   end
 
   module Private
+    private
+
     def map_value(buildee, value)
       if Ryo.ryo?(value) || !respond_to_each?(value)
         value
