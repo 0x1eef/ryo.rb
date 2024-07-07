@@ -29,7 +29,7 @@ RSpec.describe Ryo::Enumerable do
     end
 
     context "when verifying the map operation returns a new object" do
-      subject { Ryo.kernel(:equal?).bind_call(point_b, point_c) }
+      subject { Module.instance_method(:equal?).bind_call(point_b, point_c) }
       it { is_expected.to be(false) }
     end
   end

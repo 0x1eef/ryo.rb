@@ -113,7 +113,7 @@ RSpec.describe Ryo do
     end
 
     context "when verifying the source and duplicate are distinct objects" do
-      subject { Ryo.kernel(:equal?).bind_call(point_c, dup) }
+      subject { Module.instance_method(:equal?).bind_call(point_c, dup) }
       it { is_expected.to eq(false) }
     end
 
