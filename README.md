@@ -16,6 +16,7 @@ method seen in the example returns an instance of
 [Ryo::Object](https://0x1eef.github.io/x/ryo.rb/Ryo/Object.html):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo(x: 5)
@@ -35,6 +36,7 @@ will bind its `self` to the Ryo object it is assigned to, and when the function
 is called it will have access to the properties of the Ryo object:
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo(x: 5)
@@ -56,6 +58,7 @@ The following example demonstrates
 accessed for the first time. It is similar to a Ryo function:
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo(x: Ryo.memo { 5 })
@@ -87,6 +90,7 @@ is not implemented directly on a Ryo object.
 A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point = Ryo(x: 10, y: 20)
@@ -115,6 +119,7 @@ and it returns a new copy of a Ryo object and its prototypes.
 A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo(x: 2)
@@ -148,6 +153,7 @@ demonstrates using the `ancestors` option with
 [`Ryo.find`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#find-class_method):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo(x: 5)
@@ -174,6 +180,7 @@ very large - otherwise there shouldn't be a noticeable performance impact.
 The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point = Ryo.from({
@@ -194,6 +201,7 @@ An object that can't be turned into a Ryo object is left as-is. The following
 example demonstrates how that works in practice:
 
 ``` ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 points = Ryo.from([
@@ -221,6 +229,7 @@ can recursively turn an OpenStruct object into Ryo objects. The example also ass
 a prototype to the Ryo object created from the OpenStruct:
 
 ``` ruby
+#!/usr/bin/env ruby
 require "ryo"
 require "ostruct"
 
@@ -246,6 +255,7 @@ with fewer methods. The following example demonstrates
 how to create an instance of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/Ryo/BasicObject.html):
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point_x = Ryo::BasicObject(x: 0)
@@ -265,6 +275,7 @@ it returns instance(s) of [Ryo::BasicObject](https://0x1eef.github.io/x/ryo.rb/R
 instead:
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 point = Ryo::BasicObject.from({
@@ -289,6 +300,7 @@ or absence of an argument. Consider the following example,
 where a property collides with the `Kernel#then` method:
 
 ```ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 ryo = Ryo::Object(then: 12)
@@ -317,6 +329,7 @@ can handle Array-like objects.
 The following example implements `#each_pair`:
 
 ``` ruby
+#!/usr/bin/env ruby
 require "ryo"
 
 class Point
