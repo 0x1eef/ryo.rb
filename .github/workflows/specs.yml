@@ -19,5 +19,5 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run: bundle install
-    - run: rake ci
+    - run: ruby -S bundle install
+    - run: ruby -S rake ci
