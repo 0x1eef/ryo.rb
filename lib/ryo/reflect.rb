@@ -203,9 +203,9 @@ module Ryo::Reflect
   # @param [Proc] b
   #  An optional block
   # @return [::Object, ::BasicObject]
-  def call_method(ryo, method, *args, &b)
+  def call_method(ryo, method, *, &b)
     kernel(:__send__)
-      .bind_call(ryo, method, *args, &b)
+      .bind_call(ryo, method, *, &b)
   end
 
   ##
