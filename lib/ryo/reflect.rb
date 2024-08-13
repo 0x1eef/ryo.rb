@@ -170,6 +170,9 @@ module Ryo::Reflect
       table.each do |key, value|
         if ryo?(value)
           table[key] = table_of(value, recursive:)
+        elsif value.respond_to?(:each)
+          table[key] = value.respond_to?(:each_pair) ?
+                       value : value.map { table_of(_1, recursive:) }
         end
       end
     end

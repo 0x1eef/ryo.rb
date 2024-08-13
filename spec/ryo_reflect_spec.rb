@@ -170,6 +170,14 @@ RSpec.describe Ryo::Reflect do
         it { expect(table["point"]["point"]).to be_instance_of(Hash) }
         it { is_expected.to eq("point" => {"point" => {"x" => 1, "y" => 1}}) }
       end
+
+      context "when a Ryo object references an Array" do
+        let(:ryo) { Ryo(points: [Ryo(x: 1, y: 1)]) }
+        it { expect(table).to be_instance_of(Hash) }
+        it { expect(table["points"]).to be_instance_of(Array) }
+        it { expect(table["points"][0]).to be_instance_of(Hash) }
+        it { is_expected.to eq("points" => [{"x" => 1, "y" => 1}]) }
+      end
     end
   end
 end
