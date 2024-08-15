@@ -47,7 +47,7 @@ RSpec.describe Ryo::Keywords do
       context "when a property is deleted from point_b" do
         subject { point_b.x }
         before { Ryo.delete(point_b, "x") }
-        it { is_expected.to eq(0) }
+        it { is_expected.to eq(nil) }
       end
 
       context "when a property is deleted from both point_a / point_b" do

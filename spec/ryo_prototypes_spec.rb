@@ -39,7 +39,7 @@ RSpec.describe "Prototypes" do
       subject { node_2.name }
       let(:node_1) { Ryo({name: "Node 1"}, root) }
       before { Ryo.delete(node_1, "name") }
-      it { is_expected.to eq("root") }
+      it { is_expected.to eq(nil) }
     end
   end
 end

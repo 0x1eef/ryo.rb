@@ -43,10 +43,13 @@ module Ryo::Keywords
   #  A Ryo object
   # @param [<String, #to_s>] property
   #  A property name
-  # @return [Object]
-  #  Returns the value that was deleted
-  def delete(ryo, property)
-    property = property.to_s
-    property?(ryo, property) ? table_of(ryo).delete(property) : nil
+  # @param [Integer] ancestors
+  #  The number of prototypes to traverse.
+  #  Defaults to the entire prototype chain.
+  # @return [void]
+  def delete(ryo, property, ancestors: nil)
+    each_ryo(ryo, ancestors:) do
+      Ryo.property?(_1, property) ? table_of(_1).delete(property) : nil
+    end
   end
 end
