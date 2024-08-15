@@ -5,7 +5,7 @@ require "test-cmd"
 
 RSpec.describe "README.md examples" do
   run_example = ->(file) do
-    cmd("ruby", "share/ryo.rb/examples/#{file}")
+    cmd("ruby", "share/examples/ryo.rb/#{file}")
   end
 
   subject do
