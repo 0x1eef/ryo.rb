@@ -1,0 +1,5 @@
+* vNEXT
+
+** Replace Ryo.delete! with Ryo.delete
+Ryo.delete now accepts an 'ancestors' param, and by default
+traverses the entire prototype chain
