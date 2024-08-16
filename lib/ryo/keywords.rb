@@ -38,7 +38,7 @@ module Ryo::Keywords
 
   ##
   # The {#delete} method deletes a property from a Ryo object
-  # @see {Ryo::Reflect#delete! Ryo::Reflect#delete!}
+  # @see Ryo::Reflect#delete!
   # @param [<Ryo::Object, Ryo::BasicObject>] ryo
   #  A Ryo object
   # @param [<String, #to_s>] property

@@ -92,9 +92,9 @@ module Ryo
 
   ##
   # @note
-  #  This method will first query self for a property,
-  #  and if the property is not found the query is sent
-  #  to {Ryo#__proto__ Ryo#__proto__} instead
+  #  This method will first look for a property on self,
+  #  and if it is not found then it will forward the query
+  #  onto `Ryo#__proto__`
   # @param [String] property
   #  The name of a property
   # @return [<Object, BasicObject>, nil]

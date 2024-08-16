@@ -22,6 +22,8 @@ Style/LambdaCall:
   Enabled: false
 Lint/AssignmentInCondition:
   Enabled: false
+Style/ArgumentsForwarding:
+  Enabled: false
 
 ##
 # Disabled cops (rspec)
