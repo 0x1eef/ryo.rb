@@ -1,3 +1,5 @@
+# -*- mode: org -*-
+
 * vNEXT
 
 ** Automatically require ~ryo/json~, ~ryo/yaml~
