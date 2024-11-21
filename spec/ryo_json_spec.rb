@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "setup"
-require "ryo/json"
+require "json"
 require "fileutils"
 
 RSpec.describe Ryo::JSON do

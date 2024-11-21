@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "setup"
-require "ryo/yaml"
+require "yaml"
 require "fileutils"
 
 RSpec.describe Ryo::YAML do

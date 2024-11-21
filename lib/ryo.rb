@@ -15,6 +15,8 @@
 #   point = Ryo.assign(Ryo({}), {x: 0}, {y: 0})
 #   point.x # => 0
 module Ryo
+  require_relative "ryo/json"
+  require_relative "ryo/yaml"
   require_relative "ryo/utils"
   require_relative "ryo/reflect"
   require_relative "ryo/keywords"

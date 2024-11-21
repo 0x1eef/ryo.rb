@@ -1,5 +1,9 @@
 * vNEXT
 
-** Replace Ryo.delete! with Ryo.delete
-Ryo.delete now accepts an 'ancestors' param, and by default
-traverses the entire prototype chain
+** Automatically require ~ryo/json~, ~ryo/yaml~
+Both files are now required in ~lib/ryo.rb~, so they can be used
+without requiring them separately
+
+** ~Ryo.delete!~ => ~Ryo.delete~
+Other than the rename:  ~Ryo.delete~ accepts an ~ancestors~ option,
+and by default traverses the entire prototype chain
