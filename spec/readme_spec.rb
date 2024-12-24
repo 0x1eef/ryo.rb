@@ -39,7 +39,7 @@ RSpec.describe "README.md examples" do
 
   context "when given 3.0_recursion_ryo_from.rb" do
     let(:file) { "3.0_recursion_ryo_from.rb" }
-    it { is_expected.to eq("[0, 10]") }
+    it { is_expected.to eq("[\"John\", 30, \"Anytown\"]") }
   end
 
   context "when given 3.1_recursion_ryo_from_with_array.rb" do

@@ -6,10 +6,9 @@ require "ryo"
 require "ostruct"
 
 point = Ryo.from(
-  OpenStruct.new(x: {to_i: 5}),
-  Ryo.from(y: {to_i: 10})
+  OpenStruct.new(x: 5, y: 10)
 )
-p [point.x.to_i, point.y.to_i]
+p [point.x, point.y]
 
 ##
 # [5, 10]

@@ -181,14 +181,20 @@ The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.r
 #!/usr/bin/env ruby
 require "ryo"
 
-point = Ryo.from({
-  x: {to_i: 0},
-  y: {to_i: 10}
+person = Ryo.from({
+  name: "John",
+  age: 30,
+  address: {
+    street: "123 Main St",
+    city: "Anytown",
+    state: "AS",
+    zip: 12345
+  }
 })
-p [point.x.to_i, point.y.to_i]
+p [person.name, person.age, person.address.city]
 
 ##
-# [0, 10]
+# ["John", 30, "Anytown"]
 ```
 
 #### Ryo.from with an Array
@@ -203,14 +209,14 @@ example demonstrates how that works in practice:
 require "ryo"
 
 points = Ryo.from([
-  {x: {to_i: 2}},
+  {x: 2},
   "foobar",
-  {y: {to_i: 4}}
+  {y: 4}
 ])
 
-p points[0].x.to_i
+p points[0].x
 p points[1]
-p points[2].y.to_i
+p points[2].y
 
 ##
 # 2
@@ -223,8 +229,7 @@ p points[2].y.to_i
 All methods that can create Ryo objects support turning a Struct, or OpenStruct object
 into a Ryo object. The following example demonstrates how
 [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method)
-can recursively turn an OpenStruct object into Ryo objects. The example also assigns
-a prototype to the Ryo object created from the OpenStruct:
+can recursively turn an OpenStruct object into Ryo objects:
 
 ``` ruby
 #!/usr/bin/env ruby
@@ -232,10 +237,9 @@ require "ryo"
 require "ostruct"
 
 point = Ryo.from(
-  OpenStruct.new(x: {to_i: 5}),
-  Ryo.from(y: {to_i: 10})
+  OpenStruct.new(x: 5, y: 10)
 )
-p [point.x.to_i, point.y.to_i]
+p [point.x, point.y]
 
 ##
 # [5, 10]

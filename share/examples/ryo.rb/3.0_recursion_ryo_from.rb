@@ -4,11 +4,17 @@
 require_relative "setup"
 require "ryo"
 
-point = Ryo.from({
-  x: {to_i: 0},
-  y: {to_i: 10}
+person = Ryo.from({
+  name: "John",
+  age: 30,
+  address: {
+    street: "123 Main St",
+    city: "Anytown",
+    state: "AS",
+    zip: 12345
+  }
 })
-p [point.x.to_i, point.y.to_i]
+p [person.name, person.age, person.address.city]
 
 ##
-# [0, 10]
+# ["John", 30, "Anytown"]
