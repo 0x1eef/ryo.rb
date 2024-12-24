@@ -173,9 +173,7 @@ p Ryo.find(point) { |k,v| v == 5 }.x # => point_x.x
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
 the same interface as the [`Ryo`](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
-from other Hash objects found along the way. Recursion is not the default behavior
-because it has the potential to be slow when given a complex Hash object that's
-very large - otherwise there shouldn't be a noticeable performance impact.
+from other Hash objects found along the way.
 
 The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
