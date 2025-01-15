@@ -2,6 +2,10 @@
 
 * vNEXT
 
+Nothing so far
+
+* v0.5.7
+
 **** Automatically require ~ryo/json~, ~ryo/yaml~
 Both files are now required in ~lib/ryo.rb~, so they can be used
 without requiring them separately
