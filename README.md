@@ -55,6 +55,8 @@ end
 # point.x = 5
 ```
 
+### Functions
+
 #### Ryo.fn
 
 The following example demonstrates a Ryo function.
