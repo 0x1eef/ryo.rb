@@ -50,9 +50,10 @@ RSpec/DescribeClass:
   Enabled: false
 
 AllCops:
+  NewCops: disable
   Include:
     - 'lib/*.rb'
     - 'lib/**/*.rb'
     - 'spec/*.rb'
     - 'spec/**/*.rb'
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.3
