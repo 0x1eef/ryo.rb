@@ -53,7 +53,7 @@ RSpec.describe Ryo::BasicObject do
 
       context "when verifying a nested Hash doesn't inherit the prototype (point_a)" do
         subject { point_b.y.x }
-        it { is_expected.to eq(nil) }
+        it { is_expected.to be_nil }
       end
     end
   end

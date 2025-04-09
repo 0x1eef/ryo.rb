@@ -29,7 +29,7 @@ RSpec.describe "Ryo objects" do
   describe "#method_missing" do
     context "when a property doesn't exist" do
       subject { car.foobar }
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
   end
 

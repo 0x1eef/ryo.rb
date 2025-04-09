@@ -114,7 +114,7 @@ RSpec.describe Ryo do
 
     context "when verifying the source and duplicate are distinct objects" do
       subject { Module.instance_method(:equal?).bind_call(point_c, dup) }
-      it { is_expected.to eq(false) }
+      it { is_expected.to be(false) }
     end
 
     context "when verifying the source and duplicate are eql?" do
@@ -124,7 +124,7 @@ RSpec.describe Ryo do
 
     context "when verifying the prototype chain of the source and duplicate are eql?" do
       subject { Ryo.prototype_chain_of(point_c) == Ryo.prototype_chain_of(dup) }
-      it { is_expected.to eq(true) }
+      it { is_expected.to be(true) }
     end
   end
 

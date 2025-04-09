@@ -75,7 +75,7 @@ RSpec.describe Ryo::Reflect do
 
     context "when given an object without a prototype" do
       subject { Ryo.prototype_of(point_a) }
-      it { is_expected.to be(nil) }
+      it { is_expected.to be_nil }
     end
   end
 

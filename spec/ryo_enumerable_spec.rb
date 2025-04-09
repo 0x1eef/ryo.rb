@@ -47,7 +47,7 @@ RSpec.describe Ryo::Enumerable do
       context "when verifying the filter operation on the prototype" do
         subject { point_a.y }
         before { Ryo.select!(point_b) { _1 == "x" } }
-        it { is_expected.to eq(nil) }
+        it { is_expected.to be_nil }
       end
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe Ryo::Enumerable do
       context "when verifying the filter operation on the prototype" do
         subject { point_a.y }
         before { Ryo.reject!(point_b) { _1 == "y" } }
-        it { is_expected.to eq(nil) }
+        it { is_expected.to be_nil }
       end
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe Ryo::Enumerable do
 
     context "when an iteration never yields true" do
       subject { Ryo.find(point_c) { _2 == 20 } }
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
 
     context "when ancestors is set to zero" do
