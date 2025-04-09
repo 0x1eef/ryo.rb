@@ -28,6 +28,33 @@ p [point.x, point.y]
 # [5, 10]
 ```
 
+#### Patterns
+
+Ryo objects can be used with the
+[pattern matching feature](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html)
+that has been available since Ruby 2.7. It works in a very similar
+way to matching against a Hash object, and traverses the prototype
+chain:
+
+```ruby
+#!/usr/bin/env ruby
+require "ryo"
+
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({}, point_y)
+
+case point
+in {x: 5}
+  print "point.x = 5", "\n"
+else
+  print "no match!", "\n"
+end
+
+##
+# point.x = 5
+```
+
 #### Ryo.fn
 
 The following example demonstrates a Ryo function.
@@ -72,33 +99,6 @@ print "point.sum = ", point.sum, "\n"
 # point.x = 5
 # point.y = 10
 # point.sum = 15
-```
-
-#### Pattern matching
-
-Ryo objects can be used with the
-[pattern matching feature](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html)
-that has been available since Ruby 2.7. It works in a very similar
-way to matching against a Hash object, and traverses the prototype
-chain:
-
-```ruby
-#!/usr/bin/env ruby
-require "ryo"
-
-point_x = Ryo(x: 5)
-point_y = Ryo({y: 10}, point_x)
-point = Ryo({}, point_y)
-
-case point
-in {x: 5}
-  print "point.x = 5", "\n"
-else
-  print "no match!", "\n"
-end
-
-##
-# point.x = 5
 ```
 
 ### Iteration

@@ -17,14 +17,14 @@ RSpec.describe "README.md examples" do
     it { is_expected.to eq("[5, 10]") }
   end
 
-  context "when given 1.1_prototypes_ryo_fn.rb" do
-    let(:file) { "1.1_prototypes_ryo_fn.rb" }
-    it { is_expected.to eq("[10, 20]") }
+  context "when given 1.1_patterns.rb" do
+    let(:file) { "1.1_prototypes_patterns.rb" }
+    it { is_expected.to eq("point.x = 5") }
   end
 
-  context "when given 1.3_pattern_match.rb" do
-    let(:file) { "1.3_pattern_match.rb" }
-    it { is_expected.to eq("point.x = 5") }
+  context "when given 1.2_prototypes_ryo_fn.rb" do
+    let(:file) { "1.2_prototypes_ryo_fn.rb" }
+    it { is_expected.to eq("[10, 20]") }
   end
 
   context "when given 2.0_iteration_each.rb" do
