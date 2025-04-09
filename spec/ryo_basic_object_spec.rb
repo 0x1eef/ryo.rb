@@ -25,7 +25,7 @@ RSpec.describe Ryo::BasicObject do
 
   describe ".from" do
     context "when given an instance of Ryo::BasicObject" do
-      subject { Ryo.from(point) }
+      subject { Ryo::BasicObject.from(point) }
       let(:point) { Ryo::BasicObject(x: 5, y: 10) }
       it { is_expected.to eq(point) }
     end
@@ -60,7 +60,7 @@ RSpec.describe Ryo::BasicObject do
 
   describe "#to_h" do
     subject(:h) { car.to_h }
-    let(:car) { Ryo.from(name: "ford", wheels: {quantity: 4}) }
+    let(:car) { Ryo::BasicObject.from(name: "ford", wheels: {quantity: 4}) }
     it { expect(h).to be_instance_of(Hash) }
     it { expect(h["wheels"]).to be_instance_of(Hash) }
     it { expect(h).to eq({"name" => "ford", "wheels" => {"quantity" => 4}}) }
@@ -70,6 +70,28 @@ RSpec.describe Ryo::BasicObject do
       let(:car) { Ryo(name: "ford") }
       it { is_expected.to be_instance_of(Hash) }
       it { is_expected.to eq({"name" => "ford"}) }
+    end
+  end
+
+  describe "#deconstruct_keys" do
+    subject(:car) { Ryo::BasicObject.from(name: "ford", wheels: {quantity: 4}) }
+
+    context "when given a pattern match" do
+      it "is a match" do
+        expect {
+          case car
+          in {wheels: {quantity: 4}}
+          end
+        }.not_to raise_error
+      end
+
+      it "is not a match" do
+        expect {
+          case car
+          in {wheels: {quantity: 8}}
+          end
+        }.to raise_error(NoMatchingPatternError)
+      end
     end
   end
 end
