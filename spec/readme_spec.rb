@@ -22,6 +22,11 @@ RSpec.describe "README.md examples" do
     it { is_expected.to eq("[10, 20]") }
   end
 
+  context "when given 1.3_pattern_match.rb" do
+    let(:file) { "1.3_pattern_match.rb" }
+    it { is_expected.to eq("point.x = 5") }
+  end
+
   context "when given 2.0_iteration_each.rb" do
     let(:file) { "2.0_iteration_each.rb" }
     it { is_expected.to eq(%(["x", 10]\n["y", 20])) }

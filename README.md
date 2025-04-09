@@ -74,6 +74,32 @@ print "point.sum = ", point.sum, "\n"
 # point.sum = 15
 ```
 
+#### Pattern matching
+
+Ryo objects can be used with the
+[pattern matching feature](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html)
+that has been available since Ruby 2.7. It works in a very similar
+way to matching against a Hash object, and traverses the prototype
+chain:
+
+```ruby
+#!/usr/bin/env ruby
+require "ryo"
+
+point_x = Ryo(x: 5)
+point_y = Ryo({y: 10}, point_x)
+point = Ryo({}, point_y)
+
+case point
+in {x: 5}
+  print "point.x = 5", "\n"
+else
+  print "no match!", "\n"
+end
+
+##
+# point.x = 5
+```
 
 ### Iteration
 
@@ -364,13 +390,15 @@ Ryo can be installed via rubygems.org:
 
 ## Sources
 
-* [GitHub](https://github.com/0x1eef/ryo.rb#readme)
-* [GitLab](https://gitlab.com/0x1eef/ryo.rb#about)
+* [github.com/@0x1eef](https://github.com/0x1eef/ryo.rb#readme)
+* [gitlab.com/@0x1eef](https://gitlab.com/0x1eef/ryo.rb#about)
 
 ## Thanks
 
 Thanks to
 [@awfulcooking (mooff)](https://github.com/awfulcooking)
+and
+[@havenwood](https://github.com/havenwood)
 for the helpful discussions
 
 ## License

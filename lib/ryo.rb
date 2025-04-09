@@ -185,6 +185,12 @@ module Ryo
          .tap { _1.bind!(self) if Ryo.function?(_1) }
     end
   end
+
+  ##
+  # @private
+  def deconstruct_keys(keys)
+    keys.to_h { [_1, self[_1]] }
+  end
 end
 
 ##

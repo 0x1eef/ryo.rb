@@ -77,6 +77,28 @@ RSpec.describe "Ryo objects" do
     end
   end
 
+  describe "#deconstruct_keys" do
+    subject(:car) { Ryo(name: "ford", wheels: {quantity: 4}) }
+
+    context "when given a pattern match" do
+      it "is a match" do
+        expect {
+          case car
+          in {wheels: {quantity: 4}}
+          end
+        }.not_to raise_error
+      end
+
+      it "is not a match" do
+        expect {
+          case car
+          in {wheels: {quantity: 8}}
+          end
+        }.to raise_error(NoMatchingPatternError)
+      end
+    end
+  end
+
   describe "when a property overshadows a method" do
     let(:car) do
       Ryo(tap: "property")
