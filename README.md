@@ -113,9 +113,8 @@ method can iterate through the properties of a Ryo object, and
 its prototype(s). Ryo is designed to not mix its implementation
 with the objects it creates -  that's why
 [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method)
-is not implemented directly on a Ryo object.
-
-A demonstration of [`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
+is not implemented directly on a Ryo object. A demonstration of
+[`Ryo.each`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#each-class_method):
 
 ```ruby
 #!/usr/bin/env ruby
@@ -142,9 +141,8 @@ The counterpart of
 [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method)
 is
 [`Ryo.map`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map-instance_method),
-and it returns a new copy of a Ryo object and its prototypes.
-
-A demonstration of [`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
+and it returns a new copy of a Ryo object and its prototypes. A demonstration of
+[`Ryo.map!`](http://0x1eef.github.io/x/ryo.rb/Ryo/Enumerable.html#map!-instance_method):
 
 ```ruby
 #!/usr/bin/env ruby
@@ -201,9 +199,8 @@ p Ryo.find(point) { |k,v| v == 5 }.x # => point_x.x
 The [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method) method has
 the same interface as the [`Ryo`](https://0x1eef.github.io/x/ryo.rb/top-level-namespace.html#Ryo-instance_method)
 method, but it is implemented to recursively walk a Hash object and create Ryo objects
-from other Hash objects found along the way.
-
-The following example demonstrates [`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
+from other Hash objects found along the way. The following example demonstrates
+[`Ryo.from`](https://0x1eef.github.io/x/ryo.rb/Ryo.html#from-class_method):
 
 ```ruby
 #!/usr/bin/env ruby
